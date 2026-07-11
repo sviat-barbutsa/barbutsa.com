@@ -1,0 +1,26 @@
+---
+interface Props {
+  current: number;
+  last: number;
+  prevUrl: string | undefined;
+  nextUrl: string | undefined;
+}
+
+const { current, last, prevUrl, nextUrl } = Astro.props;
+---
+
+{
+  last > 1 && (
+    <nav class="pager" aria-label="Articles pagination">
+      <a href={prevUrl} aria-disabled={prevUrl ? undefined : "true"}>
+        ← NEWER
+      </a>
+      <span class="label">
+        SHEET {current} / {last}
+      </span>
+      <a href={nextUrl} aria-disabled={nextUrl ? undefined : "true"}>
+        OLDER →
+      </a>
+    </nav>
+  )
+}

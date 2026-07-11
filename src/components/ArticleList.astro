@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+}
+
+const { articles } = Astro.props;
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }).toUpperCase();
+---
+
+<div>
+  {
+    articles.map((a) => (
+      <a class="index-row" href={`/articles/${a.id}`} style="grid-template-columns: 8rem 1fr auto;">
+        <span class="no">{fmt(a.data.date)}</span>
+        <div>
+          <h2 style="font-size: var(--step-1);">{a.data.title}</h2>
+          <p class="text-dim" style="font-size: var(--step--1); max-width: 52ch;">
+            {a.data.summary}
+          </p>
+        </div>
+        <span class="label">
+          {a.data.category.toUpperCase()} · {a.data.readTime.toUpperCase()}
+        </span>
+      </a>
+    ))
+  }
+</div>

@@ -1,0 +1,179 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import AtlasHero from "@/components/AtlasHero.astro";
+import { site } from "@/data/site";
+import labs from "@/data/labs.json";
+import caseStudies from "@/data/case-studies.json";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
+---
+
+<Layout>
+  <!-- 00 · HERO -->
+  <section class="wrap region hero-grid">
+    <div class="stack" style="--flow: var(--space-m);">
+      <p class="kick">
+        <span class="idx">{site.name.toUpperCase()}</span>
+        {site.role.toUpperCase()}
+      </p>
+      <h1 class="hero-title">
+        Systems that stay<br /><em>understandable.</em>
+      </h1>
+      <p class="measure text-dim">
+        {site.positioning} React and TypeScript architecture, AI product
+        systems, and SaaS that runs where the users are — on the edge.
+      </p>
+      <div class="cluster">
+        <a class="btn" href="/lab">Selected work →</a>
+        <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a>
+      </div>
+    </div>
+    <AtlasHero />
+  </section>
+
+  <!-- 01 · SELECTED WORK -->
+  <section class="wrap region stack" aria-labelledby="h-work">
+    <div class="repel">
+      <p class="kick"><span class="idx">01</span> Selected work — the lab</p>
+      <a class="label" data-tone="signal" href="/lab">FULL INDEX →</a>
+    </div>
+    <h2 id="h-work" class="visually-hidden">Selected work</h2>
+    <div>
+      {
+        labs.slice(0, 5).map((lab, i) => (
+          <a class="index-row" href={`/lab#${lab.slug}`}>
+            <span class="no">/{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h3 style="font-size: var(--step-1);">{lab.title}</h3>
+              <p class="text-dim" style="font-size: var(--step--1); max-width: 48ch;">
+                {lab.oneLiner}
+              </p>
+            </div>
+            <span class="label">{lab.stack.slice(0, 2).join(" · ").toUpperCase()}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 02 · WRITING -->
+  <section class="wrap region" aria-labelledby="h-writing">
+    <div class="writing-grid">
+      <div class="stack">
+        <div class="repel">
+          <p class="kick"><span class="idx">02</span> Writing</p>
+          <a class="label" data-tone="signal" href="/articles">ALL ARTICLES →</a>
+        </div>
+        <h2 id="h-writing" style="max-width: 14ch;">Notes from production.</h2>
+        <p class="text-dim measure">
+          Field reports, not think-pieces. Written after shipping, when the
+          trade-offs were already paid for.
+        </p>
+      </div>
+      <div>
+        {
+          articles.map((a) => (
+            <a class="index-row" href={`/articles/${a.id}`} style="grid-template-columns: 6rem 1fr auto;">
+              <span class="no">{fmt(a.data.date)}</span>
+              <h3 style="font-size: var(--step-0); font-weight: 500;">{a.data.title}</h3>
+              <span class="label">{a.data.readTime.toUpperCase()}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · ARCHITECTURE -->
+  <section class="wrap region stack" aria-labelledby="h-arch">
+    <p class="kick"><span class="idx">03</span> Architecture</p>
+    <h2 id="h-arch" style="max-width: 16ch;">Case studies, drawn as routes.</h2>
+    <p class="text-dim measure">
+      Every system is a path a request takes. If you cannot draw the path in
+      three nodes, the system is not done being designed.
+    </p>
+    <div class="grid" style="--grid-min: 20rem;">
+      {
+        caseStudies.slice(0, 4).map((cs) => (
+          <a class="panel stack case-card" style="--flow: var(--space-xs);" href="/architecture">
+            <span class="label" data-tone="signal">
+              ROUTE ○ {cs.route.join(" — ")}
+            </span>
+            <h3 style="font-size: var(--step-1);">{cs.title}</h3>
+            <p class="text-dim" style="font-size: var(--step--1);">{cs.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 04 · CONTACT -->
+  <section class="wrap region stack" aria-labelledby="h-contact" style="text-align: center; align-items: center;">
+    <p class="kick" style="justify-content: center;"><span class="idx">04</span> Contact</p>
+    <h2 id="h-contact" style="font-size: var(--step-4); max-width: 18ch; margin-inline: auto;">
+      Have a system that needs to stay understandable?
+    </h2>
+    <p class="text-dim" style="margin-inline: auto; max-width: 44ch;">
+      One message is enough. Describe the problem; I will tell you honestly
+      whether I am the right person for it.
+    </p>
+    <p>
+      <a class="mono" data-tone="signal" style="font-size: var(--step-1); color: var(--color-signal); border-bottom: 1px solid currentColor;" href={`mailto:${site.email}`}>
+        {site.email}
+      </a>
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .hero-grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Sized so the unbreakable word "understandable." fits every viewport:
+     15 glyphs × ~0.62em must stay under (100vw − gutters). */
+  .hero-title em {
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title {
+    overflow-wrap: normal;
+    font-size: clamp(2rem, 8.8vw, 6.4rem); /* single-column: track viewport */
+    line-height: var(--leading-tight);
+  }
+
+  @media (min-width: 901px) {
+    /* two-column: the word must fit ~55% of the container */
+    .hero-title { font-size: clamp(2.5rem, 4.6vw, 4.8rem); }
+  }
+
+  .writing-grid {
+    display: grid;
+    gap: var(--space-l) var(--space-xl);
+    grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .writing-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .case-card {
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .case-card:hover { border-color: var(--color-signal); }
+</style>

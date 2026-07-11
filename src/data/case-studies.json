@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "real-time-collaboration-platform",
+    "title": "Real-Time Collaboration Platform",
+    "summary": "Presence, conflict resolution, and sync that degrades politely when the network does not. CRDT sync over Durable Objects — and what actually degrades first at ten thousand concurrent editors.",
+    "route": ["CLIENT", "DO", "SYNC"],
+    "stack": ["React", "Node.js", "WebSockets", "PostgreSQL", "Redis"]
+  },
+  {
+    "slug": "multi-tenant-saas-on-cloudflare",
+    "title": "Multi-Tenant SaaS on Cloudflare",
+    "summary": "Tenant isolation with Workers, D1 and R2. Routing at the edge, billing boundaries in the schema, and no shared state by accident.",
+    "route": ["EDGE", "TENANT", "D1"],
+    "stack": ["Workers", "D1", "R2", "KV", "Durable Objects"]
+  },
+  {
+    "slug": "ai-document-assistant-rag",
+    "title": "AI Document Assistant / RAG",
+    "summary": "Retrieval that can prove where an answer came from. Evaluation loops before feature loops; a retrieval pipeline that regressed quietly, and the eval harness that now catches it.",
+    "route": ["QUERY", "EMBED", "CITE"],
+    "stack": ["Python", "FastAPI", "Vector DB", "React"]
+  },
+  {
+    "slug": "agentic-workflow-system-design",
+    "title": "Agentic Workflow System Design",
+    "summary": "Agents as narrow tools with contracts. Tool boundaries, checkpoints, human gates — autonomy budgeted like any other resource.",
+    "route": ["PLAN", "TOOL", "VERIFY"],
+    "stack": ["LLMs", "Agents", "Python", "PostgreSQL"]
+  },
+  {
+    "slug": "frontend-architecture-enterprise-scale",
+    "title": "Frontend Architecture for Enterprise Scale",
+    "summary": "Module boundaries a new hire can learn in a week and a team can hold for five years. Ownership maps, dependency rules, and the small set of conventions worth enforcing by machine.",
+    "route": ["APP", "FEATURE", "DOMAIN", "UI-KIT"],
+    "stack": ["React", "TypeScript", "Design Systems", "Module Boundaries"]
+  }
+]

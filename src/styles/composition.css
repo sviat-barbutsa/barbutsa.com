@@ -1,0 +1,81 @@
+/* ============================================================
+   LAYER: composition
+   ------------------------------------------------------------
+   Layout primitives. They arrange children; they know NOTHING
+   about what the children are. No colors, no fonts, no borders
+   here — only flow, grid, gaps, and alignment.
+
+   Before writing `display:flex` inside a component, check if
+   one of these already does the job. Most layouts on the site
+   should be built by combining these, then lightly skinned by
+   a component class.
+
+   Each primitive exposes a --knob with a default, tunable
+   inline or by a component:  <div class="stack" style="--flow:var(--space-l)">
+   ============================================================ */
+
+/* vertical rhythm between siblings — the workhorse */
+.stack > * + * {
+  margin-block-start: var(--flow, var(--space-m));
+}
+
+/* horizontal group that wraps politely: tag rows, button rows, meta lines */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cluster-gap, var(--space-xs));
+  align-items: var(--cluster-align, center);
+}
+
+/* the page column */
+.wrap {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* content + aside that collapses when the aside gets cramped */
+.sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sidebar-gap, var(--space-xl));
+
+  & > :first-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-inline-size: 55%;
+  }
+
+  & > :last-child {
+    flex-basis: var(--sidebar-width, 20rem);
+    flex-grow: 1;
+  }
+}
+
+/* responsive card/figure grid without media queries */
+.grid {
+  display: grid;
+  gap: var(--grid-gap, var(--space-m));
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 18rem), 100%), 1fr));
+}
+
+/* two ends of one line: section headers, footer rows, list rows */
+.repel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  justify-content: space-between;
+  align-items: var(--repel-align, baseline);
+}
+
+/* full-bleed strip inside a constrained parent */
+.bleed {
+  inline-size: 100vw;
+  margin-inline-start: calc(50% - 50vw);
+}
+
+/* vertical page section — owns ALL space between sections.
+   Components never set their own top/bottom section margins. */
+.region {
+  padding-block: var(--region-space, var(--space-2xl));
+}

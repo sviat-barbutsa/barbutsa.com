@@ -1,0 +1,127 @@
+/* ============================================================
+   LAYER: tokens — EDGE ATLAS design language (dark canonical,
+   light companion)
+   ------------------------------------------------------------
+   The ONLY place raw values (hex, px, font names) are allowed.
+   Everything downstream consumes var(--*). If you are typing a
+   hex color inside a component, stop: either it maps to an
+   existing token, or you are adding a token here, on purpose,
+   with a name.
+
+   THEMING MODEL (2026, no duplication):
+   - Every themed color is defined ONCE via light-dark().
+   - `color-scheme` decides which side applies:
+       :root                     → light dark  (follow system; the
+                                   no-JS fallback)
+       html[data-theme="dark"]   → dark   (explicit choice)
+       html[data-theme="light"]  → light  (explicit choice)
+   - The theme switcher only ever flips data-theme; it never
+     touches color values. See theme-motion.css + the theme
+     controller for the animated switch.
+
+   Palette contract:
+   - ONE signal hue. Chartreuse in the dark theme; the SAME hue
+     darkened to olive for text/lines in the light theme (bright
+     chartreuse is ~1.3:1 on paper — illegible as text). Bright
+     chartreuse remains the FILL color in both themes (buttons,
+     selection) with near-black text on it.
+   - Warm charcoal / warm paper. Nothing blue-tinted, ever.
+
+   Contrast, measured (WCAG):
+     DARK  — paper on ink 15.2:1 AAA · dim on ink 6.2:1 AA ·
+             chartreuse on ink 14.7:1 AAA · faint 2.5:1 DECOR ONLY
+     LIGHT — text on bg 14.4:1 AAA · dim on bg 5.9:1 AA ·
+             olive on bg 6.1:1 AA · ink on chartreuse fill 14.7:1
+             AAA · faint 2.2:1 DECOR ONLY
+   Any new color token ships with its measured ratio here.
+   ============================================================ */
+
+:root {
+  color-scheme: light dark; /* no stored choice → follow the OS */
+
+  /* ---- raw palette (constants; do NOT consume in components) - */
+  /* brand */
+  --ink: #141412;            /* warm charcoal */
+  --ink-2: #1b1b17;          /* raised charcoal */
+  --paper: #ece9e2;          /* warm off-white */
+  --chartreuse: #d4f34a;     /* the signal hue, bright form */
+  --olive: #4d5c08;          /* the signal hue, dark form (6.1:1 on paper) */
+  /* dark ramp */
+  --d-dim: #9a968a;
+  --d-faint: #57544b;
+  --d-line: #2b2a24;
+  /* light ramp */
+  --l-surface: #f4f2ec;
+  --l-text: #1b1a15;
+  --l-dim: #5c584c;
+  --l-faint: #a39e8f;
+  --l-line: #d3cec1;
+
+  /* ---- intent tokens (what components consume) --------------- */
+  --color-bg: light-dark(var(--paper), var(--ink));
+  --color-surface: light-dark(var(--l-surface), var(--ink-2));
+  --color-text: light-dark(var(--l-text), var(--paper));
+  --color-text-2: light-dark(var(--l-dim), var(--d-dim));
+  --color-faint: light-dark(var(--l-faint), var(--d-faint));   /* decorative ONLY */
+  --color-border: light-dark(var(--l-line), var(--d-line));
+  --color-signal: light-dark(var(--olive), var(--chartreuse)); /* text, lines, focus */
+  --color-signal-fill: var(--chartreuse);                      /* fills, both themes */
+  --color-on-fill: var(--ink);                                 /* text on signal fills */
+
+  /* ---- typography ------------------------------------------- */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  /* fluid type scale — minor-third-ish, clamped 360px→1560px */
+  --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.88rem);   /* small print */
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.13rem);       /* body */
+  --step-1: clamp(1.19rem, 1.13rem + 0.28vw, 1.4rem);     /* lede */
+  --step-2: clamp(1.5rem, 1.37rem + 0.6vw, 1.95rem);      /* h3 */
+  --step-3: clamp(1.9rem, 1.66rem + 1.1vw, 2.7rem);       /* h2 */
+  --step-4: clamp(2.5rem, 2rem + 2.3vw, 4.2rem);          /* h1 / section titles */
+  --step-5: clamp(2.6rem, 1.7rem + 4.8vw, 6.6rem);        /* hero display — min sized so "understandable." fits a 360px viewport unbroken */
+
+  /* mono UI text is fixed-size on purpose: instrument labels
+     do not scale with the viewport */
+  --mono-xs: 11px;
+  --mono-s: 12.5px;
+
+  --leading-tight: 0.98;     /* display */
+  --leading-snug: 1.2;       /* headings */
+  --leading-body: 1.6;       /* running text */
+  --tracking-caps: 0.22em;   /* uppercase mono labels */
+
+  /* ---- space ------------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: clamp(3rem, 2.4rem + 3vw, 5rem);
+  --space-2xl: clamp(4.5rem, 3.4rem + 5.5vw, 8rem);      /* between sections */
+
+  /* ---- layout ------------------------------------------------ */
+  --gutter: clamp(20px, 4.5vw, 72px);
+  --max: 1560px;
+  --measure: 62ch;           /* max line length for prose */
+
+  /* ---- detail ------------------------------------------------ */
+  --radius-s: 2px;           /* Edge Atlas is a sharp design; radii stay near zero */
+  --hairline: 1px solid var(--color-border);
+
+  /* ---- motion ------------------------------------------------ */
+  --dur-fast: 0.18s;
+  --dur-slow: 0.45s;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* ---- z ------------------------------------------------------ */
+  --z-header: 100;
+  --z-skip: 200;
+}
+
+/* Explicit choice (set by the bootstrap script / theme controller)
+   overrides the system preference. Theme switching = flipping ONE
+   attribute; every light-dark() token follows. */
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }

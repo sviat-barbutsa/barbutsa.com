@@ -1,0 +1,141 @@
+---
+import "@/styles/main.css";
+import { site } from "@/data/site";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const path = Astro.url.pathname.replace(/\.html$/, "");
+const isActive = (href: string): boolean =>
+  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#141412" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(path === "/" ? "/" : path, site.url)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- THEME BOOTSTRAP — before the stylesheet paints; applies only a
+         STORED choice (tokens.css color-scheme handles the OS default).
+         is:inline so Astro cannot hoist it. (Theme plan §6 / addendum A1) -->
+    <script is:inline>
+      (() => {
+        try {
+          const t = localStorage.getItem("atlas-theme");
+          if (t === "light" || t === "dark")
+            document.documentElement.dataset.theme = t;
+        } catch {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Speculation Rules: prerender internal links on interaction intent.
+         Unsupported browsers ignore the script tag entirely. (STACK_PLAN §6.1) -->
+    <script type="speculationrules" is:inline>
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "selector_matches": "[data-no-prerender]" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-head">
+      <div class="wrap bar">
+        <a class="brand mono" href="/" aria-label={`${site.name} — home`}>
+          <span class="tick" aria-hidden="true"></span>
+          SB&nbsp;/&nbsp;EDGE
+        </a>
+        <nav aria-label="Main">
+          <ul class="site-nav" role="list">
+            {
+              site.nav.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <ThemeToggle />
+      </div>
+    </header>
+    <span id="theme-status" class="visually-hidden" aria-live="polite"></span>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap repel" style="--repel-align: center;">
+        <div>
+          <p class="mono" style="font-size: var(--mono-s); font-weight: 700;">
+            {site.name}
+          </p>
+          <p class="label">
+            FRONTEND ARCHITECTURE · AI SYSTEMS · CLOUDFLARE-FIRST
+          </p>
+        </div>
+        <ul class="cluster" role="list">
+          {
+            site.social.map((s) => (
+              <li>
+                <a
+                  class="label foot-link"
+                  href={s.href}
+                  rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  target={s.href.startsWith("http") ? "_blank" : undefined}
+                >
+                  {s.label.toUpperCase()}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      import { initThemeController } from "@/theme/theme-controller";
+      initThemeController();
+    </script>
+  </body>
+</html>

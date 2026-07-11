@@ -1,0 +1,56 @@
+[
+  {
+    "name": "react-bottomsheet-levels",
+    "oneLiner": "Bottom sheet that snaps to content-anchored JSX markers instead of fixed fractions.",
+    "tags": ["react", "gesture", "mobile"],
+    "repo": "https://github.com/sviat-barbutsa/react-bottomsheet-levels",
+    "demo": "https://sviat-barbutsa.github.io/react-bottomsheet-levels/",
+    "npm": "https://www.npmjs.com/package/react-bottomsheet-levels",
+    "status": "pre-release"
+  },
+  {
+    "name": "dnd-kit-reorder-containers",
+    "oneLiner": "Multi-group drag-and-drop reordering on dnd-kit: items, containers, and cross-group moves.",
+    "tags": ["react", "dnd-kit", "sortable"],
+    "repo": "https://github.com/sviat-barbutsa/dnd-kit-reorder-containers",
+    "demo": "https://sviat-barbutsa.github.io/dnd-kit-reorder-containers/",
+    "npm": "https://www.npmjs.com/package/dnd-kit-reorder-containers",
+    "status": "pre-release"
+  },
+  {
+    "name": "lexical-mentions-kit",
+    "oneLiner": "Rich editor + viewer with configurable mention kinds on Lexical. Serialization contract included.",
+    "tags": ["react", "lexical", "editor"],
+    "repo": "https://github.com/sviat-barbutsa/lexical-mentions-kit",
+    "demo": "https://sviat-barbutsa.github.io/lexical-mentions-kit/",
+    "npm": "https://www.npmjs.com/package/lexical-mentions-kit",
+    "status": "pre-release"
+  },
+  {
+    "name": "react-cropper-kit",
+    "oneLiner": "Orientation-aware image cropping with absolute zoom and snapshot restore.",
+    "tags": ["react", "cropper", "images"],
+    "repo": "https://github.com/sviat-barbutsa/react-cropper-kit",
+    "demo": "https://sviat-barbutsa.github.io/react-cropper-kit/",
+    "npm": "https://www.npmjs.com/package/react-cropper-kit",
+    "status": "pre-release"
+  },
+  {
+    "name": "react-screen-stack",
+    "oneLiner": "Animated screen stack navigation for app-like flows: push, pop, and gesture return.",
+    "tags": ["react", "navigation", "animation"],
+    "repo": "https://github.com/sviat-barbutsa/react-screen-stack",
+    "demo": "https://sviat-barbutsa.github.io/react-screen-stack/",
+    "npm": "https://www.npmjs.com/package/react-screen-stack",
+    "status": "pre-release"
+  },
+  {
+    "name": "react-infinite-data-table",
+    "oneLiner": "TanStack Table with IntersectionObserver infinite loading, fuzzy search, and sortable headers.",
+    "tags": ["react", "tanstack", "table"],
+    "repo": "https://github.com/sviat-barbutsa/react-infinite-data-table",
+    "demo": "https://sviat-barbutsa.github.io/react-infinite-data-table/",
+    "npm": "https://www.npmjs.com/package/react-infinite-data-table",
+    "status": "pre-release"
+  }
+]

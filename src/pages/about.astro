@@ -1,0 +1,185 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { site } from "@/data/site";
+
+// Facts reconciled against Sviatoslav_Barbutsa_Resume_2026.pdf (July 2026).
+const config = [
+  ["role", "senior frontend engineer / frontend architect"],
+  ["current", "lead software engineer — ai-powered collaborative saas"],
+  ["experience", "13+ years building web platforms from the ground up"],
+  ["frontend", "react, next.js, typescript, astro, react native"],
+  ["platform", "15 cloudflare workers microservices · do, d1, r2, kv"],
+  ["ai", "rag / vector search, llm routing, ai chat — in production"],
+  ["performance", "lighthouse 100 sites · 2.5–3× page-load improvements"],
+  ["leadership", "led teams of 2–7 · mentored 14 engineers"],
+  ["proof", "stackoverflow 5k+ · upwork 100% job success"],
+  ["location", "houston, tx · remote · u.s. work authorization"],
+  ["doctrine", "boring where it matters, ambitious where it is isolated"],
+];
+
+const timeline = [
+  {
+    years: "2022 —",
+    role: "Lead Software Engineer / Frontend Architect",
+    org: "Fearless Little",
+    note: "AI-powered collaborative SaaS and mini-app platform on Cloudflare. Owns frontend architecture across a monorepo of React/Next.js apps and a shared Foundation library; designed 4 of 15 Workers microservices (realtime audio, mini-app core, AI app-generation, sandboxed runtime); built the real-time collaboration layer on Durable Objects; migrated the marketing site from Next.js to Astro — Lighthouse 100/100.",
+  },
+  {
+    years: "2020 – 2022",
+    role: "Frontend Tech Lead",
+    org: "Fearless Little",
+    note: "Cross-platform hybrid application (web, mobile, desktop) from a single-codebase monorepo: Next.js, React Native / RN Web, GraphQL. Established testing and tooling standards.",
+  },
+  {
+    years: "2019 – 2020",
+    role: "Python / Full-Stack Developer",
+    org: "Uvik · SmileDirectClub",
+    note: "SEPA payment module end-to-end — Django/DRF API plus React and Vue UIs across two enterprise platforms.",
+  },
+  {
+    years: "2018 – 2019",
+    role: "Frontend Tech Lead",
+    org: "SharpMinds · Piggy.eu",
+    note: "Built the Piggy.eu loyalty platform frontend from scratch — a platform serving 10,000+ businesses today. Sole engineer to expanded team; Jenkins CI; BEM/SMACSS styling system.",
+  },
+  {
+    years: "2016 – 2018",
+    role: "Senior Frontend Developer",
+    org: "SoftServe · EazeGames",
+    note: "Real-money HTML5 gaming SPA from the ground up (realtime WebSocket gameplay, tournaments, payments) — still live in production. Data-heavy fintech visualization: 2s → 0.8s page loads.",
+  },
+  {
+    years: "2013 – 2016",
+    role: "Frontend / Web Developer",
+    org: "SoftServe · Softimus · Trilobite",
+    note: "Healthcare CRM on early Angular, medical-equipment marketplace, CMS projects. Growing responsibility for review, mentoring, client communication.",
+  },
+];
+
+const independent = [
+  {
+    title: "Local-first AI assistant",
+    note: "Private, fully local agent (Telegram + email) with LLM-as-router intent classification and hybrid RAG on ChromaDB + SQLite FTS5. No cloud dependency.",
+  },
+  {
+    title: "Offline Android AI English-practice app",
+    note: "On-device models for pronunciation and grammar training; privacy-preserving mobile AI.",
+  },
+];
+
+const education = [
+  "M.S., Power Generation / Alternative Energy (GPA 3.96/4.0) and B.S., Electrical Engineering — Chernivtsi National University, Ukraine. Evaluated as equivalent to U.S. M.S. and B.S.",
+  "Deep Learning Specialization (5 courses) — DeepLearning.AI, 2025. CS50 Web Programming — Harvard/edX. CIW JavaScript Specialist.",
+];
+---
+
+<Layout
+  title="About"
+  description="Sviatoslav Barbutsa — 13+ years building web platforms. Lead engineer on an AI-powered SaaS over 15 Cloudflare Workers microservices. Lighthouse 100 sites, production RAG, 14 engineers mentored."
+>
+  <div class="wrap page-head stack">
+    <p class="kick"><span class="idx">CONF</span> About — operator configuration</p>
+    <h1 style="max-width: 15ch;">Senior engineering for products that need to keep evolving.</h1>
+  </div>
+
+  <section class="wrap region">
+    <div class="sidebar" style="--sidebar-width: 24rem;">
+      <div class="stack" style="--flow: var(--space-m); max-width: var(--measure);">
+        <p>
+          Thirteen years building web platforms from the ground up. Currently
+          lead software engineer on an AI-powered collaborative SaaS: multiple
+          React/Next.js applications and a shared component library in one
+          monorepo, on top of fifteen Cloudflare Workers microservices.
+        </p>
+        <p class="text-dim">
+          The work spans frontend architecture, design systems, and
+          performance — Lighthouse 100 sites, 2.5–3× page-load improvements on
+          production apps — plus production AI features: RAG and vector
+          search, LLM routing, AI chat. I write about local-first AI for
+          freeCodeCamp, Medium, and dev.to.
+        </p>
+        <p class="text-dim">
+          Took four products from empty repository to production launch. Led
+          teams of two to seven, mentored fourteen engineers, and currently
+          coach company leadership on AI engineering and system design. The
+          doctrine has not changed in a decade: boring tools where they
+          matter, ambitious pieces isolated enough to be reliable.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="label" data-tone="signal" style="margin-bottom: var(--space-s);">
+          $ cat /etc/operator.conf
+        </p>
+        <dl class="conf">
+          {
+            config.map(([key, value]) => (
+              <div class="conf-row">
+                <dt class="mono">{key}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap region stack" aria-labelledby="h-timeline">
+    <p class="kick"><span class="idx">02</span> Service record</p>
+    <h2 id="h-timeline" class="visually-hidden">Career timeline</h2>
+    <div>
+      {
+        timeline.map((t) => (
+          <article class="index-row" style="grid-template-columns: 7rem 1fr;">
+            <span class="no">{t.years}</span>
+            <div>
+              <h3 style="font-size: var(--step-0); font-weight: 640;">
+                {t.role} <span class="text-dim">— {t.org}</span>
+              </h3>
+              <p class="text-dim" style="font-size: var(--step--1); max-width: 62ch;">
+                {t.note}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap region stack" aria-labelledby="h-indep">
+    <p class="kick"><span class="idx">03</span> Independent AI projects</p>
+    <h2 id="h-indep" class="visually-hidden">Independent projects</h2>
+    <div class="grid" style="--grid-min: 20rem;">
+      {
+        independent.map((p) => (
+          <div class="panel stack" style="--flow: var(--space-2xs);">
+            <h3 style="font-size: var(--step-0); font-weight: 640;">{p.title}</h3>
+            <p class="text-dim" style="font-size: var(--step--1);">{p.note}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="stack" style="--flow: var(--space-2xs); border-top: var(--hairline); padding-top: var(--space-m);">
+      {education.map((line) => <p class="text-dim" style="font-size: var(--step--1); max-width: var(--measure);">{line}</p>)}
+    </div>
+    <p class="label">
+      {site.facts.proof.toUpperCase()} · {site.facts.location.toUpperCase()}
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .conf { display: grid; gap: var(--space-2xs); }
+  .conf-row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--space-s);
+    font-size: var(--step--1);
+  }
+  .conf-row dt { color: var(--color-signal); font-size: var(--mono-s); }
+  .conf-row dd { color: var(--color-text-2); }
+  @media (max-width: 480px) {
+    .conf-row { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>

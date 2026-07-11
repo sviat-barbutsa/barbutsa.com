@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import ArticleList from "@/components/ArticleList.astro";
+import Pager from "@/components/Pager.astro";
+import { PAGE_SIZE } from "@/data/pagination";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const all = (await getCollection("articles", ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  // Page 1 lives at /articles (see articles/index.astro); this route
+  // renders sheet 2 and onward as prebuilt static pages.
+  return paginate(all, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+// /articles/page/1 duplicates /articles — canonicalize by redirect.
+if (page.currentPage === 1) {
+  return Astro.redirect("/articles", 301);
+}
+
+const prevUrl =
+  page.currentPage === 2 ? "/articles" : `/articles/page/${page.currentPage - 1}`;
+const nextUrl =
+  page.currentPage < page.lastPage
+    ? `/articles/page/${page.currentPage + 1}`
+    : undefined;
+---
+
+<Layout
+  title={`Articles — sheet ${page.currentPage}`}
+  description="Field reports on frontend architecture, AI integration, and systems that stay understandable."
+>
+  <div class="wrap page-head stack">
+    <p class="kick"><span class="idx">LOG</span> Writing — sheet {page.currentPage} of {page.lastPage}</p>
+    <h1 style="max-width: 14ch;">Notes from production.</h1>
+  </div>
+
+  <section class="wrap region stack" aria-label="Articles">
+    <ArticleList articles={page.data} />
+    <Pager
+      current={page.currentPage}
+      last={page.lastPage}
+      prevUrl={prevUrl}
+      nextUrl={nextUrl}
+    />
+  </section>
+</Layout>

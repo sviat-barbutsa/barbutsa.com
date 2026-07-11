@@ -1,0 +1,116 @@
+/* ============================================================
+   LAYER: base
+   ------------------------------------------------------------
+   Unclassed HTML elements only. What does an <h2> look like
+   before anyone gives it a class? This layer answers that.
+   NO class selectors in this file — a class means you want
+   `composition`, `components`, or `utilities`.
+   ============================================================ */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 640;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--step-4); line-height: var(--leading-tight); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-2); }
+h4 { font-size: var(--step-1); }
+
+p {
+  max-width: var(--measure);
+}
+
+small {
+  font-size: var(--step--1);
+}
+
+strong {
+  font-weight: 640;
+  color: var(--color-text);
+}
+
+em {
+  font-style: normal;         /* Edge Atlas has no italics; emphasis = accent */
+  color: var(--color-signal);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: var(--space-s);
+  background: var(--color-surface);
+  border: var(--hairline);
+}
+
+hr {
+  border: 0;
+  border-top: var(--hairline);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--space-2xs) var(--space-s);
+  border-bottom: var(--hairline);
+}
+
+th {
+  font-family: var(--font-mono);
+  font-size: var(--mono-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-2);
+}
+
+a {
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--color-signal);
+  }
+}
+
+::selection {
+  background: var(--color-signal-fill);
+  color: var(--color-on-fill);
+}
+
+:focus {
+  outline: none;
+}
+
+/* --color-signal (not -fill): olive in light mode, so the focus
+   indicator keeps ≥3:1 against the paper background. */
+:focus-visible {
+  outline: 1.5px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: var(--radius-s);
+}

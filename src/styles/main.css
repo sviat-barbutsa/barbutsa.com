@@ -1,0 +1,23 @@
+/* ============================================================
+   PERSONAL ATLAS — styling entry point
+   ------------------------------------------------------------
+   This file does exactly two jobs:
+   1. Declare the layer order (the single source of truth for
+      "who wins"). Later layers beat earlier ones, regardless
+      of selector specificity.
+   2. Import each layer's file into its layer.
+
+   Never add rules to this file. If you are about to, you are
+   looking for one of the imported files instead.
+   See ../CSS_ARCHITECTURE.md for the rules of the system.
+   ============================================================ */
+
+@layer reset, tokens, base, composition, components, utilities;
+
+@import url("reset.css") layer(reset);
+@import url("tokens.css") layer(tokens);
+@import url("base.css") layer(base);
+@import url("theme-motion.css") layer(base);
+@import url("composition.css") layer(composition);
+@import url("components.css") layer(components);
+@import url("utilities.css") layer(utilities);

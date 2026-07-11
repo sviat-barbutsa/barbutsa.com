@@ -1,0 +1,25 @@
+{
+  "name": "personal-atlas",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal site of Sviatoslav Barbutsa — Edge Atlas. Static Astro on Cloudflare Workers static assets.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "release": "pnpm build && wrangler deploy"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "wrangler": "^4.0.0"
+  }
+}

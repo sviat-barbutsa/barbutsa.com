@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sviatoslav.dev/sitemap-index.xml

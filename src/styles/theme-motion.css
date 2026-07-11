@@ -1,0 +1,67 @@
+/* ============================================================
+   LAYER: base (imported into it) — theme-switch motion shell
+   ------------------------------------------------------------
+   View Transition snapshot rules for the ANIMATED THEME SWITCH
+   (fluid / radial strategies). See:
+   docs and showcases/css/theme-switch-showcases/
+     FLUID_RADIAL_IMPLEMENTATION_PLAN.md  (+ Atlas addendum)
+
+   CRITICAL SCOPING RULE
+   Every selector here is gated on html[data-theme-motion],
+   which the theme controller sets only while a theme switch
+   runs. WITHOUT the gate these rules would also disable the
+   default animations of CROSS-DOCUMENT view transitions
+   (@view-transition page navigation), which this site uses.
+   Never remove the gate.
+
+   Note the selectors have NO descendant space: the
+   ::view-transition-* pseudo-elements hang off the root
+   element itself.
+   ============================================================ */
+
+/* The site's cross-document page transitions (MPA navigation). */
+@view-transition {
+  navigation: auto;
+}
+
+/* Theme switch only: take over the snapshot animation entirely. */
+html[data-theme-motion]::view-transition-group(root) {
+  animation: none;
+}
+
+html[data-theme-motion]::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+html[data-theme-motion]::view-transition-old(root),
+html[data-theme-motion]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  display: block;
+}
+
+html[data-theme-motion]::view-transition-old(root) {
+  z-index: 1;
+}
+
+html[data-theme-motion]::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* Suppress competing color transitions while the snapshot reveal
+   runs — the reveal IS the interpolation. (Plan §28.) */
+html[data-theme-motion] a,
+html[data-theme-motion] .btn,
+html[data-theme-motion] .index-row {
+  transition-property: none;
+}
+
+/* Reduced motion: the controller already selects the instant
+   strategy; this is belt-and-braces should a transition ever
+   start anyway. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-motion]::view-transition-old(root),
+  html[data-theme-motion]::view-transition-new(root) {
+    animation: none !important;
+  }
+}

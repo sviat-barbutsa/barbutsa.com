@@ -1,0 +1,11 @@
+{
+  // Personal Atlas — static assets on Cloudflare Workers (no worker script).
+  // Requests are served directly from the edge; no invocation, no cold start.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "personal-atlas",
+  "compatibility_date": "2026-06-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

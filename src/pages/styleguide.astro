@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Styleguide" description="Living styleguide for the Atlas styling system.">
+  <div class="wrap page-head stack">
+    <p class="kick"><span class="idx">SYS</span> Styling system — living demo</p>
+    <h1>Every layer, on one page.</h1>
+    <p class="text-dim measure">
+      If this page looks right in both themes, the system works:
+      reset → tokens → base → composition → components → utilities.
+    </p>
+  </div>
+
+  <section class="wrap region stack">
+    <p class="kick"><span class="idx">01</span> Tokens</p>
+    <div class="grid" style="--grid-min: 9rem;">
+      {["--color-bg","--color-surface","--color-text","--color-text-2","--color-faint","--color-border","--color-signal","--color-signal-fill"].map((t) => (
+        <div class="stack" style="--flow: 6px;">
+          <div style={`height:56px;border:var(--hairline);background:var(${t});`}></div>
+          <span class="label">{t}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap region stack">
+    <p class="kick"><span class="idx">02</span> Type + furniture</p>
+    <h1>Step 4 — an H1 with no class</h1>
+    <h2>Step 3 — an H2</h2>
+    <h3>Step 2 — an H3</h3>
+    <p class="measure">Body text with <em>signal emphasis</em>, <strong>strong</strong>, and <code>inline code</code>.</p>
+    <div class="cluster">
+      <a class="btn" href="#">Primary →</a>
+      <a class="btn" data-kind="ghost" href="#">Ghost</a>
+    </div>
+    <a class="btn text-dim" data-kind="ghost" href="#">Muted by a utility (cascade proof)</a>
+  </section>
+</Layout>
