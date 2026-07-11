@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import AtlasHero from "@/components/AtlasHero.astro";
+import Doctrine from "@/components/Doctrine.astro";
 import { site } from "@/data/site";
 import labs from "@/data/labs.json";
 import caseStudies from "@/data/case-studies.json";
@@ -33,6 +34,7 @@ const fmt = (d: Date) =>
         <a class="btn" href="/lab">Selected work →</a>
         <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a>
       </div>
+      <Doctrine />
     </div>
     <AtlasHero />
   </section>

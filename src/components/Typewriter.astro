@@ -1,0 +1,61 @@
+---
+/**
+ * Typewriter — generic, reusable terminal line. Astro's version of a
+ * "hook": markup + binding here, behavior in src/lib/typer.ts.
+ *
+ * Reusable by design:
+ *  - any number of instances per page (the script binds them all)
+ *  - phrases and speeds passed as props, serialized to data-attrs
+ *  - NO layout shift at any width: a hidden ghost of the LONGEST
+ *    phrase occupies the same grid cell as the live line, so the
+ *    box is always sized as if the longest phrase were fully typed —
+ *    wrapped lines included.
+ *
+ * Usage:
+ *   <Typewriter phrases={list} />
+ *   <Typewriter phrases={list} prompt=">" srLabel="Motto" typeMs={30} />
+ */
+import type { TyperOptions } from "@/lib/typer";
+
+interface Props extends TyperOptions {
+  phrases: readonly string[];
+  /** The prompt glyph; empty string hides it. */
+  prompt?: string;
+  /** Intro for the static screen-reader sentence. */
+  srLabel?: string;
+}
+
+const { phrases, prompt = "~$", srLabel = "Notes", ...options } = Astro.props;
+
+/* The ghost reserves space for the worst case. */
+const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
+---
+
+<p
+  class="typeline"
+  aria-hidden="true"
+  data-typer
+  data-typer-phrases={JSON.stringify(phrases)}
+  data-typer-options={JSON.stringify(options)}
+>
+  {prompt && <span class="prompt">{prompt}</span>}
+  <span class="line">
+    <span class="ghost">{longest}</span>
+    <span class="live"><span data-typer-text></span><span class="caret"></span></span>
+  </span>
+</p>
+<p class="visually-hidden">{srLabel}: {phrases.join("; ")}.</p>
+
+<script>
+  import { initTyper, type TyperOptions } from "@/lib/typer";
+
+  /* Bind every instance on the page — the script is deduped by Astro,
+     so it runs once no matter how many <Typewriter>s exist. */
+  for (const root of document.querySelectorAll<HTMLElement>("[data-typer]")) {
+    const el = root.querySelector<HTMLElement>("[data-typer-text]");
+    if (!el) continue;
+    const phrases = JSON.parse(root.dataset.typerPhrases ?? "[]") as string[];
+    const options = JSON.parse(root.dataset.typerOptions ?? "{}") as TyperOptions;
+    initTyper(el, phrases, options);
+  }
+</script>

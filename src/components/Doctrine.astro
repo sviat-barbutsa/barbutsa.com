@@ -1,0 +1,10 @@
+---
+/**
+ * The doctrine line — the hero's use of the generic <Typewriter>.
+ * Phrases are content, so they live in src/data/doctrine.json.
+ */
+import Typewriter from "@/components/Typewriter.astro";
+import doctrine from "@/data/doctrine.json";
+---
+
+<Typewriter phrases={doctrine} srLabel="Field notes" />
