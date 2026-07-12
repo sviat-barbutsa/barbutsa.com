@@ -1,10 +1,77 @@
 ---
 /**
- * The doctrine line — the hero's use of the generic <Typewriter>.
- * Phrases are content, so they live in src/data/doctrine.json.
+ * The doctrine line — the hero's use of the generic <Typewriter>,
+ * upgraded to a working shell (INSTRUMENTS_PLAN §3): click or
+ * focus+Enter, then `help`. Commands act (navigate, toggle theme/xray)
+ * or answer by typing into the same line. Always one line — the
+ * ghost-cell sizing guarantee holds through every state.
  */
 import Typewriter from "@/components/Typewriter.astro";
 import doctrine from "@/data/doctrine.json";
 ---
 
-<Typewriter phrases={doctrine} srLabel="Field notes" />
+<div data-doctrine>
+  <Typewriter phrases={doctrine} srLabel="Field notes" />
+</div>
+
+<script>
+  import { ambientControls } from "@/lib/typer";
+  import { initShell, type ShellAction } from "@/lib/shell";
+  import { toggleXray } from "@/lib/xray";
+  import { site } from "@/data/site";
+  import labs from "@/data/labs.json";
+
+  const root = document.querySelector<HTMLElement>("[data-doctrine] .typeline");
+  if (root) {
+    const ambient = ambientControls.get(root);
+    const status = document.getElementById("theme-status");
+
+    const nav = (href: string): ShellAction => ({ type: "go", href });
+
+    const commands: Record<string, ShellAction> = {
+      help: {
+        type: "say",
+        text: "commands: whoami · ls · articles · lab · packages · architecture · about · cv · contact · theme · xray · clear",
+      },
+      whoami: {
+        type: "say",
+        text: `${site.name} — ${site.role.toLowerCase()}`,
+      },
+      ls: { type: "say", text: labs.map((l) => l.slug).join("  ") },
+      "ls labs": { type: "say", text: labs.map((l) => l.slug).join("  ") },
+      home: nav("/"),
+      lab: nav("/lab"),
+      labs: nav("/lab"),
+      packages: nav("/packages"),
+      articles: nav("/articles"),
+      architecture: nav("/architecture"),
+      about: nav("/about"),
+      cv: nav("/about"),
+      contact: nav("/contact"),
+      styleguide: nav("/styleguide"),
+      email: nav(`mailto:${site.email}`),
+      theme: {
+        type: "run",
+        fn: () => {
+          document
+            .querySelector<HTMLButtonElement>("[data-theme-toggle]")
+            ?.click();
+        },
+      },
+      xray: {
+        type: "run",
+        fn: () => (toggleXray() ? "x-ray: on — the page is annotating itself" : "x-ray: off"),
+      },
+      clear: { type: "run", fn: () => {} },
+    };
+
+    initShell(root, {
+      commands,
+      suspendAmbient: () => ambient?.stop(),
+      resumeAmbient: () => ambient?.start(),
+      announce: (text) => {
+        if (status) status.textContent = text;
+      },
+    });
+  }
+</script>

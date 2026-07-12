@@ -47,7 +47,7 @@ const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
 <p class="visually-hidden">{srLabel}: {phrases.join("; ")}.</p>
 
 <script>
-  import { initTyper, type TyperOptions } from "@/lib/typer";
+  import { initTyper, ambientControls, type TyperOptions, type TyperHandle } from "@/lib/typer";
 
   /* Bind every instance on the page — the script is deduped by Astro,
      so it runs once no matter how many <Typewriter>s exist. */
@@ -56,6 +56,18 @@ const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
     if (!el) continue;
     const phrases = JSON.parse(root.dataset.typerPhrases ?? "[]") as string[];
     const options = JSON.parse(root.dataset.typerOptions ?? "{}") as TyperOptions;
-    initTyper(el, phrases, options);
+    let handle: TyperHandle | null = initTyper(el, phrases, options);
+    ambientControls.set(root, {
+      stop() {
+        handle?.destroy();
+        handle = null;
+        el.textContent = "";
+      },
+      start() {
+        handle?.destroy();
+        el.textContent = "";
+        handle = initTyper(el, phrases, options);
+      },
+    });
   }
 </script>

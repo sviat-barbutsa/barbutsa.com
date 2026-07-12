@@ -2,6 +2,7 @@
 import "@/styles/main.css";
 import { site } from "@/data/site";
 import ThemeToggle from "@/components/ThemeToggle.astro";
+import StatusBar from "@/components/StatusBar.astro";
 
 interface Props {
   title?: string;
@@ -129,13 +130,45 @@ const isActive = (href: string): boolean =>
               </li>
             ))
           }
+          <li>
+            <button
+              type="button"
+              class="label foot-btn"
+              data-xray-toggle
+              aria-pressed="false"
+              title="Annotate the page with its own architecture"
+            >
+              XRAY
+            </button>
+          </li>
         </ul>
       </div>
     </footer>
 
+    <!-- x-ray legend — visible only under html[data-xray] (INSTRUMENTS_PLAN §2) -->
+    <aside class="xray-legend" aria-hidden="true">
+      <p class="xl-title">X-RAY · CSS SYSTEM</p>
+      <p><i class="xl-swatch xl-region"></i>.region — section rhythm</p>
+      <p><i class="xl-swatch xl-stack"></i>.stack — vertical flow</p>
+      <p><i class="xl-swatch xl-cluster"></i>.cluster / .repel — rows</p>
+      <p><i class="xl-swatch xl-grid"></i>.grid / .sidebar — 2D layout</p>
+      <p class="xl-tokens">
+        tokens:
+        <i class="xl-chip" style="background: var(--color-bg)"></i>bg
+        <i class="xl-chip" style="background: var(--color-surface)"></i>surface
+        <i class="xl-chip" style="background: var(--color-text)"></i>text
+        <i class="xl-chip" style="background: var(--color-signal)"></i>signal
+      </p>
+      <p class="xl-note">layers: reset→tokens→base→composition→components→utilities</p>
+    </aside>
+
+    <StatusBar />
+
     <script>
       import { initThemeController } from "@/theme/theme-controller";
+      import { initXray } from "@/lib/xray";
       initThemeController();
+      initXray();
     </script>
   </body>
 </html>

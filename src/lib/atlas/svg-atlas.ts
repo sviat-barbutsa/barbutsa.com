@@ -13,6 +13,7 @@
  */
 
 import { register, deregister } from "../canvas-engine/registry";
+import type { Telemetry } from "../telemetry";
 
 /** PoP code → plausible ttfb range in ms (by distance from origin colo). */
 const POPS: Record<string, [number, number]> = {
@@ -52,6 +53,10 @@ export function pickDifferent(
 
 export interface AtlasHandle {
   destroy(): void;
+  /** Feed real visit facts (INSTRUMENTS_PLAN §1): routes the visitor's
+   *  actual colo next when it is on the map, weights it afterwards,
+   *  and rotates a measured readout line into the cycle. */
+  setTelemetry(t: Telemetry | null): void;
 }
 
 export function initAtlas(frame: HTMLElement): AtlasHandle {
@@ -105,12 +110,30 @@ export function initAtlas(frame: HTMLElement): AtlasHandle {
     svg.querySelector(`#sp-${code}`)?.getAttribute("d") ?? "";
 
   /* ---------- reduced motion: one static routed state ---------- */
+  const realLine = (t: Telemetry): string => {
+    const bits: string[] = [];
+    if (t.colo) bits.push(`colo: <b>${t.colo}</b>`);
+    if (t.ttfbMs !== undefined) bits.push(`ttfb <b>${t.ttfbMs}ms</b>`);
+    if (t.pageKb !== undefined) bits.push(`page <b>${t.pageKb}kb</b>`);
+    return bits.join(" · ") + ` · <span class="hit">measured</span>`;
+  };
+
   if (reduced) {
     routePath.setAttribute("d", spokeFor("WAW"));
     routePath.classList.add("on");
     markHot("WAW");
     setReadout("WAW", 28, true);
-    return { destroy: () => {} };
+    return {
+      destroy: () => {},
+      setTelemetry: (t) => {
+        /* static mode: if the visitor's colo is mapped, show THAT route */
+        if (t?.colo && POPS[t.colo]) {
+          routePath.setAttribute("d", spokeFor(t.colo));
+          markHot(t.colo);
+        }
+        if (t) readout.innerHTML = realLine(t);
+      },
+    };
   }
 
   /* ---------- route + pulse animation ---------- */
@@ -123,13 +146,42 @@ export function initAtlas(frame: HTMLElement): AtlasHandle {
   let t0 = 0;
   let spokeLen = 0;
   let lastCode = "WAW";
-  let current: { code: string; ttfb: number; hit: boolean } | null = null;
+  let current: { code: string; ttfb: number; hit: boolean; real?: Telemetry } | null = null;
+
+  /* telemetry integration (INSTRUMENTS_PLAN §1) */
+  let telemetry: Telemetry | null = null;
+  let visitorPending = false; /* route the real colo on the next pick */
+  let cycle = 0;
 
   const pickNext = (): void => {
-    const code = pickDifferent(lastCode, CODES);
+    cycle += 1;
+    const visitorColo =
+      telemetry?.colo && POPS[telemetry.colo] ? telemetry.colo : null;
+
+    let code: string;
+    let real: Telemetry | undefined;
+
+    if (visitorPending && visitorColo) {
+      /* first routed cycle after telemetry arrives: their actual PoP,
+         their actual ttfb */
+      code = visitorColo;
+      real = telemetry!;
+      visitorPending = false;
+    } else if (visitorColo && cycle % 3 === 0 && lastCode !== visitorColo) {
+      /* the visitor's colo recurs ~3x more often than chance */
+      code = visitorColo;
+    } else {
+      code = pickDifferent(lastCode, CODES);
+    }
+
     lastCode = code;
     const [lo, hi] = POPS[code]!;
-    current = { code, ttfb: rand(lo, hi), hit: Math.random() > 0.22 };
+    current = {
+      code,
+      ttfb: real?.ttfbMs ?? rand(lo, hi),
+      hit: real ? true : Math.random() > 0.22,
+      real,
+    };
     routePath.setAttribute("d", spokeFor(code));
     spokeLen = routePath.getTotalLength();
     routePath.classList.add("on");
@@ -161,7 +213,15 @@ export function initAtlas(frame: HTMLElement): AtlasHandle {
         phase = "hold";
         t0 = now;
         markHot(current.code);
-        setReadout(current.code, current.ttfb, current.hit);
+        if (current.real) {
+          readout.innerHTML =
+            `route: <b>${current.code}</b> → you · ` + realLine(current.real);
+        } else if (telemetry && cycle % 4 === 0) {
+          /* every ~4th cycle: the measured line, even off-map */
+          readout.innerHTML = realLine(telemetry);
+        } else {
+          setReadout(current.code, current.ttfb, current.hit);
+        }
       }
     } else if (phase === "hold") {
       pulse.style.opacity = String(Math.max(0, 1 - dt / 300));
@@ -231,6 +291,10 @@ export function initAtlas(frame: HTMLElement): AtlasHandle {
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       deregister(pausable);
+    },
+    setTelemetry: (t): void => {
+      telemetry = t;
+      visitorPending = Boolean(t?.colo && POPS[t.colo]);
     },
   };
 }

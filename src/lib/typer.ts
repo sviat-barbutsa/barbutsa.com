@@ -37,6 +37,14 @@ export interface TyperHandle {
   destroy(): void;
 }
 
+/** Ambient rotation controls per element — lets features like the
+ *  shell suspend the doctrine rotation and restart it later without
+ *  knowing phrases/options (Typewriter.astro registers them). */
+export const ambientControls = new WeakMap<
+  HTMLElement,
+  { stop(): void; start(): void }
+>();
+
 export function initTyper(
   el: HTMLElement,
   phrases: readonly string[],

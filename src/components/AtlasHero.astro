@@ -124,7 +124,12 @@
 
 <script>
   import { initAtlas } from "@/lib/atlas/svg-atlas";
+  import { getTelemetry } from "@/lib/telemetry";
 
   const frame = document.querySelector<HTMLElement>("[data-atlas-frame]");
-  if (frame) initAtlas(frame);
+  if (frame) {
+    const atlas = initAtlas(frame);
+    /* never blocks first paint; the atlas upgrades itself when facts land */
+    getTelemetry().then((t) => atlas.setTelemetry(t));
+  }
 </script>
