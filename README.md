@@ -62,9 +62,30 @@ The page annotates its own architecture: one `html[data-xray]` attribute switche
 ### Status bar (bottom edge, desktop ≥768px only)
 Editor-style statusline: current section + scroll % on the left; visitor colo + measured ttfb (when telemetry resolves), theme name (live — it watches `data-theme`), and a UTC clock on the right. `StatusBar.astro`; body padding reserves its space so it never covers content. `aria-hidden` — it duplicates information available elsewhere.
 
+## Performance
+
+Audit the **production build**, never the dev server — `astro dev` injects its
+dev toolbar (the "duplicated JavaScript" Lighthouse finds at `dev-toolbar/…`,
+`audit/…`, `ui-library/…` paths is the toolbar, not the site) and serves
+unminified, uncompressed modules. Correct procedure:
+
+```sh
+pnpm build && pnpm preview   # then point Lighthouse at the preview URL
+```
+
+Baseline on the production build (July 2026): **Performance 98 ·
+Accessibility 100 · Best Practices 96 · SEO 100** — FCP 1.5s, LCP 1.7s,
+TBT 0ms, CLS 0. Known readings that are fine: Speed Index runs high because
+the atlas animates continuously (SI measures ongoing pixel change — that's
+the one budgeted animation working); the caret "layout shifts" are 7×13px
+with zero CLS impact; cache/compression findings vanish behind Cloudflare.
+
 ## TODO before/at first deploy
 
-- [ ] Self-host subset fonts (STACK_PLAN §6.3) — replace the Google Fonts `<link>` in `Layout.astro` with preloaded local woff2 + `size-adjust` fallbacks.
+- [ ] Self-host fonts: run `node scripts/fetch-fonts.mjs` locally (needs open
+      internet — downloads woff2 to `public/fonts/`, writes
+      `src/styles/fonts.css`, rewrites `Layout.astro` off the Google CDN).
+      Kills the one real render-blocking request (~780ms at LH throttling).
 - [x] About-page facts reconciled with the 2026 CV (timeline, metrics, education, independent projects).
 - [x] Real URLs extracted from the CV PDF: GitHub (velidan), LinkedIn, StackOverflow, Upwork, and all five external articles (freeCodeCamp/Medium/dev.to) in `src/data/writing-elsewhere.json`.
 - [x] GitHub identity: `github.com/sviat-barbutsa` is the canonical account (site + packages). Note: the CV PDF still links `github.com/velidan` — update the CV if sviat-barbutsa is the one to show recruiters.

@@ -76,7 +76,7 @@ const isActive = (href: string): boolean =>
 
     <header class="site-head">
       <div class="wrap bar">
-        <a class="brand mono" href="/" aria-label={`${site.name} — home`}>
+        <a class="brand mono" href="/" aria-label={`SB / EDGE — ${site.name}, home`}>
           <span class="tick" aria-hidden="true"></span>
           SB&nbsp;/&nbsp;EDGE
         </a>
@@ -145,21 +145,29 @@ const isActive = (href: string): boolean =>
       </div>
     </footer>
 
-    <!-- x-ray legend — visible only under html[data-xray] (INSTRUMENTS_PLAN §2) -->
-    <aside class="xray-legend" aria-hidden="true">
-      <p class="xl-title">X-RAY · CSS SYSTEM</p>
+    <!-- x-ray legend — visible only under html[data-xray] (INSTRUMENTS_PLAN §2).
+         Carries its own OFF switch: on small screens it may cover the
+         footer's XRAY button, so it must be dismissible from itself. -->
+    <aside class="xray-legend" aria-label="X-ray legend">
+      <p class="xl-title">
+        X-RAY · CSS SYSTEM
+        <span class="xl-actions">
+          <button type="button" class="xl-close" data-xray-pin aria-label="Move legend to the top edge">↑&nbsp;PIN&nbsp;TOP</button>
+          <button type="button" class="xl-close" data-xray-toggle aria-label="Turn off x-ray mode">×&nbsp;OFF</button>
+        </span>
+      </p>
       <p><i class="xl-swatch xl-region"></i>.region — section rhythm</p>
       <p><i class="xl-swatch xl-stack"></i>.stack — vertical flow</p>
       <p><i class="xl-swatch xl-cluster"></i>.cluster / .repel — rows</p>
       <p><i class="xl-swatch xl-grid"></i>.grid / .sidebar — 2D layout</p>
       <p class="xl-tokens">
         tokens:
-        <i class="xl-chip" style="background: var(--color-bg)"></i>bg
-        <i class="xl-chip" style="background: var(--color-surface)"></i>surface
-        <i class="xl-chip" style="background: var(--color-text)"></i>text
-        <i class="xl-chip" style="background: var(--color-signal)"></i>signal
+        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-bg)"></i>bg</span>
+        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-surface)"></i>surface</span>
+        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-text)"></i>text</span>
+        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-signal)"></i>signal (accent)</span>
       </p>
-      <p class="xl-note">layers: reset→tokens→base→composition→components→utilities</p>
+      <p class="xl-note">layers: reset → tokens → base → composition → components → utilities</p>
     </aside>
 
     <StatusBar />

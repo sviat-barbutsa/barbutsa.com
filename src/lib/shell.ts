@@ -77,14 +77,20 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
     if (liveBox) liveBox.scrollTop = 0;
   };
 
-  root.setAttribute("tabindex", "0");
-  root.setAttribute("role", "button");
-  root.setAttribute(
-    "aria-label",
-    'Site command line — press Enter to activate, then type "help"',
-  );
-  root.removeAttribute("aria-hidden");
+  /* A11y pattern (axe label-content-name-mismatch): the typed line is
+     DECORATIVE — its text changes constantly and can never match an
+     accessible name. So the line stays aria-hidden, and keyboard/AT
+     users get a real <button> instead (visually hidden until focused,
+     like the skip link). Pointer users keep clicking the line. */
+  root.setAttribute("aria-hidden", "true");
   root.style.cursor = "text";
+
+  const srButton = document.createElement("button");
+  srButton.type = "button";
+  srButton.className = "shell-open-btn";
+  srButton.textContent = 'Open site command line (type "help")';
+  root.parentElement?.insertBefore(srButton, root);
+  srButton.addEventListener("click", () => open());
 
   const answer = (text: string): void => {
     clearPending();
@@ -182,6 +188,7 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
       } else if (e.key === "Escape") {
         e.stopPropagation();
         close();
+        srButton.focus();
       }
     });
     input.addEventListener("blur", () => close());
@@ -189,11 +196,5 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
 
   root.addEventListener("click", (e) => {
     if (e.target !== input) open();
-  });
-  root.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !input) {
-      e.preventDefault();
-      open();
-    }
   });
 }

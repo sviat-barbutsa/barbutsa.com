@@ -86,13 +86,18 @@
   }
 }
 
-/* numbered index row — the Edge Atlas list unit (projects, articles) */
+/* numbered index row — the Edge Atlas list unit (projects, articles).
+   Horizontal padding + equal negative margins: text stays aligned with
+   the page grid, but the hover background gets breathing room instead
+   of touching the content at its edges. */
 .index-row {
   display: grid;
   grid-template-columns: 3.5rem 1fr auto;
   gap: var(--space-s);
   align-items: baseline;
   padding-block: var(--space-m);
+  padding-inline: var(--space-s);
+  margin-inline: calc(-1 * var(--space-s));
   border-bottom: var(--hairline);
   transition: background var(--dur-fast) var(--ease-out);
 
@@ -630,7 +635,7 @@ html[data-xray] :is(.grid, .sidebar) { outline: 1px dashed color-mix(in srgb, va
 .xray-legend {
   display: none;
   position: fixed;
-  bottom: 44px;
+  bottom: 44px; /* clears the status bar on desktop */
   left: 16px;
   z-index: 150;
   background: var(--color-bg);
@@ -639,20 +644,72 @@ html[data-xray] :is(.grid, .sidebar) { outline: 1px dashed color-mix(in srgb, va
   font-family: var(--font-mono);
   font-size: var(--mono-xs);
   color: var(--color-text-2);
-  max-width: 300px;
+  max-width: min(300px, calc(100vw - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-faint) transparent;
 
   & p { margin: 0 0 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  & .xl-title { color: var(--color-signal); letter-spacing: var(--tracking-caps); }
+
+  & .xl-title {
+    color: var(--color-signal);
+    letter-spacing: var(--tracking-caps);
+    justify-content: space-between;
+  }
+
+  & .xl-actions {
+    display: inline-flex;
+    gap: 6px;
+    flex: none;
+  }
+
+  & .xl-close {
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    border: 1px solid var(--color-signal);
+    padding: 3px 8px;
+    cursor: pointer;
+    flex: none;
+
+    &:hover { background: var(--color-signal-fill); color: var(--color-on-fill); }
+  }
   & .xl-swatch { width: 18px; height: 0; flex: none; }
   & .xl-region { border-top: 1px solid var(--color-signal); }
   & .xl-stack { border-top: 1px dashed var(--color-text-2); }
   & .xl-cluster { border-top: 1px dotted var(--color-text-2); }
   & .xl-grid { border-top: 1px dashed color-mix(in srgb, var(--color-signal) 55%, transparent); }
   & .xl-chip { width: 10px; height: 10px; border: 1px solid var(--color-border); flex: none; }
-  & .xl-note { color: var(--color-faint); margin-bottom: 0; }
+
+  /* chip + its label wrap as ONE unit, never apart */
+  & .xl-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  & .xl-note {
+    color: var(--color-faint);
+    margin-bottom: 0;
+    display: block;              /* prose line, not a flex row */
+    overflow-wrap: anywhere;     /* long token chains break INSIDE the panel */
+  }
 }
 
 html[data-xray] .xray-legend { display: block; }
+
+@media (max-width: 767px) {
+  .xray-legend { bottom: 12px; } /* no status bar to clear on mobile */
+}
+
+/* pinned to the top edge (below the sticky header) */
+.xray-legend[data-pin="top"] {
+  top: 76px;
+  bottom: auto;
+}
 
 /* ============================================================
    STATUS BAR (INSTRUMENTS_PLAN §4) — desktop only, fixed bottom.
@@ -687,4 +744,29 @@ html[data-xray] .xray-legend { display: block; }
 @media (min-width: 768px) {
   .status-bar { display: flex; }
   body { padding-block-end: 32px; }
+}
+
+/* shell opener for keyboard/AT — hidden until focused (skip-link pattern) */
+.shell-open-btn {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+
+  &:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    white-space: normal;
+    display: inline-block;
+    margin-bottom: var(--space-2xs);
+    font-family: var(--font-mono);
+    font-size: var(--mono-s);
+    color: var(--color-signal);
+    border: 1px solid var(--color-signal);
+    padding: 4px 10px;
+  }
 }

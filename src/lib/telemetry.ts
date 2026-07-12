@@ -25,7 +25,15 @@ export interface Telemetry {
 
 const TRACE_TIMEOUT_MS = 1500;
 
+function isLocalHost(): boolean {
+  const h = location.hostname;
+  return h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h.endsWith(".local");
+}
+
 async function fetchTrace(): Promise<Partial<Telemetry>> {
+  /* /cdn-cgi/trace only exists behind Cloudflare — skip the request
+     entirely in local dev so the console stays clean. */
+  if (isLocalHost()) return {};
   try {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), TRACE_TIMEOUT_MS);
