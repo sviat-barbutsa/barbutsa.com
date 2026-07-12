@@ -98,6 +98,11 @@ a {
   }
 }
 
+/* themed scrollbars, page-wide — thumb follows the theme */
+html {
+  scrollbar-color: var(--color-faint) var(--color-bg);
+}
+
 ::selection {
   background: var(--color-signal-fill);
   color: var(--color-on-fill);

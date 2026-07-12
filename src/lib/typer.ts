@@ -23,14 +23,19 @@ export interface TyperOptions {
   holdMs?: number;
   /** ms of empty-line blink between phrases. */
   blinkMs?: number;
+  /** false = type the phrase once and STOP (no erase loop). */
+  loop?: boolean;
+  /** fires when a loop:false phrase has fully landed. */
+  onDone?: () => void;
 }
 
-const DEFAULTS: Required<TyperOptions> = {
+const DEFAULTS: Required<Omit<TyperOptions, "onDone">> = {
   typeMs: 46,
   jitterMs: 34,
   eraseMs: 22,
   holdMs: 3200,
   blinkMs: 900,
+  loop: true,
 };
 
 export interface TyperHandle {
@@ -51,7 +56,8 @@ export function initTyper(
   options: TyperOptions = {},
 ): TyperHandle {
   if (phrases.length === 0) return { destroy: () => {} };
-  const { typeMs: TYPE_MS, jitterMs: JITTER_MS, eraseMs: ERASE_MS, holdMs: HOLD_MS, blinkMs: BLINK_MS } = { ...DEFAULTS, ...options };
+  const { typeMs: TYPE_MS, jitterMs: JITTER_MS, eraseMs: ERASE_MS, holdMs: HOLD_MS, blinkMs: BLINK_MS, loop: LOOP } = { ...DEFAULTS, ...options };
+  const onDone = options.onDone;
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) {
@@ -63,6 +69,7 @@ export function initTyper(
   let pos = 0;
   let phase: "type" | "hold" | "erase" | "blink" = "type";
   let timer = 0;
+  let finished = false;
   let pausedExternally = false;
   let visible = true;
   let pageVisible = document.visibilityState === "visible";
@@ -78,6 +85,13 @@ export function initTyper(
       pos += 1;
       el.textContent = phrase().slice(0, pos);
       if (pos >= phrase().length) {
+        if (!LOOP) {
+          /* once-mode: the phrase stays; no erase, no timers. */
+          finished = true;
+          running = false;
+          onDone?.();
+          return;
+        }
         phase = "hold";
         delay = HOLD_MS;
       } else {
@@ -108,7 +122,7 @@ export function initTyper(
   };
 
   const sync = (): void => {
-    const should = !pausedExternally && visible && pageVisible;
+    const should = !pausedExternally && visible && pageVisible && !finished;
     if (should && !running) {
       running = true;
       timer = window.setTimeout(step, 200);

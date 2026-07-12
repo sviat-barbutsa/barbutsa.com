@@ -42,6 +42,26 @@ src/
 - **Cross-document View Transitions** handle page morphs; the theme switch scopes its own snapshot rules via `html[data-theme-motion]` — never remove that gate.
 - **Both themes** come from `light-dark()` tokens; the toggle flips one attribute.
 
+## The instruments
+
+Interactive features, all following the same contracts: no ambient animation added (the atlas stays the only self-moving element), token-driven colors (both themes work automatically), graceful degradation (JS off / API missing / reduced motion → static or absent, never broken), and coordination with the theme switch via the pause registry. Full reasoning: `../docs and showcases/features/INSTRUMENTS_PLAN.md`.
+
+### Edge Atlas (homepage hero)
+The signature animation: a request pulse finding its nearest edge PoP, with hover/keyboard tooltips per city, hot-node highlighting, and a live readout. Geometry in `AtlasHero.astro`, behavior in `src/lib/atlas/svg-atlas.ts`. Pauses offscreen and when the tab is hidden; reduced motion gets one static routed frame.
+
+### Real telemetry (invisible on localhost — by design)
+`src/lib/telemetry.ts` reads two truthful sources: `GET /cdn-cgi/trace` (every Cloudflare-proxied domain exposes it — returns the visitor's actual edge colo; same-origin, nothing stored) and the Performance API (measured TTFB + transfer size of this very page). When deployed behind Cloudflare, the atlas routes to the **visitor's real PoP** (`route: LHR → you · ttfb 38ms · measured`), weights it in the cycle, and rotates the measured line into the readout. On localhost the trace fails inside its 1.5s timeout and the atlas keeps its ambient fiction — that's the fallback working, not a bug.
+
+### Doctrine line + working shell (homepage hero, the `~$` line)
+A terminal line that types field-note phrases (`src/data/doctrine.json` — edit freely) with human jitter: type → hold → erase → blink → next. **It's also a real shell**: click it (or focus + Enter), then `help`. Commands navigate (`articles`, `cv`, `contact`…), act (`theme` runs the fluid theme switch, `xray` toggles x-ray mode), or answer by typing into the same line (`ls`, `whoami`). Always exactly one line — a hidden ghost of the longest phrase reserves the height, so nothing ever shifts.
+Architecture: `src/lib/typer.ts` (generic typing service) → `Typewriter.astro` (reusable component, any phrases/speeds, multiple per page) → `Doctrine.astro` (this instance + command table) → `src/lib/shell.ts` (input handling).
+
+### X-ray mode (XRAY button in the footer, or shell command `xray`)
+The page annotates its own architecture: one `html[data-xray]` attribute switches on outlines identifying every layout primitive (solid signal = `.region`, dashed = `.stack`, dotted = `.cluster`/`.repel`, dashed signal = `.grid`/`.sidebar`) plus a legend panel with live token swatches and the cascade-layer order. Outlines only — they cannot affect layout, so toggling is guaranteed shift-free. Session-scoped. `src/lib/xray.ts`.
+
+### Status bar (bottom edge, desktop ≥768px only)
+Editor-style statusline: current section + scroll % on the left; visitor colo + measured ttfb (when telemetry resolves), theme name (live — it watches `data-theme`), and a UTC clock on the right. `StatusBar.astro`; body padding reserves its space so it never covers content. `aria-hidden` — it duplicates information available elsewhere.
+
 ## TODO before/at first deploy
 
 - [ ] Self-host subset fonts (STACK_PLAN §6.3) — replace the Google Fonts `<link>` in `Layout.astro` with preloaded local woff2 + `size-adjust` fallbacks.

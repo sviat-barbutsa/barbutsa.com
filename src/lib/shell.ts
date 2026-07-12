@@ -24,15 +24,58 @@ export interface ShellConfig {
   announce?: (text: string) => void;
 }
 
-const ANSWER_SPEED = { typeMs: 14, jitterMs: 10, holdMs: 6000, blinkMs: 400 };
+const ANSWER_SPEED = { typeMs: 14, jitterMs: 10 };
+/** How long a finished answer stays readable before doctrine resumes. */
+const READ_HOLD_MS = 10_000;
 
 export function initShell(root: HTMLElement, config: ShellConfig): void {
   const live = root.querySelector<HTMLElement>("[data-typer-text]");
+  const liveBox = root.querySelector<HTMLElement>(".live");
   const caret = root.querySelector<HTMLElement>(".caret");
   if (!live) return;
 
   let input: HTMLInputElement | null = null;
   let answerTyper: TyperHandle | null = null;
+  let follower: MutationObserver | null = null;
+  let resumeTimer = 0;
+
+  /* One cancel point for EVERYTHING pending — called whenever the user
+     takes over. Nothing can interrupt typing or reading after this. */
+  const clearPending = (): void => {
+    clearTimeout(resumeTimer);
+    resumeTimer = 0;
+    answerTyper?.destroy();
+    answerTyper = null;
+  };
+
+  /* The overlay may grow down to the bottom of the bounds element
+     ([data-shell-bounds], e.g. the hero grid) and no further — beyond
+     that it scrolls. Recomputed on activation and resize. */
+  const bounds = root.closest<HTMLElement>("[data-shell-bounds]") ?? root.parentElement;
+  const updateMax = (): void => {
+    if (!bounds || !liveBox) return;
+    const max =
+      bounds.getBoundingClientRect().bottom -
+      liveBox.getBoundingClientRect().top;
+    root.style.setProperty("--shell-max", `${Math.max(48, Math.round(max))}px`);
+  };
+  updateMax();
+  addEventListener("resize", updateMax, { passive: true });
+
+  /* keep the newest typed line visible inside the scrolling overlay */
+  const follow = (): void => {
+    follower?.disconnect();
+    if (!liveBox) return;
+    follower = new MutationObserver(() => {
+      liveBox.scrollTop = liveBox.scrollHeight;
+    });
+    follower.observe(live, { childList: true, characterData: true, subtree: true });
+  };
+  const unfollow = (): void => {
+    follower?.disconnect();
+    follower = null;
+    if (liveBox) liveBox.scrollTop = 0;
+  };
 
   root.setAttribute("tabindex", "0");
   root.setAttribute("role", "button");
@@ -44,16 +87,25 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
   root.style.cursor = "text";
 
   const answer = (text: string): void => {
-    answerTyper?.destroy();
+    clearPending();
     live.textContent = "";
-    answerTyper = initTyper(live, [text], ANSWER_SPEED);
+    updateMax();
+    follow();
+    /* loop:false — the answer types ONCE and stays (no erase cycle, no
+       blink glitch). The read-hold starts from actual completion via
+       onDone, never from an estimated timeout. */
+    answerTyper = initTyper(live, [text], {
+      ...ANSWER_SPEED,
+      loop: false,
+      onDone: () => {
+        resumeTimer = window.setTimeout(() => {
+          clearPending();
+          unfollow();
+          config.resumeAmbient();
+        }, READ_HOLD_MS);
+      },
+    });
     config.announce?.(text);
-    /* resume ambient rotation after the answer has been read */
-    window.setTimeout(() => {
-      answerTyper?.destroy();
-      answerTyper = null;
-      config.resumeAmbient();
-    }, ANSWER_SPEED.holdMs + text.length * ANSWER_SPEED.typeMs + 800);
   };
 
   const execute = (raw: string): void => {
@@ -89,6 +141,8 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
     inp.remove();
     live.hidden = false;
     if (caret) caret.hidden = false;
+    delete root.dataset.shellOpen;
+    if (liveBox) liveBox.hidden = false;
     if (runValue !== undefined) execute(runValue);
     else config.resumeAmbient();
   };
@@ -96,11 +150,17 @@ export function initShell(root: HTMLElement, config: ShellConfig): void {
   const open = (): void => {
     if (input) return;
     config.suspendAmbient();
-    answerTyper?.destroy();
-    answerTyper = null;
+    clearPending(); /* cancels any read-hold — nothing fires while typing */
+    unfollow();
+    updateMax();
     live.textContent = "";
     live.hidden = true;
     if (caret) caret.hidden = true;
+    /* the .live overlay is absolutely positioned ABOVE the in-flow
+       input (z-index + background) — hide the whole box while the
+       input is open or it swallows the keystrokes' pixels */
+    root.dataset.shellOpen = "";
+    if (liveBox) liveBox.hidden = true;
 
     input = document.createElement("input");
     input.type = "text";

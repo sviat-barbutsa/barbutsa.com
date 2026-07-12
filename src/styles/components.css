@@ -549,16 +549,31 @@
   & .line {
     display: grid;
     min-width: 0;
-  }
-
-  & .ghost,
-  & .live {
-    grid-area: 1 / 1;
+    position: relative; /* anchor for the .live overlay */
   }
 
   & .ghost {
+    grid-area: 1 / 1;
     visibility: hidden;
     user-select: none;
+  }
+
+  /* .live is OUT OF FLOW on purpose: the in-flow ghost alone defines
+     the reserved height, so multi-line shell answers can never move
+     the blocks above — they grow DOWNWARD as an overlay, capped at
+     --shell-max (the hero grid's bottom edge, set by shell.ts), then
+     scroll. Background makes the overlay legible over whatever sits
+     below the reserved line. */
+  & .live {
+    position: absolute;
+    inset: 0 0 auto 0;
+    max-height: var(--shell-max, none);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-bg);
+    z-index: 5;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-faint) transparent;
   }
 
   & .caret {
