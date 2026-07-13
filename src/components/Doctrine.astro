@@ -37,8 +37,20 @@ import doctrine from "@/data/doctrine.json";
         type: "say",
         text: `${site.name} — ${site.role.toLowerCase()}`,
       },
-      ls: { type: "say", text: labs.map((l) => l.slug).join("  ") },
-      "ls labs": { type: "say", text: labs.map((l) => l.slug).join("  ") },
+      /* the truthful hint: real ls also admits what it isn't showing.
+         A dev who reads "1 hidden" knows exactly what to type next. */
+      ls: {
+        type: "say",
+        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+      },
+      "ls labs": {
+        type: "say",
+        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+      },
+      "ls -a": {
+        type: "say",
+        text: [".flamenco", ...labs.map((l) => l.slug)].join("  "),
+      },
       home: nav("/"),
       lab: nav("/lab"),
       labs: nav("/lab"),
@@ -64,6 +76,18 @@ import doctrine from "@/data/doctrine.json";
       },
       clear: { type: "run", fn: () => {} },
     };
+
+    /* the easter egg — NOT in help; found via `ls -a`. The game chunk
+       loads only when summoned (dynamic import = zero cost otherwise). */
+    const launchFlamenco = (): string | void => {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return "this easter egg requires motion — respecting your settings";
+      }
+      void import("@/lib/flamenco").then((m) => m.openFlamenco());
+    };
+    commands["flamenco"] = { type: "run", fn: launchFlamenco };
+    commands[".flamenco"] = { type: "run", fn: launchFlamenco };
+    commands["./.flamenco"] = { type: "run", fn: launchFlamenco };
 
     initShell(root, {
       commands,

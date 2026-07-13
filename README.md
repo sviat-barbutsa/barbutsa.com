@@ -62,6 +62,15 @@ The page annotates its own architecture: one `html[data-xray]` attribute switche
 ### Status bar (bottom edge, desktop ≥768px only)
 Editor-style statusline: current section + scroll % on the left; visitor colo + measured ttfb (when telemetry resolves), theme name (live — it watches `data-theme`), and a UTC clock on the right. `StatusBar.astro`; body padding reserves its space so it never covers content. `aria-hidden` — it duplicates information available elsewhere.
 
+### .flamenco (spoiler — the easter egg)
+A hidden file in the shell: `ls` lists the labs, but `ls -a` reveals `.flamenco`.
+Typing `flamenco` launches the packet runner — you are a request on the edge,
+jumping cold starts and MISS blocks; score in ms saved, best kept per session.
+Costs normal visitors ZERO bytes (dynamic import — the chunk loads only when
+summoned); keys are captured only while the overlay is open; ESC quits;
+reduced-motion users get a dry regret line instead. Game: `src/lib/flamenco/`
+(built on the canvas engine). Not listed in `help` — an egg must be found.
+
 ## Performance
 
 Audit the **production build**, never the dev server — `astro dev` injects its

@@ -51,3 +51,13 @@ describe("pickDifferent", () => {
     expect(pickDifferent("A", [])).toBe("A");
   });
 });
+
+import { hits } from "../src/lib/flamenco/game";
+
+describe("flamenco collision", () => {
+  it("detects overlap and clear misses", () => {
+    expect(hits(70, 90, 14, 75, 88, 20, 16)).toBe(true);   // overlapping
+    expect(hits(70, 90, 14, 200, 88, 20, 16)).toBe(false); // far right
+    expect(hits(70, 40, 14, 75, 88, 20, 16)).toBe(false);  // jumped over
+  });
+});

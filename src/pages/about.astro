@@ -169,17 +169,5 @@ const education = [
   </section>
 </Layout>
 
-<style>
-  .conf { display: grid; gap: var(--space-2xs); }
-  .conf-row {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    gap: var(--space-s);
-    font-size: var(--step--1);
-  }
-  .conf-row dt { color: var(--color-signal); font-size: var(--mono-s); }
-  .conf-row dd { color: var(--color-text-2); }
-  @media (max-width: 480px) {
-    .conf-row { grid-template-columns: 1fr; gap: 2px; }
-  }
-</style>
+<!-- .conf / .conf-row moved to components.css — the pattern is now shared
+     with the home page's contact card, so it belongs to the system. -->

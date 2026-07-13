@@ -115,21 +115,64 @@ const fmt = (d: Date) =>
     </div>
   </section>
 
-  <!-- 04 · CONTACT -->
-  <section class="wrap region stack" aria-labelledby="h-contact" style="text-align: center; align-items: center;">
-    <p class="kick" style="justify-content: center;"><span class="idx">04</span> Contact</p>
-    <h2 id="h-contact" style="font-size: var(--step-4); max-width: 18ch; margin-inline: auto;">
-      Have a system that needs to stay understandable?
-    </h2>
-    <p class="text-dim" style="margin-inline: auto; max-width: 44ch;">
-      One message is enough. Describe the problem; I will tell you honestly
-      whether I am the right person for it.
-    </p>
-    <p>
-      <a class="mono" data-tone="signal" style="font-size: var(--step-1); color: var(--color-signal); border-bottom: 1px solid currentColor;" href={`mailto:${site.email}`}>
-        {site.email}
-      </a>
-    </p>
+  <!-- 04 · CONTACT — left-aligned like every other region; the card on
+       the right is contact.protocol (the operator.conf pattern) and is
+       where the Sable assistant's entry line will live later. -->
+  <section class="wrap region" aria-labelledby="h-contact">
+    <div class="sidebar" style="--sidebar-width: 22rem;">
+      <div class="stack" style="--flow: var(--space-m);">
+        <p class="kick"><span class="idx">04</span> Contact</p>
+        {/* clamp: "understandable?" (15 glyphs) must never break mid-word
+            on narrow viewports — same guarantee as the hero title */}
+        <h2 id="h-contact" style="font-size: clamp(1.75rem, 4.5vw + 0.9rem, var(--step-4)); max-width: 18ch;">
+          Have a system that needs to stay understandable?
+        </h2>
+        <p class="text-dim" style="max-width: 44ch;">
+          One message is enough. Describe the problem; I will tell you honestly
+          whether I am the right person for it.
+        </p>
+        <p>
+          <a class="mono" data-tone="signal" style="font-size: var(--step-1); color: var(--color-signal); border-bottom: 1px solid currentColor;" href={`mailto:${site.email}`}>
+            {site.email}
+          </a>
+        </p>
+      </div>
+      {/* the hero's frame grammar (atlas-frame: hairline + corner ticks +
+          meta bar) applied to contact. The email lives on the left; the
+          card ends with a $-prompt mailto so it stays self-contained. */}
+      <aside class="proto-card atlas-frame" aria-label="Contact details">
+        <p class="atlas-meta">
+          <span>contact / protocol v1</span>
+          <span class="live"><i></i> OPEN</span>
+        </p>
+        <dl class="proto-rows">
+          <div class="proto-row">
+            <dt>base</dt>
+            <dd>houston, tx · remote · u.s. work authorization</dd>
+          </div>
+          <div class="proto-row">
+            <dt>response</dt>
+            <dd>within 24 hours — honest either way</dd>
+          </div>
+          <div class="proto-row">
+            <dt>elsewhere</dt>
+            <dd>
+              {site.social
+                .filter((s) => s.label !== "Email")
+                .map((s, i) => (
+                  <>
+                    {i > 0 && " · "}
+                    <a href={s.href} data-no-prerender>{s.label}</a>
+                  </>
+                ))}
+            </dd>
+          </div>
+        </dl>
+        <a class="proto-foot" href={`mailto:${site.email}`}>
+          <span aria-hidden="true">$</span> say hello<span class="caret" aria-hidden="true"></span>
+        </a>
+      </aside>
+    </div>
   </section>
 </Layout>
 
