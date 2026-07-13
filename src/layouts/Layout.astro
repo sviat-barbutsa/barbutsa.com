@@ -43,6 +43,22 @@ const isActive = (href: string): boolean =>
       })();
     </script>
 
+    <!-- PRE-CSS CANVAS GUARD — between documents the UA paints its
+         default (white) canvas until the external stylesheet applies;
+         with a render-blocking cross-origin font CSS that gap can
+         outlive Chrome's paint holding and blink. This inline block
+         mirrors tokens.css' theming model (dark-canonical, OS fallback,
+         explicit choice wins) so the canvas is correct from byte one.
+         tokens.css still owns the real values: it loads later in the
+         cascade and overrides. -->
+    <style is:inline>
+      html { background-color: #141412; color-scheme: dark; }
+      @media (prefers-color-scheme: light) {
+        html:not([data-theme]) { background-color: #ece9e2; color-scheme: light; }
+      }
+      html[data-theme="light"] { background-color: #ece9e2; color-scheme: light; }
+    </style>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
