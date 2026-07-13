@@ -1,5 +1,6 @@
 ---
 import "@/styles/main.css";
+import "@/styles/fonts.css";
 import { site } from "@/data/site";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import StatusBar from "@/components/StatusBar.astro";
@@ -58,13 +59,9 @@ const isActive = (href: string): boolean =>
       }
       html[data-theme="light"] { background-color: #ece9e2; color-scheme: light; }
     </style>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- self-hosted fonts (scripts/fetch-fonts.mjs) -->
+    <link rel="preload" href="/fonts/v9-3y9K6as8bTXqnANBjzKo3IeZx8z6up5BeSl9D4djx9PpZBMlGIInE.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/v24-tDbv2o-flEEny0FZhsfKu5WU4zr3EBX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Speculation Rules: prerender internal links on interaction intent.
          Unsupported browsers ignore the script tag entirely. (STACK_PLAN §6.1) -->

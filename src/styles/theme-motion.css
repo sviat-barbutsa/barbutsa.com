@@ -20,9 +20,17 @@
    ============================================================ */
 
 /* The site's cross-document page transitions (MPA navigation). */
+/* >>> BISECT 2026-07-13: temporarily disabled to isolate the white
+   blink between pages (fonts self-hosted + canvas guard did not fix
+   it; this is the last site-controlled variable). If the blink is
+   gone with this off, the cross-doc VT is the culprit — re-enable
+   together with a `::view-transition { background-color: var(--color-bg) }`
+   backstop and retest before deciding to keep or drop it. <<< */
+/*
 @view-transition {
   navigation: auto;
 }
+*/
 
 /* Theme switch only: take over the snapshot animation entirely. */
 html[data-theme-motion]::view-transition-group(root) {
