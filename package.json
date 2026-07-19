@@ -14,6 +14,7 @@
     "check": "astro check",
     "build": "pnpm check && astro build",
     "preview": "astro preview",
+    "new:article": "node scripts/new-article.mjs",
     "lint:code": "eslint \"src/**/*.{astro,ts}\" \"tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.config.{js,mjs,ts}\" --max-warnings=0",
     "lint:styles": "stylelint \"src/**/*.{css,astro}\" --max-warnings=0",
     "lint:architecture": "node scripts/check-file-budgets.mjs",

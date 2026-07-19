@@ -21,7 +21,14 @@ const fmt = article.data.date.toLocaleDateString("en-US", {
 });
 ---
 
-<Layout title={article.data.title} description={article.data.summary}>
+<Layout
+  title={article.data.title}
+  description={article.data.summary}
+  type="article"
+  publishedTime={article.data.date}
+  section={article.data.category}
+  cover={article.data.cover}
+>
   <article class="article-report wrap region stack" style="--flow: var(--space-l);">
     <header class="article-header stack" style="--flow: var(--space-m);">
       <p class="kick">

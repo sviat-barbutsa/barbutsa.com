@@ -150,12 +150,6 @@ function encodeIco(png, size) {
   return Buffer.concat([header, entry, png]);
 }
 
-writeFileSync(
-  new URL("../public/favicon.ico", import.meta.url),
-  encodeIco(encodePng(render(32), 32), 32),
-);
-writeFileSync(
-  new URL("../public/apple-touch-icon.png", import.meta.url),
-  encodePng(render(180), 180),
-);
+writeFileSync(new URL("../public/favicon.ico", import.meta.url), encodeIco(encodePng(render(32), 32), 32));
+writeFileSync(new URL("../public/apple-touch-icon.png", import.meta.url), encodePng(render(180), 180));
 console.log("Wrote public/favicon.ico and public/apple-touch-icon.png");

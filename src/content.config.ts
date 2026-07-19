@@ -7,14 +7,18 @@ import { glob } from "astro/loaders";
  */
 const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/articles" }),
-  schema: z.object({
-    title: z.string().min(1),
-    date: z.coerce.date(),
-    category: z.string().min(1),
-    readTime: z.string().regex(/^\d+ min$/),
-    summary: z.string().min(1),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string().min(1),
+      date: z.coerce.date(),
+      category: z.string().min(1),
+      readTime: z.string().regex(/^\d+ min$/),
+      // SERP-bounded: Google truncates result descriptions around ~155 chars.
+      summary: z.string().min(1).max(160),
+      draft: z.boolean().default(false),
+      // Optional hero/OG image; a broken path fails the build like any other field.
+      cover: image().optional(),
+    }),
 });
 
 export const collections = { articles };
