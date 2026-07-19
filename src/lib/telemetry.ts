@@ -12,60 +12,37 @@
  * inside its timeout and only performance facts remain.
  */
 
-export interface Telemetry {
-  /** Visitor's Cloudflare edge colo, e.g. "LHR". */
-  colo?: string;
-  /** Visitor country code, e.g. "GB". */
-  loc?: string;
-  /** Measured time-to-first-byte of this page load, ms. */
-  ttfbMs?: number;
-  /** Transfer size of this document, KB (1 decimal). */
-  pageKb?: number;
-}
+import { isLocalHostName, parseTrace, readNavigationTelemetry, type Telemetry } from "./telemetry-core";
+
+export type { Telemetry } from "./telemetry-core";
 
 const TRACE_TIMEOUT_MS = 1500;
 
 function isLocalHost(): boolean {
-  const h = location.hostname;
-  return h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h.endsWith(".local");
+  return isLocalHostName(location.hostname);
 }
 
 async function fetchTrace(): Promise<Partial<Telemetry>> {
   /* /cdn-cgi/trace only exists behind Cloudflare — skip the request
      entirely in local dev so the console stays clean. */
   if (isLocalHost()) return {};
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TRACE_TIMEOUT_MS);
   try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), TRACE_TIMEOUT_MS);
     const res = await fetch("/cdn-cgi/trace", { signal: ctrl.signal });
-    clearTimeout(timer);
     if (!res.ok) return {};
-    const text = await res.text();
-    const out: Partial<Telemetry> = {};
-    for (const line of text.split("\n")) {
-      const [key, value] = line.split("=");
-      if (key === "colo" && value) out.colo = value.trim().toUpperCase();
-      if (key === "loc" && value) out.loc = value.trim().toUpperCase();
-    }
-    return out;
+    return parseTrace(await res.text());
   } catch {
     return {};
+  } finally {
+    clearTimeout(timer);
   }
 }
 
 function readPerformance(): Partial<Telemetry> {
   try {
-    const nav = performance.getEntriesByType(
-      "navigation",
-    )[0] as PerformanceNavigationTiming | undefined;
-    if (!nav) return {};
-    const out: Partial<Telemetry> = {};
-    const ttfb = nav.responseStart - nav.requestStart;
-    if (ttfb > 0) out.ttfbMs = Math.round(ttfb);
-    if (nav.transferSize > 0) {
-      out.pageKb = Math.round((nav.transferSize / 1024) * 10) / 10;
-    }
-    return out;
+    const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    return readNavigationTelemetry(nav);
   } catch {
     return {};
   }

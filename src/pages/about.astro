@@ -78,39 +78,34 @@ const education = [
   description="Sviatoslav Barbutsa — 13+ years building web platforms. Lead engineer on an AI-powered SaaS over 15 Cloudflare Workers microservices. Lighthouse 100 sites, production RAG, 14 engineers mentored."
 >
   <div class="wrap page-head stack">
-    <p class="kick"><span class="idx">CONF</span> About — operator configuration</p>
-    <h1 style="max-width: 15ch;">Senior engineering for products that need to keep evolving.</h1>
+    <p class="kick">
+      <span class="idx">CONF</span> About — operator configuration
+    </p>
+    <h1 class="page-title" data-measure="compact">Senior engineering for products that need to keep evolving.</h1>
   </div>
 
   <section class="wrap region">
     <div class="sidebar" style="--sidebar-width: 24rem;">
-      <div class="stack" style="--flow: var(--space-m); max-width: var(--measure);">
+      <div class="about-copy stack" style="--flow: var(--space-m);">
         <p>
-          Thirteen years building web platforms from the ground up. Currently
-          lead software engineer on an AI-powered collaborative SaaS: multiple
-          React/Next.js applications and a shared component library in one
-          monorepo, on top of fifteen Cloudflare Workers microservices.
+          Thirteen years building web platforms from the ground up. Currently lead software engineer on an AI-powered
+          collaborative SaaS: multiple React/Next.js applications and a shared component library in one monorepo, on top
+          of fifteen Cloudflare Workers microservices.
         </p>
         <p class="text-dim">
-          The work spans frontend architecture, design systems, and
-          performance — Lighthouse 100 sites, 2.5–3× page-load improvements on
-          production apps — plus production AI features: RAG and vector
-          search, LLM routing, AI chat. I write about local-first AI for
-          freeCodeCamp, Medium, and dev.to.
+          The work spans frontend architecture, design systems, and performance — Lighthouse 100 sites, 2.5–3× page-load
+          improvements on production apps — plus production AI features: RAG and vector search, LLM routing, AI chat. I
+          write about local-first AI for freeCodeCamp, Medium, and dev.to.
         </p>
         <p class="text-dim">
-          Took four products from empty repository to production launch. Led
-          teams of two to seven, mentored fourteen engineers, and currently
-          coach company leadership on AI engineering and system design. The
-          doctrine has not changed in a decade: boring tools where they
-          matter, ambitious pieces isolated enough to be reliable.
+          Took four products from empty repository to production launch. Led teams of two to seven, mentored fourteen
+          engineers, and currently coach company leadership on AI engineering and system design. The doctrine has not
+          changed in a decade: boring tools where they matter, ambitious pieces isolated enough to be reliable.
         </p>
       </div>
 
       <div class="panel">
-        <p class="label" data-tone="signal" style="margin-bottom: var(--space-s);">
-          $ cat /etc/operator.conf
-        </p>
+        <p class="contact-panel-title label" data-tone="signal">$ cat /etc/operator.conf</p>
         <dl class="conf">
           {
             config.map(([key, value]) => (
@@ -131,15 +126,13 @@ const education = [
     <div>
       {
         timeline.map((t) => (
-          <article class="index-row" style="grid-template-columns: 7rem 1fr;">
+          <article class="index-row" data-layout="timeline">
             <span class="no">{t.years}</span>
             <div>
-              <h3 style="font-size: var(--step-0); font-weight: 640;">
+              <h3 class="index-title" data-size="body" data-weight="semibold">
                 {t.role} <span class="text-dim">— {t.org}</span>
               </h3>
-              <p class="text-dim" style="font-size: var(--step--1); max-width: 62ch;">
-                {t.note}
-              </p>
+              <p class="index-summary text-dim">{t.note}</p>
             </div>
           </article>
         ))
@@ -154,20 +147,19 @@ const education = [
       {
         independent.map((p) => (
           <div class="panel stack" style="--flow: var(--space-2xs);">
-            <h3 style="font-size: var(--step-0); font-weight: 640;">{p.title}</h3>
-            <p class="text-dim" style="font-size: var(--step--1);">{p.note}</p>
+            <h3 class="panel-title" data-size="body">
+              {p.title}
+            </h3>
+            <p class="panel-summary text-dim">{p.note}</p>
           </div>
         ))
       }
     </div>
-    <div class="stack" style="--flow: var(--space-2xs); border-top: var(--hairline); padding-top: var(--space-m);">
-      {education.map((line) => <p class="text-dim" style="font-size: var(--step--1); max-width: var(--measure);">{line}</p>)}
+    <div class="about-education stack" style="--flow: var(--space-2xs);">
+      {education.map((line) => <p class="text-dim">{line}</p>)}
     </div>
     <p class="label">
       {site.facts.proof.toUpperCase()} · {site.facts.location.toUpperCase()}
     </p>
   </section>
 </Layout>
-
-<!-- .conf / .conf-row moved to components.css — the pattern is now shared
-     with the home page's contact card, so it belongs to the system. -->

@@ -1,0 +1,103 @@
+/* ============================================================
+   FLAMENCO — the easter egg overlay (loads only when summoned).
+   Same instrument grammar as the atlas frame.
+   ============================================================ */
+.flamenco-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: var(--space-s);
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+}
+
+.flamenco-panel {
+  width: min(680px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-signal);
+
+  & .fl-meta,
+  & .fl-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-s);
+    margin: 0;
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-2);
+  }
+
+  & .fl-meta {
+    border-bottom: var(--hairline);
+  }
+
+  & .fl-foot {
+    border-top: var(--hairline);
+    color: var(--color-text-2);
+  }
+
+  & .fl-canvas {
+    display: block;
+    width: 100%;
+    height: min(320px, 52vh);
+    outline: none;
+    touch-action: manipulation;
+  }
+}
+
+/* flamenco pause veil — covers the stage while focus is elsewhere */
+.flamenco-panel .fl-stage {
+  position: relative;
+}
+
+.flamenco-panel .fl-pause {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--space-s);
+  justify-items: center;
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+
+  & .fl-pause-actions {
+    margin: 0;
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  & .fl-pause-label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--mono-s);
+    font-weight: 700;
+    letter-spacing: var(--tracking-caps);
+    color: var(--color-text);
+  }
+}
+
+.flamenco-panel .fl-pause[hidden] {
+  display: none;
+}
+
+/* console-style selection cursor: a ▸ on exactly one menu button while
+   paused — driven by state (data-fl-selected), NOT :focus, because a
+   blur-pause leaves focus outside the menu and the cursor must still
+   show. Signal color = the panel's border color. The 1ch slot is always
+   reserved — the cursor never shifts layout. */
+.flamenco-panel :is(.fl-menu-btn, [data-fl-sound])::before {
+  content: "▸";
+  display: inline-block;
+  inline-size: 1ch;
+  margin-inline-end: 2px;
+  color: var(--color-signal);
+  opacity: 0;
+}
+
+.flamenco-panel :is(.fl-menu-btn, [data-fl-sound])[data-fl-selected]::before {
+  opacity: 1;
+}

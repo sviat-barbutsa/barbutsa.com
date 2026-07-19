@@ -40,16 +40,19 @@
   color-scheme: light dark; /* no stored choice → follow the OS */
 
   /* ---- raw palette (constants; do NOT consume in components) - */
+
   /* brand */
-  --ink: #141412;            /* warm charcoal */
-  --ink-2: #1b1b17;          /* raised charcoal */
-  --paper: #ece9e2;          /* warm off-white */
-  --chartreuse: #d4f34a;     /* the signal hue, bright form */
-  --olive: #4d5c08;          /* the signal hue, dark form (6.1:1 on paper) */
+  --ink: #141412; /* warm charcoal */
+  --ink-2: #1b1b17; /* raised charcoal */
+  --paper: #ece9e2; /* warm off-white */
+  --chartreuse: #d4f34a; /* the signal hue, bright form */
+  --olive: #4d5c08; /* the signal hue, dark form (6.1:1 on paper) */
+
   /* dark ramp */
   --d-dim: #9a968a;
   --d-faint: #57544b;
   --d-line: #2b2a24;
+
   /* light ramp */
   --l-surface: #f4f2ec;
   --l-text: #1b1a15;
@@ -62,34 +65,37 @@
   --color-surface: light-dark(var(--l-surface), var(--ink-2));
   --color-text: light-dark(var(--l-text), var(--paper));
   --color-text-2: light-dark(var(--l-dim), var(--d-dim));
-  --color-faint: light-dark(var(--l-faint), var(--d-faint));   /* decorative ONLY */
+  --color-faint: light-dark(var(--l-faint), var(--d-faint)); /* decorative ONLY */
   --color-border: light-dark(var(--l-line), var(--d-line));
   --color-signal: light-dark(var(--olive), var(--chartreuse)); /* text, lines, focus */
-  --color-signal-fill: var(--chartreuse);                      /* fills, both themes */
-  --color-on-fill: var(--ink);                                 /* text on signal fills */
+  --color-signal-fill: var(--chartreuse); /* fills, both themes */
+  --color-on-fill: var(--ink); /* text on signal fills */
 
   /* ---- typography ------------------------------------------- */
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
 
   /* fluid type scale — minor-third-ish, clamped 360px→1560px */
-  --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.88rem);   /* small print */
-  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.13rem);       /* body */
-  --step-1: clamp(1.19rem, 1.13rem + 0.28vw, 1.4rem);     /* lede */
-  --step-2: clamp(1.5rem, 1.37rem + 0.6vw, 1.95rem);      /* h3 */
-  --step-3: clamp(1.9rem, 1.66rem + 1.1vw, 2.7rem);       /* h2 */
-  --step-4: clamp(2.5rem, 2rem + 2.3vw, 4.2rem);          /* h1 / section titles */
-  --step-5: clamp(2.6rem, 1.7rem + 4.8vw, 6.6rem);        /* hero display — min sized so "understandable." fits a 360px viewport unbroken */
+  --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.88rem); /* small print */
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.13rem); /* body */
+  --step-1: clamp(1.19rem, 1.13rem + 0.28vw, 1.4rem); /* lede */
+  --step-2: clamp(1.5rem, 1.37rem + 0.6vw, 1.95rem); /* h3 */
+  --step-3: clamp(1.9rem, 1.66rem + 1.1vw, 2.7rem); /* h2 */
+  --step-4: clamp(2.5rem, 2rem + 2.3vw, 4.2rem); /* h1 / section titles */
+  --step-5: clamp(
+    2.6rem,
+    1.7rem + 4.8vw,
+    6.6rem
+  ); /* hero display — min sized so "understandable." fits a 360px viewport unbroken */
 
   /* mono UI text is fixed-size on purpose: instrument labels
      do not scale with the viewport */
   --mono-xs: 11px;
   --mono-s: 12.5px;
-
-  --leading-tight: 0.98;     /* display */
-  --leading-snug: 1.2;       /* headings */
-  --leading-body: 1.6;       /* running text */
-  --tracking-caps: 0.22em;   /* uppercase mono labels */
+  --leading-tight: 0.98; /* display */
+  --leading-snug: 1.2; /* headings */
+  --leading-body: 1.6; /* running text */
+  --tracking-caps: 0.22em; /* uppercase mono labels */
 
   /* ---- space ------------------------------------------------- */
   --space-3xs: 0.25rem;
@@ -99,15 +105,15 @@
   --space-m: 1.5rem;
   --space-l: 2.5rem;
   --space-xl: clamp(3rem, 2.4rem + 3vw, 5rem);
-  --space-2xl: clamp(4.5rem, 3.4rem + 5.5vw, 8rem);      /* between sections */
+  --space-2xl: clamp(4.5rem, 3.4rem + 5.5vw, 8rem); /* between sections */
 
   /* ---- layout ------------------------------------------------ */
   --gutter: clamp(20px, 4.5vw, 72px);
   --max: 1560px;
-  --measure: 62ch;           /* max line length for prose */
+  --measure: 62ch; /* max line length for prose */
 
   /* ---- detail ------------------------------------------------ */
-  --radius-s: 2px;           /* Edge Atlas is a sharp design; radii stay near zero */
+  --radius-s: 2px; /* Edge Atlas is a sharp design; radii stay near zero */
   --hairline: 1px solid var(--color-border);
 
   /* ---- motion ------------------------------------------------ */
@@ -123,5 +129,10 @@
 /* Explicit choice (set by the bootstrap script / theme controller)
    overrides the system preference. Theme switching = flipping ONE
    attribute; every light-dark() token follows. */
-html[data-theme="dark"] { color-scheme: dark; }
-html[data-theme="light"] { color-scheme: light; }
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}

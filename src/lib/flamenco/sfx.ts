@@ -13,7 +13,9 @@ let muted = false;
 
 try {
   muted = sessionStorage.getItem(STORE_KEY) === "off";
-} catch { /* optional */ }
+} catch {
+  /* optional */
+}
 
 function ensureCtx(): AudioContext | null {
   if (muted) return null;
@@ -37,7 +39,12 @@ function note(
     gain = 0.05,
     delay = 0,
     slideTo,
-  }: { type?: OscillatorType; gain?: number; delay?: number; slideTo?: number } = {},
+  }: {
+    type?: OscillatorType;
+    gain?: number;
+    delay?: number;
+    slideTo?: number;
+  } = {},
 ): void {
   const ac = ensureCtx();
   if (!ac) return;
@@ -85,7 +92,9 @@ export function toggleMute(): boolean {
   muted = !muted;
   try {
     sessionStorage.setItem(STORE_KEY, muted ? "off" : "on");
-  } catch { /* optional */ }
+  } catch {
+    /* optional */
+  }
   return muted;
 }
 

@@ -9,6 +9,15 @@ export default defineConfig({
   site: "https://sviatoslav.dev",
   output: "static",
   trailingSlash: "never",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => new URL(page).pathname !== "/articles/page/1",
+    }),
+  ],
+  markdown: {
+    shikiConfig: {
+      theme: "github-dark-high-contrast",
+    },
+  },
   build: { format: "file" },
 });

@@ -12,10 +12,7 @@
  * on commit.
  */
 
-export function readTokens(
-  el: Element,
-  names: readonly string[],
-): Record<string, string> {
+export function readTokens(el: Element, names: readonly string[]): Record<string, string> {
   const styles = getComputedStyle(el);
   const out: Record<string, string> = {};
 

@@ -1,0 +1,59 @@
+/* theme toggle — a real button, 44px+ hit area, state via
+   aria-pressed (true = dark active). The controller locks it with
+   data-busy while a transition runs (plan §11). */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+  border: var(--hairline);
+  border-radius: var(--radius-s);
+  color: var(--color-text-2);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--color-signal);
+    border-color: var(--color-signal);
+  }
+
+  & .glyph-sun,
+  & .glyph-moon {
+    grid-area: 1 / 1;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  /* aria-pressed=true → dark theme active → offer the sun */
+  &[aria-pressed="true"] .glyph-moon {
+    opacity: 0;
+  }
+
+  &[aria-pressed="true"] .glyph-sun {
+    opacity: 1;
+  }
+
+  &[aria-pressed="false"] .glyph-moon {
+    opacity: 1;
+  }
+
+  &[aria-pressed="false"] .glyph-sun {
+    opacity: 0;
+  }
+
+  &[data-busy="true"] {
+    cursor: progress;
+    opacity: 0.78;
+  }
+}
+
+@media (pointer: coarse) {
+  .theme-toggle {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}

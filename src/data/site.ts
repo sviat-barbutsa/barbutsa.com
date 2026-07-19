@@ -25,8 +25,17 @@ export const site = {
   social: [
     { href: "mailto:sviatoslav.barbutsa@gmail.com", label: "Email" },
     { href: "https://github.com/sviat-barbutsa", label: "GitHub" },
-    { href: "https://www.linkedin.com/in/sviatoslav-barbutsa/", label: "LinkedIn" },
-    { href: "https://stackoverflow.com/users/5232122/velidan", label: "StackOverflow" },
-    { href: "https://www.upwork.com/freelancers/~013ff3b6a6623f2810", label: "Upwork" },
+    {
+      href: "https://www.linkedin.com/in/sviatoslav-barbutsa/",
+      label: "LinkedIn",
+    },
+    {
+      href: "https://stackoverflow.com/users/5232122/velidan",
+      label: "StackOverflow",
+    },
+    {
+      href: "https://www.upwork.com/freelancers/~013ff3b6a6623f2810",
+      label: "Upwork",
+    },
   ],
 } as const;

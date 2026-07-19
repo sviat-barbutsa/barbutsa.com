@@ -1,0 +1,58 @@
+/* ============================================================
+   STATUS BAR (INSTRUMENTS_PLAN §4) — desktop only, fixed bottom.
+   body padding reserves the space, so nothing is ever covered.
+   ============================================================ */
+.status-bar {
+  display: none;
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 140;
+  height: 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding-inline: var(--gutter);
+  background: var(--color-bg);
+  border-top: var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-2);
+
+  & .sb-left,
+  & .sb-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  & .sb-sep {
+    color: var(--color-border);
+  }
+
+  & [data-sb-theme] {
+    color: var(--color-text-2);
+  }
+
+  & [data-sb-colo] {
+    color: var(--color-signal);
+  }
+
+  & [data-sb-section] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 768px) {
+  .status-bar {
+    display: flex;
+  }
+
+  body {
+    padding-block-end: 32px;
+  }
+}

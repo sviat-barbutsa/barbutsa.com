@@ -2,7 +2,7 @@
 /**
  * The one load-bearing animation on the site: a request finding its
  * nearest edge. SVG geometry from the approved Edge Atlas concept;
- * behavior in src/lib/atlas/svg-atlas.ts (route draw + pulse, hover
+ * behavior in src/lib/atlas/controller.ts (route draw + pulse, hover
  * tooltips, hot nodes, live readout). Colors are 100% CSS tokens, so
  * both themes and the animated theme switch work untouched. Pauses
  * offscreen; renders a static routed state under reduced motion.
@@ -41,7 +41,7 @@
         <path d="M540 150 Q615 150 690 170"></path>
       </g>
 
-      <!-- spokes: origin to each PoP (ids consumed by svg-atlas.ts) -->
+      <!-- spokes: origin to each PoP (ids consumed by atlas/view.ts) -->
       <g aria-hidden="true">
         <path class="spoke" id="sp-WAW" d="M400 270 Q485 205 540 150"></path>
         <path class="spoke" id="sp-LHR" d="M400 270 Q335 195 300 130"></path>
@@ -61,52 +61,148 @@
       <circle class="pulse" data-pulse r="3.5" cx="400" cy="270" aria-hidden="true"></circle>
 
       <!-- nodes -->
-      <g class="node origin" tabindex="0" data-code="ORIGIN" data-city="Origin" data-role="Workers · D1 · R2">
+      <g
+        class="node origin"
+        tabindex="0"
+        role="group"
+        aria-label="Origin: Workers, D1, and R2"
+        data-code="ORIGIN"
+        data-city="Origin"
+        data-role="Workers · D1 · R2"
+      >
         <circle class="halo" cx="400" cy="270" r="11"></circle>
         <circle class="core" cx="400" cy="270" r="4.5"></circle>
         <text x="400" y="296" text-anchor="middle">origin</text>
       </g>
-      <g class="node" tabindex="0" data-code="WAW" data-city="Warsaw" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Warsaw edge point"
+        data-code="WAW"
+        data-city="Warsaw"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="540" cy="150" r="9"></circle><circle class="core" cx="540" cy="150" r="3"></circle>
         <text x="554" y="146">WAW</text>
       </g>
-      <g class="node" tabindex="0" data-code="LHR" data-city="London" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="London edge point"
+        data-code="LHR"
+        data-city="London"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="300" cy="130" r="9"></circle><circle class="core" cx="300" cy="130" r="3"></circle>
         <text x="266" y="126">LHR</text>
       </g>
-      <g class="node" tabindex="0" data-code="FRA" data-city="Frankfurt" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Frankfurt edge point"
+        data-code="FRA"
+        data-city="Frankfurt"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="390" cy="110" r="9"></circle><circle class="core" cx="390" cy="110" r="3"></circle>
         <text x="402" y="102">FRA</text>
       </g>
-      <g class="node" tabindex="0" data-code="AMS" data-city="Amsterdam" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Amsterdam edge point"
+        data-code="AMS"
+        data-city="Amsterdam"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="330" cy="80" r="9"></circle><circle class="core" cx="330" cy="80" r="3"></circle>
         <text x="330" y="62" text-anchor="middle">AMS</text>
       </g>
-      <g class="node" tabindex="0" data-code="IAD" data-city="Washington DC" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Washington DC edge point"
+        data-code="IAD"
+        data-city="Washington DC"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="130" cy="200" r="9"></circle><circle class="core" cx="130" cy="200" r="3"></circle>
         <text x="96" y="196">IAD</text>
       </g>
-      <g class="node" tabindex="0" data-code="GRU" data-city="São Paulo" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="São Paulo edge point"
+        data-code="GRU"
+        data-city="São Paulo"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="200" cy="420" r="9"></circle><circle class="core" cx="200" cy="420" r="3"></circle>
         <text x="200" y="446" text-anchor="middle">GRU</text>
       </g>
-      <g class="node" tabindex="0" data-code="NRT" data-city="Tokyo" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Tokyo edge point"
+        data-code="NRT"
+        data-city="Tokyo"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="690" cy="170" r="9"></circle><circle class="core" cx="690" cy="170" r="3"></circle>
         <text x="704" y="166">NRT</text>
       </g>
-      <g class="node" tabindex="0" data-code="SIN" data-city="Singapore" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Singapore edge point"
+        data-code="SIN"
+        data-city="Singapore"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="640" cy="340" r="9"></circle><circle class="core" cx="640" cy="340" r="3"></circle>
         <text x="654" y="336">SIN</text>
       </g>
-      <g class="node" tabindex="0" data-code="SYD" data-city="Sydney" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Sydney edge point"
+        data-code="SYD"
+        data-city="Sydney"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="720" cy="440" r="9"></circle><circle class="core" cx="720" cy="440" r="3"></circle>
         <text x="720" y="466" text-anchor="middle">SYD</text>
       </g>
-      <g class="node" tabindex="0" data-code="JNB" data-city="Johannesburg" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Johannesburg edge point"
+        data-code="JNB"
+        data-city="Johannesburg"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="450" cy="430" r="9"></circle><circle class="core" cx="450" cy="430" r="3"></circle>
         <text x="450" y="456" text-anchor="middle">JNB</text>
       </g>
-      <g class="node" tabindex="0" data-code="DXB" data-city="Dubai" data-role="edge PoP">
+      <g
+        class="node"
+        tabindex="0"
+        role="group"
+        aria-label="Dubai edge point"
+        data-code="DXB"
+        data-city="Dubai"
+        data-role="edge PoP"
+      >
         <circle class="halo" cx="560" cy="260" r="9"></circle><circle class="core" cx="560" cy="260" r="3"></circle>
         <text x="574" y="256">DXB</text>
       </g>
@@ -114,7 +210,7 @@
 
     <div class="atlas-tip" data-atlas-tip role="status" aria-hidden="true"></div>
 
-    <p class="readout" aria-live="polite">
+    <p class="readout">
       <span class="dot" aria-hidden="true"></span>
       <span data-readout-text>route: <b>WAW</b> → client · ttfb <b>28ms</b> · cache: <span class="hit">HIT</span></span>
       <span class="caret" aria-hidden="true"></span>
@@ -123,13 +219,24 @@
 </div>
 
 <script>
-  import { initAtlas } from "@/lib/atlas/svg-atlas";
+  import { initAtlas } from "@/lib/atlas/controller";
   import { getTelemetry } from "@/lib/telemetry";
 
   const frame = document.querySelector<HTMLElement>("[data-atlas-frame]");
   if (frame) {
     const atlas = initAtlas(frame);
+    let active = true;
     /* never blocks first paint; the atlas upgrades itself when facts land */
-    getTelemetry().then((t) => atlas.setTelemetry(t));
+    getTelemetry().then((telemetry) => {
+      if (active) atlas.setTelemetry(telemetry);
+    });
+    addEventListener(
+      "pagehide",
+      () => {
+        active = false;
+        atlas.destroy();
+      },
+      { once: true },
+    );
   }
 </script>

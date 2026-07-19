@@ -9,7 +9,7 @@
 
    Never add rules to this file. If you are about to, you are
    looking for one of the imported files instead.
-   See ../CSS_ARCHITECTURE.md for the rules of the system.
+   See ../../docs/architecture/CSS_ARCHITECTURE.md for the rules.
    ============================================================ */
 
 @layer reset, tokens, base, composition, components, utilities;
@@ -19,5 +19,18 @@
 @import url("base.css") layer(base);
 @import url("theme-motion.css") layer(base);
 @import url("composition.css") layer(composition);
-@import url("components.css") layer(components);
+@import url("shared-motion.css") layer(components);
+@import url("components/core.css") layer(components);
+@import url("components/contact.css") layer(components);
+@import url("components/theme-toggle.css") layer(components);
+@import url("components/site-chrome.css") layer(components);
+@import url("components/atlas.css") layer(components);
+@import url("components/content.css") layer(components);
+@import url("components/home.css") layer(components);
+@import url("components/about.css") layer(components);
+@import url("components/styleguide.css") layer(components);
+@import url("components/terminal.css") layer(components);
+@import url("components/xray.css") layer(components);
+@import url("components/status-bar.css") layer(components);
+@import url("components/flamenco.css") layer(components);
 @import url("utilities.css") layer(utilities);

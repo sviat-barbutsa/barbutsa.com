@@ -1,14 +1,12 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import ArticleList from "@/components/ArticleList.astro";
 import Pager from "@/components/Pager.astro";
 import { PAGE_SIZE } from "@/data/pagination";
 import elsewhere from "@/data/writing-elsewhere.json";
+import { getPublishedArticles } from "@/lib/content/articles";
 
-const all = (await getCollection("articles", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const all = await getPublishedArticles();
 const pageArticles = all.slice(0, PAGE_SIZE);
 const last = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
 ---
@@ -19,33 +17,38 @@ const last = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
 >
   <div class="wrap page-head stack">
     <p class="kick"><span class="idx">LOG</span> Writing — field reports</p>
-    <h1 style="max-width: 14ch;">Notes from production.</h1>
+    <h1 class="page-title" data-measure="narrow">Notes from production.</h1>
     <p class="text-dim measure">
-      What held, what broke, and what was cheaper the second time. Written
-      after shipping, not before.
+      What held, what broke, and what was cheaper the second time. Written after shipping, not before.
     </p>
   </div>
 
   <section class="wrap region stack" aria-label="Articles">
     <ArticleList articles={pageArticles} />
-    <Pager
-      current={1}
-      last={last}
-      prevUrl={undefined}
-      nextUrl={last > 1 ? "/articles/page/2" : undefined}
-    />
+    <Pager current={1} last={last} prevUrl={undefined} nextUrl={last > 1 ? "/articles/page/2" : undefined} />
   </section>
 
   <section class="wrap region stack" aria-labelledby="h-elsewhere">
     <p class="kick"><span class="idx">EXT</span> Published elsewhere</p>
-    <h2 id="h-elsewhere" style="max-width: 16ch;">Local-first AI, in public.</h2>
+    <h2 id="h-elsewhere" class="section-title">Local-first AI, in public.</h2>
     <div>
       {
         elsewhere.map((e) => (
-          <a class="index-row" href={e.url} rel="noopener noreferrer" target="_blank" data-no-prerender style="grid-template-columns: 8rem 1fr auto;">
+          <a
+            class="index-row"
+            data-layout="dated"
+            href={e.url}
+            rel="noopener noreferrer"
+            target="_blank"
+            data-no-prerender
+          >
             <span class="no">{e.platform.toUpperCase()}</span>
-            <h3 style="font-size: var(--step-0); font-weight: 500;">{e.title}</h3>
-            <span class="label" data-tone="signal">READ ↗</span>
+            <h3 class="index-title" data-size="body">
+              {e.title}
+            </h3>
+            <span class="label" data-tone="signal">
+              READ ↗
+            </span>
           </a>
         ))
       }

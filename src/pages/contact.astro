@@ -18,33 +18,35 @@ const availableFor = [
 >
   <div class="wrap page-head stack">
     <p class="kick"><span class="idx">COMM</span> Contact — open a channel</p>
-    <h1 style="max-width: 16ch;">Let's talk about the system you want to build.</h1>
+    <h1 class="page-title">Let's talk about the system you want to build.</h1>
   </div>
 
   <section class="wrap region">
     <div class="sidebar" style="--sidebar-width: 20rem;">
       <div class="stack" style="--flow: var(--space-m);">
         <p class="text-dim measure">
-          Good briefs include: the system, the constraint, the deadline. A
-          paragraph and a repo link will do — no deck required. Replies within
-          one business day, usually faster.
+          Good briefs include: the system, the constraint, the deadline. A paragraph and a repo link will do — no deck
+          required. Replies within one business day, usually faster.
         </p>
         <p>
-          <a
-            class="mono"
-            style="font-size: var(--step-2); color: var(--color-signal); border-bottom: 1px solid currentColor;"
-            href={`mailto:${site.email}`}
-          >
+          <a class="contact-email mono" href={`mailto:${site.email}`}>
             {site.email}
           </a>
         </p>
-        <ul class="cluster" role="list" style="--cluster-gap: var(--space-s);">
+        <ul class="cluster list-plain" style="--cluster-gap: var(--space-s);">
           {
             site.social
               .filter((s) => s.href.startsWith("http"))
               .map((s) => (
                 <li>
-                  <a class="btn" data-kind="ghost" href={s.href} rel="noopener noreferrer" target="_blank" data-no-prerender>
+                  <a
+                    class="btn"
+                    data-kind="ghost"
+                    href={s.href}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    data-no-prerender
+                  >
                     {s.label} ↗
                   </a>
                 </li>
@@ -54,15 +56,15 @@ const availableFor = [
       </div>
 
       <div class="panel">
-        <p class="label" data-tone="signal" style="margin-bottom: var(--space-s);">
-          AVAILABLE FOR
-        </p>
-        <ul role="list" class="stack" style="--flow: var(--space-xs);">
+        <p class="contact-panel-title label" data-tone="signal">AVAILABLE FOR</p>
+        <ul class="stack list-plain" style="--flow: var(--space-xs);">
           {
             availableFor.map((item) => (
-              <li class="repel" style="border-bottom: var(--hairline); padding-bottom: var(--space-xs); font-size: var(--step--1);">
+              <li class="availability-row repel">
                 {item}
-                <span aria-hidden="true" style="color: var(--color-signal);">●</span>
+                <span class="availability-status" aria-hidden="true">
+                  ●
+                </span>
               </li>
             ))
           }

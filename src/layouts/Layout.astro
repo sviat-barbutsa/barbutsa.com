@@ -2,8 +2,10 @@
 import "@/styles/main.css";
 import "@/styles/fonts.css";
 import { site } from "@/data/site";
-import ThemeToggle from "@/components/ThemeToggle.astro";
 import StatusBar from "@/components/StatusBar.astro";
+import SiteFooter from "@/components/layout/SiteFooter.astro";
+import SiteHeader from "@/components/layout/SiteHeader.astro";
+import XrayLegend from "@/components/layout/XrayLegend.astro";
 
 interface Props {
   title?: string;
@@ -13,8 +15,42 @@ interface Props {
 const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
 const path = Astro.url.pathname.replace(/\.html$/, "");
-const isActive = (href: string): boolean =>
-  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+const canonicalUrl = new URL(path === "/" ? "/" : path, site.url);
+const ogImage = new URL("/og-image.png", site.url);
+const ogImageAlt = `${site.name} — ${site.role} — sviatoslav.dev`;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${site.url}/#person`,
+      name: site.name,
+      jobTitle: site.role,
+      email: `mailto:${site.email}`,
+      url: site.url,
+      image: ogImage.href,
+      sameAs: site.social.filter((s) => s.href.startsWith("https://")).map((s) => s.href),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      name: site.name,
+      description: site.description,
+      url: site.url,
+      publisher: { "@id": `${site.url}/#person` },
+    },
+  ],
+};
+const speculationRules = {
+  prerender: [
+    {
+      where: {
+        and: [{ href_matches: "/*" }, { not: { selector_matches: "[data-no-prerender]" } }],
+      },
+      eagerness: "moderate",
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -24,12 +60,30 @@ const isActive = (href: string): boolean =>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#141412" />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ece9e2" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141412" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href={new URL(path === "/" ? "/" : path, site.url)} />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
     <!-- THEME BOOTSTRAP — before the stylesheet paints; applies only a
          STORED choice (tokens.css color-scheme handles the OS default).
@@ -38,9 +92,10 @@ const isActive = (href: string): boolean =>
       (() => {
         try {
           const t = localStorage.getItem("atlas-theme");
-          if (t === "light" || t === "dark")
-            document.documentElement.dataset.theme = t;
-        } catch {}
+          if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+        } catch {
+          /* storage may be blocked before paint */
+        }
       })();
     </script>
 
@@ -53,33 +108,42 @@ const isActive = (href: string): boolean =>
          tokens.css still owns the real values: it loads later in the
          cascade and overrides. -->
     <style is:inline>
-      html { background-color: #141412; color-scheme: dark; }
-      @media (prefers-color-scheme: light) {
-        html:not([data-theme]) { background-color: #ece9e2; color-scheme: light; }
+      html {
+        background-color: #141412;
+        color-scheme: dark;
       }
-      html[data-theme="light"] { background-color: #ece9e2; color-scheme: light; }
+
+      @media (prefers-color-scheme: light) {
+        html:not([data-theme]) {
+          background-color: #ece9e2;
+          color-scheme: light;
+        }
+      }
+
+      html[data-theme="light"] {
+        background-color: #ece9e2;
+        color-scheme: light;
+      }
     </style>
     <!-- self-hosted fonts (scripts/fetch-fonts.mjs) -->
-    <link rel="preload" href="/fonts/v9-3y9K6as8bTXqnANBjzKo3IeZx8z6up5BeSl9D4djx9PpZBMlGIInE.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/v24-tDbv2o-flEEny0FZhsfKu5WU4zr3EBX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/v9-3y9K6as8bTXqnANBjzKo3IeZx8z6up5BeSl9D4djx9PpZBMlGIInE.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/v24-tDbv2o-flEEny0FZhsfKu5WU4zr3EBX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Speculation Rules: prerender internal links on interaction intent.
          Unsupported browsers ignore the script tag entirely. (STACK_PLAN §6.1) -->
-    <script type="speculationrules" is:inline>
-      {
-        "prerender": [
-          {
-            "where": {
-              "and": [
-                { "href_matches": "/*" },
-                { "not": { "selector_matches": "[data-no-prerender]" } }
-              ]
-            },
-            "eagerness": "moderate"
-          }
-        ]
-      }
-    </script>
+    <script type="speculationrules" is:inline set:html={JSON.stringify(speculationRules)} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
@@ -87,101 +151,14 @@ const isActive = (href: string): boolean =>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
-    <header class="site-head">
-      <div class="wrap bar">
-        <a class="brand mono" href="/" aria-label={`SB / EDGE — ${site.name}, home`}>
-          <span class="tick" aria-hidden="true"></span>
-          SB&nbsp;/&nbsp;EDGE
-        </a>
-        <nav aria-label="Main">
-          <ul class="site-nav" role="list">
-            {
-              site.nav.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
-        <ThemeToggle />
-      </div>
-    </header>
-    <span id="theme-status" class="visually-hidden" aria-live="polite"></span>
+    <SiteHeader path={path} />
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
 
-    <footer class="site-foot">
-      <div class="wrap repel" style="--repel-align: center;">
-        <div>
-          <p class="mono" style="font-size: var(--mono-s); font-weight: 700;">
-            {site.name}
-          </p>
-          <p class="label">
-            FRONTEND ARCHITECTURE · AI SYSTEMS · CLOUDFLARE-FIRST
-          </p>
-        </div>
-        <ul class="cluster" role="list">
-          {
-            site.social.map((s) => (
-              <li>
-                <a
-                  class="label foot-link"
-                  href={s.href}
-                  rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  target={s.href.startsWith("http") ? "_blank" : undefined}
-                >
-                  {s.label.toUpperCase()}
-                </a>
-              </li>
-            ))
-          }
-          <li>
-            <button
-              type="button"
-              class="label foot-btn"
-              data-xray-toggle
-              aria-pressed="false"
-              title="Annotate the page with its own architecture"
-            >
-              XRAY
-            </button>
-          </li>
-        </ul>
-      </div>
-    </footer>
-
-    <!-- x-ray legend — visible only under html[data-xray] (INSTRUMENTS_PLAN §2).
-         Carries its own OFF switch: on small screens it may cover the
-         footer's XRAY button, so it must be dismissible from itself. -->
-    <aside class="xray-legend" aria-label="X-ray legend">
-      <p class="xl-title">
-        X-RAY · CSS SYSTEM
-        <span class="xl-actions">
-          <button type="button" class="xl-close" data-xray-pin aria-label="Move legend to the top edge">↑&nbsp;PIN&nbsp;TOP</button>
-          <button type="button" class="xl-close" data-xray-toggle aria-label="Turn off x-ray mode">×&nbsp;OFF</button>
-        </span>
-      </p>
-      <p><i class="xl-swatch xl-region"></i>.region — section rhythm</p>
-      <p><i class="xl-swatch xl-stack"></i>.stack — vertical flow</p>
-      <p><i class="xl-swatch xl-cluster"></i>.cluster / .repel — rows</p>
-      <p><i class="xl-swatch xl-grid"></i>.grid / .sidebar — 2D layout</p>
-      <p class="xl-tokens">
-        tokens:
-        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-bg)"></i>bg</span>
-        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-surface)"></i>surface</span>
-        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-text)"></i>text</span>
-        <span class="xl-pair"><i class="xl-chip" style="background: var(--color-signal)"></i>signal (accent)</span>
-      </p>
-      <p class="xl-note">layers: reset → tokens → base → composition → components → utilities</p>
-    </aside>
+    <SiteFooter />
+    <XrayLegend />
 
     <StatusBar />
 
@@ -189,9 +166,14 @@ const isActive = (href: string): boolean =>
       import { initThemeController } from "@/theme/theme-controller";
       import { initXray } from "@/lib/xray";
       import { initNavLine } from "@/lib/nav-line";
-      initThemeController();
-      initXray();
-      initNavLine();
+      const cleanups = [initThemeController(), initXray(), initNavLine()];
+      addEventListener(
+        "pagehide",
+        () => {
+          cleanups.forEach((cleanup) => cleanup());
+        },
+        { once: true },
+      );
     </script>
   </body>
 </html>

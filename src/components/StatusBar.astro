@@ -22,93 +22,11 @@
 </div>
 
 <script>
-  import { getTelemetry } from "@/lib/telemetry";
+  import { initStatusBar } from "@/lib/status-bar/controller";
 
   const bar = document.querySelector<HTMLElement>(".status-bar");
   if (bar) {
-    const $ = (sel: string) => bar.querySelector<HTMLElement>(sel);
-    const sectionEl = $("[data-sb-section]");
-    const scrollEl = $("[data-sb-scroll]");
-    const coloEl = $("[data-sb-colo]");
-    const themeEl = $("[data-sb-theme]");
-    const clockEl = $("[data-sb-clock]");
-
-    /* section — track each .region's kick text (Monograph pattern) */
-    const regions = Array.from(document.querySelectorAll<HTMLElement>(".region"));
-    if (sectionEl && "IntersectionObserver" in window && regions.length) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (!e.isIntersecting) continue;
-            const kick = e.target.querySelector(".kick");
-            const label = (kick?.textContent ?? document.title)
-              .replace(/\s+/g, " ")
-              .trim()
-              .toLowerCase();
-            sectionEl.textContent = `§ ${label.slice(0, 36)}`;
-          }
-        },
-        { rootMargin: "-40% 0px -55% 0px" },
-      );
-      regions.forEach((r) => io.observe(r));
-    }
-
-    /* scroll % — passive + rAF-throttled */
-    if (scrollEl) {
-      let ticking = false;
-      const update = () => {
-        const max = document.documentElement.scrollHeight - innerHeight;
-        const pct = max > 0 ? Math.round((scrollY / max) * 100) : 0;
-        scrollEl.textContent = `${pct}%`;
-        ticking = false;
-      };
-      addEventListener(
-        "scroll",
-        () => {
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(update);
-          }
-        },
-        { passive: true },
-      );
-      update();
-    }
-
-    /* theme — html[data-theme] is the single source of truth */
-    if (themeEl) {
-      const readTheme = () =>
-        (themeEl.textContent =
-          document.documentElement.dataset.theme ??
-          (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
-      readTheme();
-      new MutationObserver(readTheme).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-theme"],
-      });
-    }
-
-    /* utc clock — minute resolution */
-    if (clockEl) {
-      const tick = () => {
-        const d = new Date();
-        clockEl.textContent = `utc ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
-      };
-      tick();
-      setInterval(tick, 30_000);
-    }
-
-    /* colo + measured ttfb (F1's module, second consumer) */
-    if (coloEl) {
-      getTelemetry().then((t) => {
-        if (!t?.colo && t?.ttfbMs === undefined) return;
-        const bits = [t.colo, t.ttfbMs !== undefined ? `${t.ttfbMs}ms` : null]
-          .filter(Boolean)
-          .join(" · ");
-        coloEl.textContent = bits;
-        coloEl.hidden = false;
-        coloEl.insertAdjacentHTML("afterend", '<span class="sb-sep">·</span>');
-      });
-    }
+    const statusBar = initStatusBar(bar);
+    addEventListener("pagehide", () => statusBar.destroy(), { once: true });
   }
 </script>

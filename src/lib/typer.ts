@@ -11,7 +11,8 @@
  *  - no layout shift: the container reserves its height in CSS
  */
 
-import { register, deregister } from "./canvas-engine/registry";
+import { createActivityGate } from "./runtime/activity-gate";
+import { registerPausable } from "./runtime/pause-registry";
 
 export interface TyperOptions {
   /** ms per typed character (± jitter). */
@@ -45,18 +46,18 @@ export interface TyperHandle {
 /** Ambient rotation controls per element — lets features like the
  *  shell suspend the doctrine rotation and restart it later without
  *  knowing phrases/options (Typewriter.astro registers them). */
-export const ambientControls = new WeakMap<
-  HTMLElement,
-  { stop(): void; start(): void }
->();
+export const ambientControls = new WeakMap<HTMLElement, { stop(): void; start(): void }>();
 
-export function initTyper(
-  el: HTMLElement,
-  phrases: readonly string[],
-  options: TyperOptions = {},
-): TyperHandle {
+export function initTyper(el: HTMLElement, phrases: readonly string[], options: TyperOptions = {}): TyperHandle {
   if (phrases.length === 0) return { destroy: () => {} };
-  const { typeMs: TYPE_MS, jitterMs: JITTER_MS, eraseMs: ERASE_MS, holdMs: HOLD_MS, blinkMs: BLINK_MS, loop: LOOP } = { ...DEFAULTS, ...options };
+  const {
+    typeMs: TYPE_MS,
+    jitterMs: JITTER_MS,
+    eraseMs: ERASE_MS,
+    holdMs: HOLD_MS,
+    blinkMs: BLINK_MS,
+    loop: LOOP,
+  } = { ...DEFAULTS, ...options };
   const onDone = options.onDone;
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -70,9 +71,7 @@ export function initTyper(
   let phase: "type" | "hold" | "erase" | "blink" = "type";
   let timer = 0;
   let finished = false;
-  let pausedExternally = false;
-  let visible = true;
-  let pageVisible = document.visibilityState === "visible";
+  let active = true;
   let running = false;
 
   const phrase = (): string => phrases[index % phrases.length]!;
@@ -122,7 +121,7 @@ export function initTyper(
   };
 
   const sync = (): void => {
-    const should = !pausedExternally && visible && pageVisible && !finished;
+    const should = active && !finished;
     if (should && !running) {
       running = true;
       timer = window.setTimeout(step, 200);
@@ -132,33 +131,21 @@ export function initTyper(
     }
   };
 
-  const onVisibility = (): void => {
-    pageVisible = document.visibilityState === "visible";
-    sync();
-  };
-  document.addEventListener("visibilitychange", onVisibility);
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      visible = entries[entries.length - 1]?.isIntersecting ?? true;
+  const activity = createActivityGate({
+    target: el,
+    rootMargin: "32px",
+    onActiveChange: (next) => {
+      active = next;
       sync();
     },
-    { rootMargin: "32px" },
-  );
-  io.observe(el);
+  });
 
   const pausable = {
-    pause: (): void => {
-      pausedExternally = true;
-      sync();
-    },
-    resume: (): void => {
-      pausedExternally = false;
-      sync();
-    },
+    pause: () => activity.pause(),
+    resume: () => activity.resume(),
     refreshTheme: (): void => {},
   };
-  register(pausable);
+  const unregister = registerPausable(pausable);
 
   sync();
 
@@ -166,9 +153,8 @@ export function initTyper(
     destroy: (): void => {
       running = false;
       clearTimeout(timer);
-      io.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-      deregister(pausable);
+      activity.destroy();
+      unregister();
     },
   };
 }

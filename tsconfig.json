@@ -1,9 +1,10 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*"],
-  "exclude": ["dist"],
+  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "*.config.js", "*.config.mjs", "*.config.ts"],
+  "exclude": ["dist", "coverage", "playwright-report", "test-results"],
   "compilerOptions": {
     "baseUrl": ".",
+    "noEmit": true,
     "paths": { "@/*": ["src/*"] }
   }
 }

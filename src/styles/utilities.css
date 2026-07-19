@@ -11,12 +11,25 @@
    composition/components should absorb the pattern.
    ============================================================ */
 
-.mono { font-family: var(--font-mono); }
+.mono {
+  font-family: var(--font-mono);
+}
 
-.text-signal { color: var(--color-signal); }
-.text-dim { color: var(--color-text-2); }
+.text-signal {
+  color: var(--color-signal);
+}
 
-.measure { max-width: var(--measure); }
+.text-dim {
+  color: var(--color-text-2);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.list-plain {
+  list-style: none;
+}
 
 .uppercase-label {
   font-family: var(--font-mono);

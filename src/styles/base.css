@@ -26,10 +26,22 @@ h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: var(--step-4); line-height: var(--leading-tight); }
-h2 { font-size: var(--step-3); }
-h3 { font-size: var(--step-2); }
-h4 { font-size: var(--step-1); }
+h1 {
+  font-size: var(--step-4);
+  line-height: var(--leading-tight);
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-2);
+}
+
+h4 {
+  font-size: var(--step-1);
+}
 
 p {
   max-width: var(--measure);
@@ -45,7 +57,7 @@ strong {
 }
 
 em {
-  font-style: normal;         /* Edge Atlas has no italics; emphasis = accent */
+  font-style: normal; /* Edge Atlas has no italics; emphasis = accent */
   color: var(--color-signal);
 }
 

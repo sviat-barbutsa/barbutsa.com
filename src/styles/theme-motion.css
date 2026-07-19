@@ -3,34 +3,22 @@
    ------------------------------------------------------------
    View Transition snapshot rules for the ANIMATED THEME SWITCH
    (fluid / radial strategies). See:
-   docs and showcases/css/theme-switch-showcases/
+   ../../../docs and showcases/css/theme-switch-showcases/
      FLUID_RADIAL_IMPLEMENTATION_PLAN.md  (+ Atlas addendum)
 
    CRITICAL SCOPING RULE
    Every selector here is gated on html[data-theme-motion],
    which the theme controller sets only while a theme switch
-   runs. WITHOUT the gate these rules would also disable the
-   default animations of CROSS-DOCUMENT view transitions
-   (@view-transition page navigation), which this site uses.
-   Never remove the gate.
+   runs. The gate keeps these rules isolated from any future
+   navigation transition experiment. Never remove it.
 
    Note the selectors have NO descendant space: the
    ::view-transition-* pseudo-elements hang off the root
    element itself.
    ============================================================ */
 
-/* The site's cross-document page transitions (MPA navigation). */
-/* >>> BISECT 2026-07-13: temporarily disabled to isolate the white
-   blink between pages (fonts self-hosted + canvas guard did not fix
-   it; this is the last site-controlled variable). If the blink is
-   gone with this off, the cross-doc VT is the culprit — re-enable
-   together with a `::view-transition { background-color: var(--color-bg) }`
-   backstop and retest before deciding to keep or drop it. <<< */
-/*
-@view-transition {
-  navigation: auto;
-}
-*/
+/* Cross-document navigation transitions are intentionally absent.
+   The protected page-transitions.css experiment is not imported. */
 
 /* Theme switch only: take over the snapshot animation entirely. */
 html[data-theme-motion]::view-transition-group(root) {

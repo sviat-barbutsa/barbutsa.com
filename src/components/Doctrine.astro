@@ -16,7 +16,7 @@ import doctrine from "@/data/doctrine.json";
 
 <script>
   import { ambientControls } from "@/lib/typer";
-  import { initShell, type ShellAction } from "@/lib/shell";
+  import { initShell, type ShellAction } from "@/lib/shell/controller";
   import { toggleXray } from "@/lib/xray";
   import { site } from "@/data/site";
   import labs from "@/data/labs.json";
@@ -65,9 +65,7 @@ import doctrine from "@/data/doctrine.json";
       theme: {
         type: "run",
         fn: () => {
-          document
-            .querySelector<HTMLButtonElement>("[data-theme-toggle]")
-            ?.click();
+          document.querySelector<HTMLButtonElement>("[data-theme-toggle]")?.click();
         },
       },
       xray: {
@@ -83,13 +81,14 @@ import doctrine from "@/data/doctrine.json";
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
         return "this easter egg requires motion — respecting your settings";
       }
-      void import("@/lib/flamenco").then((m) => m.openFlamenco());
+      const invoker = document.querySelector<HTMLElement>(".shell-open-btn");
+      void import("@/lib/flamenco").then((module) => module.openFlamenco(invoker));
     };
     commands["flamenco"] = { type: "run", fn: launchFlamenco };
     commands[".flamenco"] = { type: "run", fn: launchFlamenco };
     commands["./.flamenco"] = { type: "run", fn: launchFlamenco };
 
-    initShell(root, {
+    const shell = initShell(root, {
       commands,
       suspendAmbient: () => ambient?.stop(),
       resumeAmbient: () => ambient?.start(),
@@ -97,5 +96,6 @@ import doctrine from "@/data/doctrine.json";
         if (status) status.textContent = text;
       },
     });
+    addEventListener("pagehide", () => shell.destroy(), { once: true });
   }
 </script>

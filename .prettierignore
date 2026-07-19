@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+public/fonts/
+src/styles/page-transitions.css

@@ -1,15 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import ArticleList from "@/components/ArticleList.astro";
 import Pager from "@/components/Pager.astro";
 import { PAGE_SIZE } from "@/data/pagination";
+import { getPublishedArticles } from "@/lib/content/articles";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const all = (await getCollection("articles", ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const all = await getPublishedArticles();
   // Page 1 lives at /articles (see articles/index.astro); this route
   // renders sheet 2 and onward as prebuilt static pages.
   return paginate(all, { pageSize: PAGE_SIZE });
@@ -22,12 +20,8 @@ if (page.currentPage === 1) {
   return Astro.redirect("/articles", 301);
 }
 
-const prevUrl =
-  page.currentPage === 2 ? "/articles" : `/articles/page/${page.currentPage - 1}`;
-const nextUrl =
-  page.currentPage < page.lastPage
-    ? `/articles/page/${page.currentPage + 1}`
-    : undefined;
+const prevUrl = page.currentPage === 2 ? "/articles" : `/articles/page/${page.currentPage - 1}`;
+const nextUrl = page.currentPage < page.lastPage ? `/articles/page/${page.currentPage + 1}` : undefined;
 ---
 
 <Layout
@@ -35,17 +29,14 @@ const nextUrl =
   description="Field reports on frontend architecture, AI integration, and systems that stay understandable."
 >
   <div class="wrap page-head stack">
-    <p class="kick"><span class="idx">LOG</span> Writing — sheet {page.currentPage} of {page.lastPage}</p>
-    <h1 style="max-width: 14ch;">Notes from production.</h1>
+    <p class="kick">
+      <span class="idx">LOG</span> Writing — sheet {page.currentPage} of {page.lastPage}
+    </p>
+    <h1 class="page-title" data-measure="narrow">Notes from production.</h1>
   </div>
 
   <section class="wrap region stack" aria-label="Articles">
     <ArticleList articles={page.data} />
-    <Pager
-      current={page.currentPage}
-      last={page.lastPage}
-      prevUrl={prevUrl}
-      nextUrl={nextUrl}
-    />
+    <Pager current={page.currentPage} last={page.lastPage} prevUrl={prevUrl} nextUrl={nextUrl} />
   </section>
 </Layout>

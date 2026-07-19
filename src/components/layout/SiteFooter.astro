@@ -1,0 +1,41 @@
+---
+import { site } from "@/data/site";
+---
+
+<footer class="site-foot">
+  <div class="wrap repel" style="--repel-align: center;">
+    <div>
+      <p class="site-foot-brand mono">
+        {site.name}
+      </p>
+      <p class="label">FRONTEND ARCHITECTURE · AI SYSTEMS · CLOUDFLARE-FIRST</p>
+    </div>
+    <ul class="cluster list-plain">
+      {
+        site.social.map((social) => (
+          <li>
+            <a
+              class="label foot-link"
+              href={social.href}
+              rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              target={social.href.startsWith("http") ? "_blank" : undefined}
+            >
+              {social.label.toUpperCase()}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <button
+          type="button"
+          class="label foot-btn"
+          data-xray-toggle
+          aria-pressed="false"
+          title="Annotate the page with its own architecture"
+        >
+          XRAY
+        </button>
+      </li>
+    </ul>
+  </div>
+</footer>

@@ -6,15 +6,19 @@
  *
  * Event-driven by the site's motion rules: it moves on hover/focus and
  * settles back on the current page's link — no ambient work. Without
- * JS the static aria-current underline (components.css) still renders,
+ * JS the static aria-current underline (components/site-chrome.css) still renders,
  * so this is pure progressive enhancement.
  */
 
-export function initNavLine(): void {
+let cleanupCurrent: (() => void) | null = null;
+
+export function initNavLine(): () => void {
+  cleanupCurrent?.();
   const nav = document.querySelector<HTMLElement>(".site-nav");
-  if (!nav) return;
+  if (!nav) return () => {};
   const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"));
-  if (!links.length) return;
+  if (!links.length) return () => {};
+  const removers: Array<() => void> = [];
 
   const home = nav.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
 
@@ -33,17 +37,38 @@ export function initNavLine(): void {
   place(home);
   /* enable transitions only after first placement — the line must not
      fly in from x:0 on page load */
-  requestAnimationFrame(() => {
+  const readyFrame = requestAnimationFrame(() => {
     nav.dataset.lineReady = "";
   });
 
   for (const a of links) {
-    a.addEventListener("mouseenter", () => place(a));
-    a.addEventListener("focus", () => place(a));
+    const onPlace = (): void => place(a);
+    a.addEventListener("mouseenter", onPlace);
+    a.addEventListener("focus", onPlace);
+    removers.push(() => {
+      a.removeEventListener("mouseenter", onPlace);
+      a.removeEventListener("focus", onPlace);
+    });
   }
-  nav.addEventListener("mouseleave", () => place(home));
-  nav.addEventListener("focusout", (e) => {
-    if (!nav.contains(e.relatedTarget as Node | null)) place(home);
+  const onLeave = (): void => place(home);
+  const onFocusOut = (event: FocusEvent): void => {
+    if (!nav.contains(event.relatedTarget as Node | null)) place(home);
+  };
+  const onResize = (): void => place(home);
+  nav.addEventListener("mouseleave", onLeave);
+  nav.addEventListener("focusout", onFocusOut);
+  addEventListener("resize", onResize, { passive: true });
+  removers.push(() => {
+    nav.removeEventListener("mouseleave", onLeave);
+    nav.removeEventListener("focusout", onFocusOut);
+    removeEventListener("resize", onResize);
   });
-  addEventListener("resize", () => place(home), { passive: true });
+
+  const cleanup = (): void => {
+    cancelAnimationFrame(readyFrame);
+    removers.forEach((remove) => remove());
+    if (cleanupCurrent === cleanup) cleanupCurrent = null;
+  };
+  cleanupCurrent = cleanup;
+  return cleanup;
 }

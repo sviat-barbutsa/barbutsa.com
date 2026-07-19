@@ -17,7 +17,10 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Retain Safari text sizing compatibility. */
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -54,8 +57,6 @@ a {
   text-decoration: none;
 }
 
-ul[role="list"],
-ol[role="list"],
 nav ul,
 nav ol {
   list-style: none;

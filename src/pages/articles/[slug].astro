@@ -1,10 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import { getPublishedArticles } from "@/lib/content/articles";
 
 export const getStaticPaths = (async () => {
-  const articles = await getCollection("articles", ({ data }) => !data.draft);
+  const articles = await getPublishedArticles();
   return articles.map((article) => ({
     params: { slug: article.id },
     props: { article },
@@ -21,14 +22,14 @@ const fmt = article.data.date.toLocaleDateString("en-US", {
 ---
 
 <Layout title={article.data.title} description={article.data.summary}>
-  <article class="wrap region stack" style="--flow: var(--space-l);">
-    <header class="stack" style="--flow: var(--space-m); max-width: 52rem;">
+  <article class="article-report wrap region stack" style="--flow: var(--space-l);">
+    <header class="article-header stack" style="--flow: var(--space-m);">
       <p class="kick">
         <span class="idx">{article.data.category.toUpperCase()}</span>
         {fmt.toUpperCase()} · {article.data.readTime.toUpperCase()} READ
       </p>
-      <h1 style="max-width: 18ch;">{article.data.title}</h1>
-      <p class="text-dim" style="font-size: var(--step-1); max-width: var(--measure);">
+      <h1 class="article-title">{article.data.title}</h1>
+      <p class="article-summary text-dim">
         {article.data.summary}
       </p>
     </header>
@@ -37,7 +38,7 @@ const fmt = article.data.date.toLocaleDateString("en-US", {
       <Content />
     </div>
 
-    <nav class="pager" aria-label="Article navigation" style="max-width: var(--measure);">
+    <nav class="pager" aria-label="Article navigation">
       <a href="/articles">← ALL ARTICLES</a>
       <span class="label">END OF REPORT</span>
     </nav>

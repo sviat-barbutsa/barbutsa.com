@@ -1,0 +1,12 @@
+.styleguide-swatch {
+  height: 56px;
+  border: var(--hairline);
+  background: var(--swatch-color);
+}
+
+.styleguide-h1-sample {
+  font-size: var(--step-4);
+  font-weight: 640;
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}

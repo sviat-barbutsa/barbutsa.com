@@ -1,0 +1,11 @@
+/* Shared status and caret pulse used by independent site features. */
+@keyframes brand-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}

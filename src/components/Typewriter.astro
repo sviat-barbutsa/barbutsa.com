@@ -4,9 +4,9 @@
  * "hook": markup + binding here, behavior in src/lib/typer.ts.
  *
  * Reusable by design:
- *  - any number of instances per page (the script binds them all)
+ *  - multiple instances per page (the script binds them all)
  *  - phrases and speeds passed as props, serialized to data-attrs
- *  - NO layout shift at any width: a hidden ghost of the LONGEST
+ *  - NO layout shift at every width: a hidden ghost of the LONGEST
  *    phrase occupies the same grid cell as the live line, so the
  *    box is always sized as if the longest phrase were fully typed —
  *    wrapped lines included.
@@ -25,7 +25,7 @@ interface Props extends TyperOptions {
   srLabel?: string;
 }
 
-const { phrases, prompt = "~$", srLabel = "Notes", ...options } = Astro.props;
+const { phrases, prompt = "~$", srLabel = "Notes", ...options } = Astro.props as Props;
 
 /* The ghost reserves space for the worst case. */
 const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
@@ -51,13 +51,14 @@ const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
 
   /* Bind every instance on the page — the script is deduped by Astro,
      so it runs once no matter how many <Typewriter>s exist. */
+  const controls: Array<{ stop(): void }> = [];
   for (const root of document.querySelectorAll<HTMLElement>("[data-typer]")) {
     const el = root.querySelector<HTMLElement>("[data-typer-text]");
     if (!el) continue;
     const phrases = JSON.parse(root.dataset.typerPhrases ?? "[]") as string[];
     const options = JSON.parse(root.dataset.typerOptions ?? "{}") as TyperOptions;
     let handle: TyperHandle | null = initTyper(el, phrases, options);
-    ambientControls.set(root, {
+    const control = {
       stop() {
         handle?.destroy();
         handle = null;
@@ -68,6 +69,9 @@ const longest = [...phrases].sort((a, b) => b.length - a.length)[0] ?? "";
         el.textContent = "";
         handle = initTyper(el, phrases, options);
       },
-    });
+    };
+    ambientControls.set(root, control);
+    controls.push(control);
   }
+  addEventListener("pagehide", () => controls.forEach((control) => control.stop()), { once: true });
 </script>

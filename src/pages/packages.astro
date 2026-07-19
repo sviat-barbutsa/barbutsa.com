@@ -8,37 +8,49 @@ import packages from "@/data/packages.json";
   description="Open-source React libraries: bottom sheets, drag-and-drop reordering, Lexical mentions, cropping, screen stacks, infinite tables."
 >
   <div class="wrap page-head stack">
-    <p class="kick"><span class="idx">PKG</span> Open-source component engineering</p>
-    <h1 style="max-width: 16ch;">Six libraries, extracted from production.</h1>
+    <p class="kick">
+      <span class="idx">PKG</span> Open-source component engineering
+    </p>
+    <h1 class="page-title">Six libraries, extracted from production.</h1>
     <p class="text-dim measure">
-      Complex components pulled out of real products into standalone,
-      documented, tested packages. Each has its own repo, demo, and CI —
-      self-sufficiency is the point.
+      Complex components pulled out of real products into standalone, documented, tested packages. Each has its own
+      repo, demo, and CI — self-sufficiency is the point.
     </p>
   </div>
 
   <section class="wrap region" aria-label="Package index">
     {
       packages.map((pkg, i) => (
-        <article class="index-row" style="grid-template-columns: 3.5rem 1fr auto;">
+        <article class="index-row">
           <span class="no">/{String(i + 1).padStart(2, "0")}</span>
           <div>
-            <h2 class="mono" style="font-size: var(--step-1); font-weight: 700;">{pkg.name}</h2>
-            <p class="text-dim" style="font-size: var(--step--1); max-width: 52ch;">
-              {pkg.oneLiner}
-            </p>
-            <p class="cluster" style="margin-top: var(--space-2xs); --cluster-gap: var(--space-s);">
-              <a class="label foot-link" data-tone="signal" href={pkg.demo} rel="noopener noreferrer" target="_blank" data-no-prerender>DEMO ↗</a>
-              <a class="label foot-link" href={pkg.repo} rel="noopener noreferrer" target="_blank" data-no-prerender>GITHUB ↗</a>
-              <a class="label foot-link" href={pkg.npm} rel="noopener noreferrer" target="_blank" data-no-prerender>NPM ↗</a>
+            <h2 class="index-title mono" data-weight="strong">
+              {pkg.name}
+            </h2>
+            <p class="index-summary text-dim">{pkg.oneLiner}</p>
+            <p class="index-meta cluster" style="--cluster-gap: var(--space-s);">
+              <a
+                class="label foot-link"
+                data-tone="signal"
+                href={pkg.demo}
+                rel="noopener noreferrer"
+                target="_blank"
+                data-no-prerender
+              >
+                DEMO ↗
+              </a>
+              <a class="label foot-link" href={pkg.repo} rel="noopener noreferrer" target="_blank" data-no-prerender>
+                GITHUB ↗
+              </a>
+              <a class="label foot-link" href={pkg.npm} rel="noopener noreferrer" target="_blank" data-no-prerender>
+                NPM ↗
+              </a>
             </p>
           </div>
           <span class="label">{pkg.status.toUpperCase()}</span>
         </article>
       ))
     }
-    <p class="label" style="margin-top: var(--space-m);">
-      PRE-RELEASE = EXTRACTED, TESTED, AWAITING FIRST PUBLISH
-    </p>
+    <p class="catalog-note label">PRE-RELEASE = EXTRACTED, TESTED, AWAITING FIRST PUBLISH</p>
   </section>
 </Layout>

@@ -1,0 +1,37 @@
+---
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { site } from "@/data/site";
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const isActive = (href: string): boolean =>
+  href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
+---
+
+<header class="site-head">
+  <div class="wrap bar">
+    <a class="brand mono" href="/" aria-label={`SB / EDGE — ${site.name}, home`}>
+      <span class="tick" aria-hidden="true"></span>
+      SB&nbsp;/&nbsp;EDGE
+    </a>
+    <nav aria-label="Main">
+      <ul class="site-nav">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <ThemeToggle />
+  </div>
+</header>
+
+<span id="theme-status" class="visually-hidden" aria-live="polite"></span>

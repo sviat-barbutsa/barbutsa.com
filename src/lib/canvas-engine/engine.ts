@@ -15,7 +15,8 @@
 
 import { EntityGroup, type Entity, type FrameInfo } from "./entity";
 import { readTokens } from "./theme";
-import { register, deregister } from "./registry";
+import { createActivityGate } from "../runtime/activity-gate";
+import { registerPausable } from "../runtime/pause-registry";
 
 export interface EngineOptions {
   /** CSS custom property names the scene consumes. */
@@ -34,9 +35,7 @@ export class Engine {
 
   private rafId = 0;
   private running = false;
-  private pausedByUser = false;
-  private visible = true;
-  private pageVisible = true;
+  private active = true;
   private startTime = 0;
   private lastTime = 0;
 
@@ -44,12 +43,9 @@ export class Engine {
   private height = 0;
 
   private ro: ResizeObserver;
-  private io: IntersectionObserver;
+  private activity: ReturnType<typeof createActivityGate>;
+  private unregister = (): void => {};
   private reduced: MediaQueryList;
-  private onVisibility = () => {
-    this.pageVisible = document.visibilityState === "visible";
-    this.syncRunning();
-  };
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -65,16 +61,14 @@ export class Engine {
     this.ro = new ResizeObserver(() => this.resize());
     this.ro.observe(canvas);
 
-    this.io = new IntersectionObserver(
-      (entries) => {
-        this.visible = entries[entries.length - 1]?.isIntersecting ?? true;
+    this.activity = createActivityGate({
+      target: canvas,
+      rootMargin: "64px",
+      onActiveChange: (active) => {
+        this.active = active;
         this.syncRunning();
       },
-      { rootMargin: "64px" },
-    );
-    this.io.observe(canvas);
-
-    document.addEventListener("visibilitychange", this.onVisibility);
+    });
   }
 
   start(): void {
@@ -82,7 +76,7 @@ export class Engine {
     this.resize();
     this.startTime = performance.now();
     this.lastTime = this.startTime;
-    register(this);
+    this.unregister = registerPausable(this);
 
     if (this.reduced.matches) {
       // Stillness: a single, correct frame.
@@ -95,18 +89,16 @@ export class Engine {
 
   /** External pause (theme controller, tests). Sticky until resume(). */
   pause(): void {
-    this.pausedByUser = true;
-    this.syncRunning();
+    this.activity.pause();
   }
 
   resume(): void {
-    this.pausedByUser = false;
     if (this.reduced.matches) {
       this.renderFrame(0);
       return;
     }
     this.lastTime = performance.now(); // don't integrate the paused gap
-    this.syncRunning();
+    this.activity.resume();
   }
 
   refreshTheme(): void {
@@ -118,15 +110,12 @@ export class Engine {
     this.running = false;
     cancelAnimationFrame(this.rafId);
     this.ro.disconnect();
-    this.io.disconnect();
-    document.removeEventListener("visibilitychange", this.onVisibility);
-    deregister(this);
+    this.activity.destroy();
+    this.unregister();
   }
 
   private get shouldLoop(): boolean {
-    return (
-      this.running && this.visible && this.pageVisible && !this.pausedByUser
-    );
+    return this.running && this.active && !this.reduced.matches;
   }
 
   private syncRunning(): void {

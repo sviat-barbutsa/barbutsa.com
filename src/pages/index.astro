@@ -1,18 +1,15 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import AtlasHero from "@/components/AtlasHero.astro";
 import Doctrine from "@/components/Doctrine.astro";
 import { site } from "@/data/site";
 import labs from "@/data/labs.json";
 import caseStudies from "@/data/case-studies.json";
+import { getRecentArticles } from "@/lib/content/articles";
 
-const articles = (await getCollection("articles", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+const articles = await getRecentArticles(5);
 
-const fmt = (d: Date) =>
-  d.toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
 ---
 
 <Layout>
@@ -27,8 +24,8 @@ const fmt = (d: Date) =>
         Systems that stay<br /><em>understandable.</em>
       </h1>
       <p class="measure text-dim">
-        {site.positioning} React and TypeScript architecture, AI product
-        systems, and SaaS that runs where the users are — on the edge.
+        {site.positioning} React and TypeScript architecture, AI product systems, and SaaS that runs where the users are —
+        on the edge.
       </p>
       <div class="cluster">
         <a class="btn" href="/lab">Selected work →</a>
@@ -49,13 +46,11 @@ const fmt = (d: Date) =>
     <div>
       {
         labs.slice(0, 5).map((lab, i) => (
-          <a class="index-row" href={`/lab#${lab.slug}`}>
+          <a class="index-row" data-layout="home-work" href={`/lab#${lab.slug}`}>
             <span class="no">/{String(i + 1).padStart(2, "0")}</span>
             <div>
-              <h3 style="font-size: var(--step-1);">{lab.title}</h3>
-              <p class="text-dim" style="font-size: var(--step--1); max-width: 48ch;">
-                {lab.oneLiner}
-              </p>
+              <h3 class="index-title">{lab.title}</h3>
+              <p class="index-summary text-dim">{lab.oneLiner}</p>
             </div>
             <span class="label">{lab.stack.slice(0, 2).join(" · ").toUpperCase()}</span>
           </a>
@@ -72,18 +67,19 @@ const fmt = (d: Date) =>
           <p class="kick"><span class="idx">02</span> Writing</p>
           <a class="label" data-tone="signal" href="/articles">ALL ARTICLES →</a>
         </div>
-        <h2 id="h-writing" style="max-width: 14ch;">Notes from production.</h2>
+        <h2 id="h-writing" class="section-title" data-measure="narrow">Notes from production.</h2>
         <p class="text-dim measure">
-          Field reports, not think-pieces. Written after shipping, when the
-          trade-offs were already paid for.
+          Field reports, not think-pieces. Written after shipping, when the trade-offs were already paid for.
         </p>
       </div>
       <div>
         {
           articles.map((a) => (
-            <a class="index-row" href={`/articles/${a.id}`} style="grid-template-columns: 6rem 1fr auto;">
+            <a class="index-row" data-layout="home-writing" href={`/articles/${a.id}`}>
               <span class="no">{fmt(a.data.date)}</span>
-              <h3 style="font-size: var(--step-0); font-weight: 500;">{a.data.title}</h3>
+              <h3 class="index-title" data-size="body">
+                {a.data.title}
+              </h3>
               <span class="label">{a.data.readTime.toUpperCase()}</span>
             </a>
           ))
@@ -95,10 +91,10 @@ const fmt = (d: Date) =>
   <!-- 03 · ARCHITECTURE -->
   <section class="wrap region stack" aria-labelledby="h-arch">
     <p class="kick"><span class="idx">03</span> Architecture</p>
-    <h2 id="h-arch" style="max-width: 16ch;">Case studies, drawn as routes.</h2>
+    <h2 id="h-arch" class="section-title">Case studies, drawn as routes.</h2>
     <p class="text-dim measure">
-      Every system is a path a request takes. If you cannot draw the path in
-      three nodes, the system is not done being designed.
+      Every system is a path a request takes. If you cannot draw the path in three nodes, the system is not done being
+      designed.
     </p>
     <div class="grid" style="--grid-min: 20rem;">
       {
@@ -107,8 +103,8 @@ const fmt = (d: Date) =>
             <span class="label" data-tone="signal">
               ROUTE ○ {cs.route.join(" — ")}
             </span>
-            <h3 style="font-size: var(--step-1);">{cs.title}</h3>
-            <p class="text-dim" style="font-size: var(--step--1);">{cs.summary}</p>
+            <h3 class="panel-title">{cs.title}</h3>
+            <p class="panel-summary text-dim">{cs.summary}</p>
           </a>
         ))
       }
@@ -122,24 +118,25 @@ const fmt = (d: Date) =>
     <div class="sidebar" style="--sidebar-width: 22rem;">
       <div class="stack" style="--flow: var(--space-m);">
         <p class="kick"><span class="idx">04</span> Contact</p>
-        {/* clamp: "understandable?" (15 glyphs) must never break mid-word
-            on narrow viewports — same guarantee as the hero title */}
-        <h2 id="h-contact" style="font-size: clamp(1.75rem, 4.5vw + 0.9rem, var(--step-4)); max-width: 18ch;">
-          Have a system that needs to stay understandable?
-        </h2>
-        <p class="text-dim" style="max-width: 44ch;">
-          One message is enough. Describe the problem; I will tell you honestly
-          whether I am the right person for it.
+        {
+          /* clamp: "understandable?" (15 glyphs) must never break mid-word
+            on narrow viewports — same guarantee as the hero title */
+        }
+        <h2 id="h-contact" class="home-contact-title">Have a system that needs to stay understandable?</h2>
+        <p class="home-contact-copy text-dim">
+          One message is enough. Describe the problem; I will tell you honestly whether I am the right person for it.
         </p>
         <p>
-          <a class="mono" data-tone="signal" style="font-size: var(--step-1); color: var(--color-signal); border-bottom: 1px solid currentColor;" href={`mailto:${site.email}`}>
+          <a class="contact-email mono" data-tone="signal" data-size="compact" href={`mailto:${site.email}`}>
             {site.email}
           </a>
         </p>
       </div>
-      {/* the hero's frame grammar (atlas-frame: hairline + corner ticks +
+      {
+        /* the hero's frame grammar (atlas-frame: hairline + corner ticks +
           meta bar) applied to contact. The email lives on the left; the
-          card ends with a $-prompt mailto so it stays self-contained. */}
+          card ends with a $-prompt mailto so it stays self-contained. */
+      }
       <aside class="proto-card atlas-frame" aria-label="Contact details">
         <p class="atlas-meta">
           <span>contact / protocol v1</span>
@@ -157,14 +154,18 @@ const fmt = (d: Date) =>
           <div class="proto-row">
             <dt>elsewhere</dt>
             <dd>
-              {site.social
-                .filter((s) => s.label !== "Email")
-                .map((s, i) => (
-                  <>
-                    {i > 0 && " · "}
-                    <a href={s.href} data-no-prerender>{s.label}</a>
-                  </>
-                ))}
+              {
+                site.social
+                  .filter((s) => s.label !== "Email")
+                  .map((s, i) => (
+                    <>
+                      {i > 0 && " · "}
+                      <a href={s.href} data-no-prerender>
+                        {s.label}
+                      </a>
+                    </>
+                  ))
+              }
             </dd>
           </div>
         </dl>
@@ -175,50 +176,3 @@ const fmt = (d: Date) =>
     </div>
   </section>
 </Layout>
-
-<style>
-  .hero-grid {
-    display: grid;
-    gap: var(--space-xl);
-    align-items: center;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  }
-
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: minmax(0, 1fr); }
-  }
-
-  /* Sized so the unbreakable word "understandable." fits every viewport:
-     15 glyphs × ~0.62em must stay under (100vw − gutters). */
-  .hero-title em {
-    font-weight: 300;
-    letter-spacing: -0.02em;
-  }
-
-  .hero-title {
-    overflow-wrap: normal;
-    font-size: clamp(2rem, 8.8vw, 6.4rem); /* single-column: track viewport */
-    line-height: var(--leading-tight);
-  }
-
-  @media (min-width: 901px) {
-    /* two-column: the word must fit ~55% of the container */
-    .hero-title { font-size: clamp(2.5rem, 4.6vw, 4.8rem); }
-  }
-
-  .writing-grid {
-    display: grid;
-    gap: var(--space-l) var(--space-xl);
-    grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1fr);
-    align-items: start;
-  }
-
-  @media (max-width: 900px) {
-    .writing-grid { grid-template-columns: minmax(0, 1fr); }
-  }
-
-  .case-card {
-    transition: border-color var(--dur-fast) var(--ease-out);
-  }
-  .case-card:hover { border-color: var(--color-signal); }
-</style>

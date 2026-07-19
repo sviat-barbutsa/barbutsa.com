@@ -1,0 +1,190 @@
+/* ============================================================
+   LAYER: components
+   ------------------------------------------------------------
+   Named things with an identity: .kick, .btn, .index-row.
+   Kept SMALL — composition arranged it, base already styled the
+   elements, tokens supplied the values. A component that grows
+   past ~40 lines is usually smuggling layout that belongs in
+   `composition`.
+
+   Rules of the layer:
+   - Consume tokens; never raw values.
+   - Nesting max 2 levels deep. `&` written explicitly.
+   - Variants and state via data-attributes, never modifier
+     classes:  .btn[data-kind="ghost"], .row[data-state="open"].
+   - No margins that push OUTSIDE the component (that is the
+     parent composition's job).
+
+   The starter components below are the Edge Atlas furniture;
+   delete what you don't use, grow the file as the site grows.
+   ============================================================ */
+
+/* mono kicker with accent tick — section label */
+.kick {
+  font-family: var(--font-mono);
+  font-size: var(--mono-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+
+  &::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--color-signal);
+    flex: none;
+  }
+}
+
+/* instrument label — small mono text used for meta/data lines */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+  color: var(--color-text-2);
+
+  &[data-tone="signal"] {
+    color: var(--color-signal);
+  }
+}
+
+/* button — signal FILL (bright chartreuse in both themes, with
+   near-black text); ghost variant is quieter */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85em 1.6em;
+  background: var(--color-signal-fill);
+  color: var(--color-on-fill);
+  border-radius: var(--radius-s);
+  transition:
+    translate var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    translate: 0 -2px;
+    color: var(--color-on-fill);
+  }
+
+  &[data-kind="ghost"] {
+    background: transparent;
+    color: var(--color-text);
+    border: var(--hairline);
+
+    &:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+    }
+  }
+}
+
+/* numbered index row — the Edge Atlas list unit (projects, articles).
+   Horizontal padding + equal negative margins: text stays aligned with
+   the page grid, but the hover background gets breathing room instead
+   of touching the content at its edges. */
+.index-row {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: var(--space-s);
+  align-items: baseline;
+  padding-block: var(--space-m);
+  padding-inline: var(--space-s);
+  margin-inline: calc(-1 * var(--space-s));
+  border-bottom: var(--hairline);
+  transition: background var(--dur-fast) var(--ease-out);
+
+  & .no {
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    color: var(--color-text-2);
+  }
+
+  &:hover {
+    background: var(--color-surface);
+  }
+
+  &[data-state="featured"] .no {
+    color: var(--color-signal);
+  }
+
+  &[data-layout="dated"] {
+    grid-template-columns: 8rem 1fr auto;
+  }
+
+  &[data-layout="timeline"] {
+    grid-template-columns: 7rem 1fr;
+  }
+
+  &[data-layout="home-writing"] {
+    grid-template-columns: 6rem 1fr auto;
+  }
+
+  & .index-title {
+    font-size: var(--step-1);
+  }
+
+  & .index-title[data-size="body"] {
+    font-size: var(--step-0);
+    font-weight: 500;
+  }
+
+  & .index-title[data-weight="strong"] {
+    font-weight: 700;
+  }
+
+  & .index-title[data-weight="semibold"] {
+    font-weight: 640;
+  }
+
+  & .index-summary {
+    max-width: var(--index-summary-measure, 52ch);
+    font-size: var(--step--1);
+  }
+
+  &[data-layout="home-work"] .index-summary {
+    --index-summary-measure: 48ch;
+  }
+
+  &[data-layout="timeline"] .index-summary {
+    --index-summary-measure: 62ch;
+  }
+
+  & .index-meta {
+    margin-top: var(--space-2xs);
+  }
+}
+
+/* raised panel — the only "card" allowed, used sparingly */
+.panel {
+  background: var(--color-surface);
+  border: var(--hairline);
+  border-radius: var(--radius-s);
+  padding: var(--space-m);
+
+  & .panel-title {
+    font-size: var(--step-1);
+  }
+
+  & .panel-title[data-size="body"] {
+    font-size: var(--step-0);
+    font-weight: 640;
+  }
+
+  & .panel-summary {
+    font-size: var(--step--1);
+  }
+
+  & .panel-meta {
+    margin-top: var(--space-xs);
+  }
+}

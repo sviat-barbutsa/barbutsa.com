@@ -8,12 +8,13 @@ import caseStudies from "@/data/case-studies.json";
   description="Case studies in system design: real-time collaboration, Cloudflare-first SaaS, RAG pipelines, agentic workflows, and enterprise frontend architecture."
 >
   <div class="wrap page-head stack">
-    <p class="kick"><span class="idx">ARCH</span> Case studies — postmortems & runbooks</p>
-    <h1 style="max-width: 16ch;">Case studies, drawn as routes.</h1>
+    <p class="kick">
+      <span class="idx">ARCH</span> Case studies — postmortems & runbooks
+    </p>
+    <h1 class="page-title">Case studies, drawn as routes.</h1>
     <p class="text-dim measure">
-      Written the way incidents get written up: what was built, what broke,
-      what the design does about it. Anonymized, load-bearing, and free of
-      hero narratives — the system is the protagonist.
+      Written the way incidents get written up: what was built, what broke, what the design does about it. Anonymized,
+      load-bearing, and free of hero narratives — the system is the protagonist.
     </p>
   </div>
 
@@ -27,22 +28,19 @@ import caseStudies from "@/data/case-studies.json";
                 ROUTE {String(i + 1).padStart(2, "0")} ○ {cs.route.join(" — ")}
               </span>
             </div>
-            <h2 style="font-size: var(--step-1);">{cs.title}</h2>
-            <p class="text-dim" style="font-size: var(--step--1);">{cs.summary}</p>
-            <p class="label" style="margin-top: var(--space-xs);">
-              {cs.stack.join(" · ").toUpperCase()}
-            </p>
+            <h2 class="panel-title">{cs.title}</h2>
+            <p class="panel-summary text-dim">{cs.summary}</p>
+            <p class="panel-meta label">{cs.stack.join(" · ").toUpperCase()}</p>
           </article>
         ))
       }
     </div>
 
-    <div class="stack" style="margin-top: var(--space-xl); max-width: var(--measure);">
+    <div class="section-closing stack">
       <p class="text-dim">
         Five case studies in system design. Each answers the same question:
-        <strong>where do the boundaries go, and what happens when a piece
-        fails?</strong> The interesting parts are load-bearing. Everything
-        else is deliberately dull.
+        <strong>where do the boundaries go, and what happens when a piece fails?</strong> The interesting parts are load-bearing.
+        Everything else is deliberately dull.
       </p>
       <p>
         <a class="btn" data-kind="ghost" href="/contact">Discuss an architecture review →</a>

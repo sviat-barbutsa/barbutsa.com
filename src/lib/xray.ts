@@ -6,6 +6,7 @@
  */
 
 const KEY = "atlas-xray";
+let cleanupCurrent: (() => void) | null = null;
 
 function apply(on: boolean): void {
   document.documentElement.toggleAttribute("data-xray", on);
@@ -19,7 +20,7 @@ function apply(on: boolean): void {
   }
 }
 
-export function isXrayOn(): boolean {
+function isXrayOn(): boolean {
   return document.documentElement.hasAttribute("data-xray");
 }
 
@@ -36,10 +37,7 @@ function applyPin(edge: "top" | "bottom"): void {
   if (legend) legend.dataset.pin = edge;
   for (const b of document.querySelectorAll<HTMLElement>("[data-xray-pin]")) {
     b.textContent = edge === "bottom" ? "↑ PIN TOP" : "↓ PIN BOTTOM";
-    b.setAttribute(
-      "aria-label",
-      edge === "bottom" ? "Move legend to the top edge" : "Move legend to the bottom edge",
-    );
+    b.setAttribute("aria-label", edge === "bottom" ? "Move legend to the top edge" : "Move legend to the bottom edge");
   }
   try {
     sessionStorage.setItem(PIN_KEY, edge);
@@ -48,7 +46,10 @@ function applyPin(edge: "top" | "bottom"): void {
   }
 }
 
-export function initXray(): void {
+export function initXray(): () => void {
+  cleanupCurrent?.();
+  const removers: Array<() => void> = [];
+
   /* restore within the session (e.g. after page navigation) */
   try {
     if (sessionStorage.getItem(KEY) === "1") apply(true);
@@ -56,7 +57,11 @@ export function initXray(): void {
     /* optional */
   }
   for (const b of document.querySelectorAll<HTMLElement>("[data-xray-toggle]")) {
-    b.addEventListener("click", () => toggleXray());
+    const onClick = (): void => {
+      toggleXray();
+    };
+    b.addEventListener("click", onClick);
+    removers.push(() => b.removeEventListener("click", onClick));
   }
 
   /* pin: the legend is fixed and can cover content (e.g. the footer) —
@@ -69,9 +74,18 @@ export function initXray(): void {
   }
   applyPin(edge);
   for (const b of document.querySelectorAll<HTMLElement>("[data-xray-pin]")) {
-    b.addEventListener("click", () => {
+    const onClick = (): void => {
       edge = edge === "bottom" ? "top" : "bottom";
       applyPin(edge);
-    });
+    };
+    b.addEventListener("click", onClick);
+    removers.push(() => b.removeEventListener("click", onClick));
   }
+
+  const cleanup = (): void => {
+    removers.forEach((remove) => remove());
+    if (cleanupCurrent === cleanup) cleanupCurrent = null;
+  };
+  cleanupCurrent = cleanup;
+  return cleanup;
 }
