@@ -127,7 +127,7 @@ html {
 /* --color-signal (not -fill): olive in light mode, so the focus
    indicator keeps ≥3:1 against the paper background. */
 :focus-visible {
-  outline: 1.5px solid var(--color-signal);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-signal);
+  outline-offset: var(--space-3xs);
   border-radius: var(--radius-s);
 }

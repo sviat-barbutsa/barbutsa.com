@@ -91,6 +91,43 @@ function checkFunctionBudgets(file, text) {
   return violations;
 }
 
+function preserveNewlines(value) {
+  return value.replace(/[^\n]/g, " ");
+}
+
+function checkAuthoredPixelValues(file, text) {
+  if (!file.endsWith(".css") && !file.endsWith(".astro")) return [];
+
+  const violations = [];
+  const exactLines = new Set(
+    text
+      .split(/\r?\n/)
+      .map((line, index) => (line.includes("size-system-exact") ? index + 1 : null))
+      .filter((line) => line !== null),
+  );
+  const source = text.replace(/\/\*[\s\S]*?\*\//g, preserveNewlines);
+
+  for (const [index, line] of source.split(/\r?\n/).entries()) {
+    const lineNumber = index + 1;
+    if (exactLines.has(lineNumber)) continue;
+
+    const fractional = line.match(/-?(?:\d+\.\d+|\.\d+)px\b/g) ?? [];
+    for (const value of fractional) {
+      violations.push(`${file}:${lineNumber} uses fractional authored pixel value ${value}`);
+    }
+
+    const integers = line.matchAll(/(?<![\d.])-?(\d+)px\b/g);
+    for (const match of integers) {
+      const value = Number(match[1]);
+      if (value >= 24 && value % 2 !== 0) {
+        violations.push(`${file}:${lineNumber} uses odd authored pixel value ${match[0]} at or above 24px`);
+      }
+    }
+  }
+
+  return violations;
+}
+
 const violations = [];
 
 for (const dir of REQUIRED_DIRS) {
@@ -130,6 +167,7 @@ for (const file of SOURCE_DIRS.flatMap(walk)) {
     violations.push(`${file} has ${lines} lines (max ${MAX_LINES})`);
   }
   violations.push(...checkFunctionBudgets(file, text));
+  violations.push(...checkAuthoredPixelValues(file, text));
   if (
     text.includes("canvas-engine/registry") ||
     text.includes("./registry") ||

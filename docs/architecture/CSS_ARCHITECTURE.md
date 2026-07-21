@@ -24,6 +24,18 @@ Rules:
 - Inline styles are reserved for CSS custom-property knobs and genuinely dynamic demos.
 - Astro pages do not own scoped static CSS; page-specific rules use a named feature stylesheet in the canonical tree.
 
+## Size unit contract
+
+- Global typography, spacing, and text-containing geometry use design tokens expressed in `rem`.
+- Component details that should scale with their local text may use `em`; reading measures use `ch`.
+- Authored `px` values are reserved for crisp strokes, intrinsic illustration geometry, vendor-owned dimensions, and
+  values written from runtime CSS-pixel measurements.
+- Authored CSS must not contain fractional `px` values. At 24px and above, authored integer `px` values must be even.
+  A vendor or intrinsic exact size may opt out with a same-line `size-system-exact` comment.
+- This is a source-value convention, not a rendered-pixel guarantee: relative units, viewport math, browser zoom, and
+  DOM measurements can legitimately resolve to fractional CSS pixels.
+- Keep the root font size user-controlled. Do not set a fixed `html` font size or introduce the 62.5% conversion trick.
+
 ## Component CSS map
 
 - `core.css` — kick, label, button, index row, panel.
@@ -49,7 +61,7 @@ The SVG Atlas is the ambient signature animation. Reduced-motion users get a sta
 
 ## Budgets
 
-Maintained `.ts`, `.astro`, and `.css` files must stay under 250 physical lines unless a narrow declarative exception is documented. Runtime controller functions must stay under 120 physical lines. `scripts/check-file-budgets.mjs` enforces this in `pnpm lint`.
+Maintained `.ts`, `.astro`, and `.css` files must stay under 250 physical lines unless a narrow declarative exception is documented. Runtime controller functions must stay under 120 physical lines. `scripts/check-architecture.mjs` enforces this in `pnpm lint`.
 
 ## Living reference
 

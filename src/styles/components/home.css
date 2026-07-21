@@ -1,6 +1,6 @@
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xl);
   align-items: center;
 }
@@ -17,7 +17,7 @@
 
 .writing-grid {
   display: grid;
-  grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l) var(--space-xl);
   align-items: start;
 }
@@ -39,15 +39,16 @@
   max-width: 44ch;
 }
 
-@media (min-width: 901px) {
+@media (min-width: 56.25em) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .writing-grid {
+    grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1fr);
+  }
+
   .hero-title {
     font-size: clamp(2.5rem, 4.6vw, 4.8rem);
-  }
-}
-
-@media (max-width: 900px) {
-  .hero-grid,
-  .writing-grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 }

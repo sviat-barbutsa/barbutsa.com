@@ -26,6 +26,17 @@ async function collectPageInventory(page: Page): Promise<PageInventory> {
   });
 }
 
+async function assertNoHorizontalOverflow(page: Page, context: string): Promise<void> {
+  const dimensions = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(
+    dimensions.scrollWidth,
+    `${context} overflows horizontally (${dimensions.scrollWidth}px > ${dimensions.clientWidth}px)`,
+  ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+}
+
 async function assertDocument(page: Page, route: string): Promise<PageInventory> {
   await expect(page.locator("main"), `${route} should have one main landmark`).toHaveCount(1);
   await expect(page.locator("h1"), `${route} should have one page heading`).toHaveCount(1);
@@ -47,14 +58,7 @@ async function assertDocument(page: Page, route: string): Promise<PageInventory>
   expect(canonicalUrl.search).toBe("");
   expect(canonicalUrl.hash).toBe("");
 
-  const dimensions = await page.evaluate(() => ({
-    clientWidth: document.documentElement.clientWidth,
-    scrollWidth: document.documentElement.scrollWidth,
-  }));
-  expect(
-    dimensions.scrollWidth,
-    `${route} overflows horizontally (${dimensions.scrollWidth}px > ${dimensions.clientWidth}px)`,
-  ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+  await assertNoHorizontalOverflow(page, route);
 
   return collectPageInventory(page);
 }
@@ -119,5 +123,29 @@ test.describe("production routes", () => {
       (error) => !(error.includes(missingPath) && /failed to load resource.+404/i.test(error)),
     );
     expect(unexpected404Errors).toEqual([]);
+  });
+
+  test("routes reflow at narrow and enlarged-text settings", async ({ page, request }, testInfo) => {
+    test.skip(testInfo.project.name !== "chromium-desktop", "One browser project covers viewport-independent reflow");
+    test.setTimeout(120_000);
+
+    const { routes } = await loadSitemapInventory(page, request);
+    const modes = [
+      { name: "320 CSS-pixel viewport", width: 320, rootFontSize: null },
+      { name: "200% root font", width: 1280, rootFontSize: "200%" },
+    ];
+
+    for (const mode of modes) {
+      await page.setViewportSize({ width: mode.width, height: 900 });
+      for (const route of routes) {
+        await test.step(`${mode.name}: ${route}`, async () => {
+          await page.goto(route, { waitUntil: "networkidle" });
+          if (mode.rootFontSize) {
+            await page.addStyleTag({ content: `html { font-size: ${mode.rootFontSize} !important; }` });
+          }
+          await assertNoHorizontalOverflow(page, `${route} at ${mode.name}`);
+        });
+      }
+    }
   });
 });

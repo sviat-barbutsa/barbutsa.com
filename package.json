@@ -17,7 +17,7 @@
     "new:article": "node scripts/new-article.mjs",
     "lint:code": "eslint \"src/**/*.{astro,ts}\" \"tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.config.{js,mjs,ts}\" --max-warnings=0",
     "lint:styles": "stylelint \"src/**/*.{css,astro}\" --max-warnings=0",
-    "lint:architecture": "node scripts/check-file-budgets.mjs",
+    "lint:architecture": "node scripts/check-architecture.mjs",
     "lint": "pnpm lint:code && pnpm lint:styles && pnpm lint:architecture",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

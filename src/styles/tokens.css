@@ -2,11 +2,11 @@
    LAYER: tokens — EDGE ATLAS design language (dark canonical,
    light companion)
    ------------------------------------------------------------
-   The ONLY place raw values (hex, px, font names) are allowed.
-   Everything downstream consumes var(--*). If you are typing a
-   hex color inside a component, stop: either it maps to an
-   existing token, or you are adding a token here, on purpose,
-   with a name.
+   Shared raw values (colors, dimensions, font names) live here.
+   Components consume tokens for shared design decisions; local,
+   intrinsic whole-pixel geometry is allowed when it is not a
+   reusable system value. A component-level hex color still maps
+   to an existing token or becomes a named token here, on purpose.
 
    THEMING MODEL (2026, no duplication):
    - Every themed color is defined ONCE via light-dark().
@@ -88,10 +88,11 @@
     6.6rem
   ); /* hero display — min sized so "understandable." fits a 360px viewport unbroken */
 
-  /* mono UI text is fixed-size on purpose: instrument labels
-     do not scale with the viewport */
-  --mono-xs: 11px;
-  --mono-s: 12.5px;
+  /* mono UI text is root-relative but not viewport-fluid:
+     instrument labels follow user font preferences without
+     changing size across viewport widths */
+  --mono-xs: 0.75rem;
+  --mono-s: 0.8125rem;
   --leading-tight: 0.98; /* display */
   --leading-snug: 1.2; /* headings */
   --leading-body: 1.6; /* running text */
@@ -108,13 +109,17 @@
   --space-2xl: clamp(4.5rem, 3.4rem + 5.5vw, 8rem); /* between sections */
 
   /* ---- layout ------------------------------------------------ */
-  --gutter: clamp(20px, 4.5vw, 72px);
-  --max: 1560px;
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --max: 97.5rem;
   --measure: 62ch; /* max line length for prose */
+  --size-header: 4rem;
+  --size-status: 2rem;
 
   /* ---- detail ------------------------------------------------ */
   --radius-s: 2px; /* Edge Atlas is a sharp design; radii stay near zero */
   --hairline: 1px solid var(--color-border);
+  --target-min: max(44px, 2.75rem);
+  --target-coarse: max(48px, 3rem);
 
   /* ---- motion ------------------------------------------------ */
   --dur-fast: 0.18s;

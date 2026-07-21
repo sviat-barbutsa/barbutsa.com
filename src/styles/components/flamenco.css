@@ -13,7 +13,7 @@
 }
 
 .flamenco-panel {
-  width: min(680px, 100%);
+  width: min(42.5rem, 100%);
   background: var(--color-surface);
   border: 1px solid var(--color-signal);
 
@@ -24,7 +24,7 @@
     align-items: center;
     gap: var(--space-s);
     margin: 0;
-    padding: 10px 14px;
+    padding: var(--space-xs) var(--space-s);
     font-family: var(--font-mono);
     font-size: var(--mono-xs);
     letter-spacing: 0.14em;
@@ -44,7 +44,7 @@
   & .fl-canvas {
     display: block;
     width: 100%;
-    height: min(320px, 52vh);
+    height: min(20rem, 52vh);
     outline: none;
     touch-action: manipulation;
   }
@@ -93,7 +93,7 @@
   content: "▸";
   display: inline-block;
   inline-size: 1ch;
-  margin-inline-end: 2px;
+  margin-inline-end: 0.125rem;
   color: var(--color-signal);
   opacity: 0;
 }

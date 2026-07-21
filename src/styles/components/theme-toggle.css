@@ -4,8 +4,8 @@
 .theme-toggle {
   display: inline-grid;
   place-items: center;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
   font-family: var(--font-mono);
   font-size: var(--mono-s);
   border: var(--hairline);
@@ -53,7 +53,7 @@
 
 @media (pointer: coarse) {
   .theme-toggle {
-    min-width: 48px;
-    min-height: 48px;
+    min-width: var(--target-coarse);
+    min-height: var(--target-coarse);
   }
 }
