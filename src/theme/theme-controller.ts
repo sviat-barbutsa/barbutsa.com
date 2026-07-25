@@ -5,7 +5,6 @@ import {
   commitTheme,
   getNextTheme,
   isResolvedTheme,
-  readStoredTheme,
   resolveCurrentTheme,
   STORAGE_KEY,
   type ResolvedTheme,
@@ -76,8 +75,8 @@ function announce(status: HTMLElement | null, theme: ResolvedTheme): void {
   if (status) status.textContent = `${theme} theme active`;
 }
 
-function current(systemDark: MediaQueryList): ResolvedTheme {
-  return resolveCurrentTheme(document.documentElement, systemDark.matches);
+function current(): ResolvedTheme {
+  return resolveCurrentTheme(document.documentElement);
 }
 
 function commitAndSync(theme: ResolvedTheme, controls: HTMLButtonElement[], persist = true): void {
@@ -93,11 +92,10 @@ async function requestThemeSwitch(
   trigger: HTMLElement,
   controls: HTMLButtonElement[],
   status: HTMLElement | null,
-  systemDark: MediaQueryList,
 ): Promise<void> {
   if (transitionRunning) return;
   const root = document.documentElement;
-  const nextTheme = getNextTheme(current(systemDark));
+  const nextTheme = getNextTheme(current());
   const strategy = selectStrategy(collectStrategyFacts());
 
   if (strategy === "instant") {
@@ -133,7 +131,7 @@ async function requestThemeSwitch(
           resumeAll();
         } finally {
           transitionRunning = false;
-          announce(status, current(systemDark));
+          announce(status, current());
         }
       }
     },
@@ -144,23 +142,16 @@ export function initThemeController(): () => void {
   cleanupCurrent?.();
   const controls = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]"));
   const status = document.getElementById("theme-status");
-  const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
-  commitAndSync(current(systemDark), controls, false);
+  commitAndSync(current(), controls, false);
 
   const removers = controls.map((control) => {
     const onClick = (event: MouseEvent): void => {
-      void requestThemeSwitch(event, control, controls, status, systemDark);
+      void requestThemeSwitch(event, control, controls, status);
     };
     control.addEventListener("click", onClick);
     return () => control.removeEventListener("click", onClick);
   });
-
-  const onSystem = (event: MediaQueryListEvent): void => {
-    if (readStoredTheme()) return;
-    commitAndSync(event.matches ? "dark" : "light", controls, false);
-  };
-  systemDark.addEventListener("change", onSystem);
 
   const onStorage = (event: StorageEvent): void => {
     if (event.key === STORAGE_KEY && isResolvedTheme(event.newValue)) {
@@ -171,7 +162,6 @@ export function initThemeController(): () => void {
 
   const cleanup = (): void => {
     removers.forEach((remove) => remove());
-    systemDark.removeEventListener("change", onSystem);
     removeEventListener("storage", onStorage);
     if (cleanupCurrent === cleanup) cleanupCurrent = null;
   };

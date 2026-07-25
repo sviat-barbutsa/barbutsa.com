@@ -82,8 +82,7 @@ const speculationRules = {
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ece9e2" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141412" />
+    <meta name="theme-color" content="#141412" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -112,13 +111,19 @@ const speculationRules = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
     <!-- THEME BOOTSTRAP — before the stylesheet paints; applies only a
-         STORED choice (tokens.css color-scheme handles the OS default).
+         STORED choice (absent one, tokens.css defaults to dark — the OS
+         preference is deliberately ignored). Also syncs the theme-color
+         meta so browser chrome matches from byte one.
          is:inline so Astro cannot hoist it. (Theme plan §6 / addendum A1) -->
     <script is:inline>
       (() => {
         try {
           const t = localStorage.getItem("atlas-theme");
-          if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+          if (t === "light" || t === "dark") {
+            document.documentElement.dataset.theme = t;
+            const m = document.querySelector('meta[name="theme-color"]');
+            if (m) m.content = t === "light" ? "#ece9e2" : "#141412";
+          }
         } catch {
           /* storage may be blocked before paint */
         }
@@ -129,7 +134,7 @@ const speculationRules = {
          default (white) canvas until the external stylesheet applies;
          with a render-blocking cross-origin font CSS that gap can
          outlive Chrome's paint holding and blink. This inline block
-         mirrors tokens.css' theming model (dark-canonical, OS fallback,
+         mirrors tokens.css' theming model (dark-canonical, OS ignored,
          explicit choice wins) so the canvas is correct from byte one.
          tokens.css still owns the real values: it loads later in the
          cascade and overrides. -->
@@ -137,13 +142,6 @@ const speculationRules = {
       html {
         background-color: #141412;
         color-scheme: dark;
-      }
-
-      @media (prefers-color-scheme: light) {
-        html:not([data-theme]) {
-          background-color: #ece9e2;
-          color-scheme: light;
-        }
       }
 
       html[data-theme="light"] {

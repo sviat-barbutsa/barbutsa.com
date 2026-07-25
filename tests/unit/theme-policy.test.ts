@@ -29,11 +29,13 @@ function replaceWithThrowingGlobal(name: "localStorage" | "sessionStorage"): () 
 }
 
 describe("theme state and strategy", () => {
-  it("resolves current and next themes", () => {
+  it("resolves current and next themes, defaulting to dark", () => {
     const root = { dataset: {} } as HTMLElement;
-    expect(resolveCurrentTheme(root, true)).toBe("dark");
+    expect(resolveCurrentTheme(root)).toBe("dark");
     root.dataset.theme = "light";
-    expect(resolveCurrentTheme(root, true)).toBe("light");
+    expect(resolveCurrentTheme(root)).toBe("light");
+    root.dataset.theme = "dark";
+    expect(resolveCurrentTheme(root)).toBe("dark");
     expect(getNextTheme("light")).toBe("dark");
   });
 

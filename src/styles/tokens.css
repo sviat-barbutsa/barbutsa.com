@@ -11,8 +11,8 @@
    THEMING MODEL (2026, no duplication):
    - Every themed color is defined ONCE via light-dark().
    - `color-scheme` decides which side applies:
-       :root                     → light dark  (follow system; the
-                                   no-JS fallback)
+       :root                     → dark  (brand default; the OS
+                                   preference is deliberately ignored)
        html[data-theme="dark"]   → dark   (explicit choice)
        html[data-theme="light"]  → light  (explicit choice)
    - The theme switcher only ever flips data-theme; it never
@@ -37,7 +37,7 @@
    ============================================================ */
 
 :root {
-  color-scheme: light dark; /* no stored choice → follow the OS */
+  color-scheme: dark; /* no stored choice → dark (brand default) */
 
   /* ---- raw palette (constants; do NOT consume in components) - */
 

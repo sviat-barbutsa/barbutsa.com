@@ -49,8 +49,7 @@ function observeScroll(scrollEl: HTMLElement): () => void {
 
 function observeTheme(themeEl: HTMLElement): () => void {
   const readTheme = (): void => {
-    themeEl.textContent =
-      document.documentElement.dataset.theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    themeEl.textContent = document.documentElement.dataset.theme ?? "dark";
   };
   const observer = new MutationObserver(readTheme);
   observer.observe(document.documentElement, {

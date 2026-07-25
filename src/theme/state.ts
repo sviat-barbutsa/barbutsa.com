@@ -37,10 +37,12 @@ export function writeStoredTheme(theme: ResolvedTheme, storage?: Storage): void 
   }
 }
 
-export function resolveCurrentTheme(root: HTMLElement, systemPrefersDark: boolean): ResolvedTheme {
+export function resolveCurrentTheme(root: HTMLElement): ResolvedTheme {
   const set = root.dataset.theme;
   if (set === "light" || set === "dark") return set;
-  return systemPrefersDark ? "dark" : "light";
+  /* No explicit choice → dark. The OS preference is deliberately ignored:
+     dark is the brand default; only a user's own toggle overrides it. */
+  return "dark";
 }
 
 export function getNextTheme(theme: ResolvedTheme): ResolvedTheme {

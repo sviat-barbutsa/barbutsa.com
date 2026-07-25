@@ -43,21 +43,23 @@ test("theme state is accessible, instant under reduced motion, and persistent", 
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
-test("theme follows the OS only while no user preference is stored", async ({ page }) => {
+test("dark is the default regardless of the OS; only a stored choice wins", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
   await page.goto("/");
   const root = page.locator("html");
   const toggle = page.locator("[data-theme-toggle]");
 
-  await expect(root).toHaveAttribute("data-theme", "light");
+  await expect(root).toHaveAttribute("data-theme", "dark");
   expect(await page.evaluate(() => localStorage.getItem("atlas-theme"))).toBeNull();
   await page.emulateMedia({ colorScheme: "dark" });
+  await page.emulateMedia({ colorScheme: "light" });
   await expect(root).toHaveAttribute("data-theme", "dark");
 
   await toggle.click();
   await expect(root).toHaveAttribute("data-theme", "light");
   expect(await page.evaluate(() => localStorage.getItem("atlas-theme"))).toBe("light");
-  await page.emulateMedia({ colorScheme: "light" });
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(root).toHaveAttribute("data-theme", "light");
   await page.emulateMedia({ colorScheme: "dark" });
   await expect(root).toHaveAttribute("data-theme", "light");
 });
