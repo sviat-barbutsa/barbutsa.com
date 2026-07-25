@@ -26,13 +26,13 @@ test("theme state is accessible, instant under reduced motion, and persistent", 
   await expect(root).toHaveAttribute("data-theme", "dark");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
   await expect(toggle).toHaveAccessibleName("Switch to light theme");
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#141412");
+  await expect(page.locator('meta[name="theme-color"]').first()).toHaveAttribute("content", "#141412");
 
   await toggle.click();
   await expect(root).toHaveAttribute("data-theme", "light");
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
   await expect(toggle).toHaveAccessibleName("Switch to dark theme");
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#ece9e2");
+  await expect(page.locator('meta[name="theme-color"]').first()).toHaveAttribute("content", "#ece9e2");
   await expect(page.locator("#theme-status")).toHaveText("light theme active");
   expect(await page.evaluate(() => localStorage.getItem("atlas-theme"))).toBe("light");
   expect(await page.evaluate(() => Reflect.get(window, "__themeTransitionCalls"))).toBe(0);
