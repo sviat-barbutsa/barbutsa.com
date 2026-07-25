@@ -1,6 +1,6 @@
 import { expect, type APIRequestContext, type Page } from "@playwright/test";
 
-export const PRODUCTION_ORIGIN = "https://sviatoslav.dev";
+export const PRODUCTION_ORIGIN = "https://barbutsa.com";
 
 export interface SitemapInventory {
   routes: string[];

@@ -23,7 +23,7 @@ const path = Astro.url.pathname.replace(/\.html$/, "");
 const canonicalUrl = new URL(path === "/" ? "/" : path, site.url);
 const defaultOgImage = new URL("/og-image.png", site.url);
 const ogImage = cover ? new URL(cover.src, site.url) : defaultOgImage;
-const ogImageAlt = cover && title ? title : `${site.name} — ${site.role} — sviatoslav.dev`;
+const ogImageAlt = cover && title ? title : `${site.name} — ${site.role} — barbutsa.com`;
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [

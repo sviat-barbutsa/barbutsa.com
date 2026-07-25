@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sviatoslav.dev/sitemap-index.xml
+Sitemap: https://barbutsa.com/sitemap-index.xml

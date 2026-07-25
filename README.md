@@ -1,6 +1,6 @@
 # Personal Atlas
 
-Static Astro site for sviatoslav.dev. The Git/package root is this directory:
+Static Astro site for barbutsa.com. The Git/package root is this directory:
 
 ```text
 D:\web\personal\personal_atlas\website

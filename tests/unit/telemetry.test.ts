@@ -10,7 +10,7 @@ describe("telemetry parsing", () => {
   it("detects local hostnames", () => {
     expect(isLocalHostName("localhost")).toBe(true);
     expect(isLocalHostName("site.local")).toBe(true);
-    expect(isLocalHostName("sviatoslav.dev")).toBe(false);
+    expect(isLocalHostName("barbutsa.com")).toBe(false);
   });
 
   it("rounds positive navigation metrics and omits unavailable values", () => {

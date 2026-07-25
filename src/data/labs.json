@@ -4,7 +4,7 @@
     "title": "Background Removal",
     "oneLiner": "AI background removal with edge acceleration. Pixel-perfect output, no server in the loop.",
     "stack": ["React", "TypeScript", "ONNX", "Canvas"],
-    "url": "https://bg-removal.sviatoslav.dev",
+    "url": "https://bg-removal.barbutsa.com",
     "status": "porting"
   },
   {
@@ -12,15 +12,15 @@
     "title": "Hand Detection",
     "oneLiner": "Real-time hand landmark tracking in the browser. Camera in, coordinates out.",
     "stack": ["MediaPipe", "React", "WebRTC"],
-    "url": "https://hands.sviatoslav.dev",
+    "url": "https://hands.barbutsa.com",
     "status": "porting"
   },
   {
     "slug": "fractal-builder",
     "title": "Fractal Builder",
     "oneLiner": "Interactive fractal explorer with real-time parameters. The GPU does the math; you turn the dials.",
-    "stack": ["Three.js", "WebGL", "Shaders"],
-    "url": "https://fractal.sviatoslav.dev",
+    "stack": ["Canvas 2D", "TypeScript", "URL state"],
+    "url": "https://fractal.barbutsa.com",
     "status": "porting"
   },
   {
@@ -28,7 +28,7 @@
     "title": "Typing Lab",
     "oneLiner": "Precision typing workbench. WPM, accuracy, per-key heat. Every state is a state machine.",
     "stack": ["React", "TypeScript", "State Machines"],
-    "url": "https://typing-lab.sviatoslav.dev",
+    "url": "https://typing-lab.barbutsa.com",
     "status": "porting"
   },
   {
@@ -36,7 +36,7 @@
     "title": "Semantic Layout Lab",
     "oneLiner": "HTML5 element atlas and semantic layout builder. The platform, documented by using it.",
     "stack": ["React", "HTML5", "CSS"],
-    "url": "https://layout-lab.sviatoslav.dev",
+    "url": "https://layout-lab.barbutsa.com",
     "status": "porting"
   },
   {
@@ -44,7 +44,7 @@
     "title": "AI Memory Playground",
     "oneLiner": "RAG and semantic memory with retrieval and evaluation loops. Measured, not vibes.",
     "stack": ["React", "Vector DB", "LLMs", "Workers"],
-    "url": "https://memory.sviatoslav.dev",
+    "url": "https://memory.barbutsa.com",
     "status": "porting"
   },
   {
@@ -52,7 +52,7 @@
     "title": "Local LLM Workbench",
     "oneLiner": "Run and evaluate local models with repeatable prompts. Same input, comparable output.",
     "stack": ["React", "Python", "Ollama", "FastAPI"],
-    "url": "https://llm-bench.sviatoslav.dev",
+    "url": "https://llm-bench.barbutsa.com",
     "status": "porting"
   }
 ]
