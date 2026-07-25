@@ -42,6 +42,11 @@ test.describe("accessibility", () => {
     await setTheme(page, "dark");
     await page.locator("[data-theme-toggle]").click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    /* Style recalc after the data-theme flip is async under load; scan only
+       once the switched palette has landed (l-dim on the doctrine line), or
+       axe can catch a stale dark-ramp color. */
+    const doctrineLine = page.locator("[data-doctrine] [data-typer-text]");
+    await expect.poll(() => doctrineLine.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(92, 88, 76)");
     await expectNoViolations(page, "homepage after theme switch");
   });
 
