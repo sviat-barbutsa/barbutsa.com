@@ -41,7 +41,7 @@ html:not([data-theme-motion])::view-transition-old(root) {
 }
 
 html:not([data-theme-motion])::view-transition-new(root) {
-  animation: vt-page-in 180ms var(--ease-out);
+  animation: vt-page-in var(--dur-fast) var(--ease-out);
 }
 
 @keyframes vt-page-in {

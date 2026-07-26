@@ -2,8 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import AtlasHero from "@/components/AtlasHero.astro";
 import Doctrine from "@/components/Doctrine.astro";
+import SelectedWork from "@/components/SelectedWork.astro";
 import { site } from "@/data/site";
-import labs from "@/data/labs.json";
 import caseStudies from "@/data/case-studies.json";
 import { getRecentArticles } from "@/lib/content/articles";
 
@@ -36,28 +36,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     <AtlasHero />
   </section>
 
-  <!-- 01 · SELECTED WORK -->
-  <section class="wrap region stack" aria-labelledby="h-work">
-    <div class="repel">
-      <p class="kick"><span class="idx">01</span> Selected work — the lab</p>
-      <a class="label" data-tone="signal" href="/lab">FULL INDEX →</a>
-    </div>
-    <h2 id="h-work" class="visually-hidden">Selected work</h2>
-    <div>
-      {
-        labs.slice(0, 5).map((lab, i) => (
-          <a class="index-row" data-layout="home-work" href={`/lab#${lab.slug}`}>
-            <span class="no">/{String(i + 1).padStart(2, "0")}</span>
-            <div>
-              <h3 class="index-title">{lab.title}</h3>
-              <p class="index-summary text-dim">{lab.oneLiner}</p>
-            </div>
-            <span class="label">{lab.stack.slice(0, 2).join(" · ").toUpperCase()}</span>
-          </a>
-        ))
-      }
-    </div>
-  </section>
+  <SelectedWork />
 
   <!-- 02 · WRITING -->
   <section class="wrap region" aria-labelledby="h-writing">
@@ -140,7 +119,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
       <aside class="proto-card atlas-frame" aria-label="Contact details">
         <p class="atlas-meta">
           <span>contact / protocol v1</span>
-          <span class="live"><i></i> OPEN</span>
+          <span class="status-pin"><i></i> OPEN</span>
         </p>
         <dl class="proto-rows">
           <div class="proto-row">

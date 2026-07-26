@@ -18,10 +18,10 @@
   {
     "slug": "fractal-builder",
     "title": "Fractal Builder",
-    "oneLiner": "Interactive fractal explorer with real-time parameters. The GPU does the math; you turn the dials.",
+    "oneLiner": "Seeded line-art ornaments from five motif families, drawn in pure TypeScript; you turn the dials.",
     "stack": ["Canvas 2D", "TypeScript", "URL state"],
     "url": "https://fractal.barbutsa.com",
-    "status": "porting"
+    "status": "live"
   },
   {
     "slug": "typing-lab",

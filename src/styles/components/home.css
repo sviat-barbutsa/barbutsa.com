@@ -52,3 +52,120 @@
     font-size: clamp(2.5rem, 4.6vw, 4.8rem);
   }
 }
+
+/* Selected work: disciplined text index left, ONE fixed preview panel
+   right — content crossfades in place, the frame never moves. The panel
+   is desktop-only; narrow viewports get the text index alone. */
+.work-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-l);
+  align-items: start;
+}
+
+.index-row[data-layout="home-work"] {
+  grid-template-columns: 3.5rem 1fr auto;
+
+  /* Reserved rail: every row carries the 2px edge so nothing shifts when
+     the previewed state moves. Inactive titles sit at ~76% so the active
+     one can dominate by brightness alone — no lime titles, no cards. */
+  border-inline-start: 2px solid transparent;
+
+  & .index-title {
+    color: color-mix(in srgb, var(--color-text) 76%, var(--color-bg));
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  & .index-summary {
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  & .viewing {
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+}
+
+/* THE invariant: the highlighted row IS the project in the preview panel.
+   One state (data-previewed, set by the intent-delay script) drives rail,
+   wash, typography, the VIEWING pointer, and the caption together. */
+.index-row[data-previewed] {
+  border-inline-start-color: var(--color-signal);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-signal) 5%, transparent), transparent 72%);
+
+  & .index-title {
+    color: var(--color-text);
+  }
+
+  & .index-summary {
+    color: color-mix(in srgb, var(--color-text-2) 60%, var(--color-text));
+  }
+
+  & .viewing {
+    opacity: 1;
+  }
+}
+
+/* Previewable rows highlight via the previewed state, not the generic
+   hover wash — hover styling and preview state must never disagree. */
+.index-row[data-art]:hover:not([data-previewed]) {
+  background: none;
+}
+
+.work-preview {
+  display: none;
+  position: sticky;
+  top: var(--space-l);
+  aspect-ratio: 16 / 10;
+  background: var(--color-well);
+  border: 1px solid var(--color-well-border);
+  overflow: hidden;
+
+  /* The panel is a dark instrument in BOTH themes — resolve every
+     light-dark() token inside it to the dark ramp (caption contrast). */
+  color-scheme: dark;
+
+  & img {
+    position: absolute;
+    inset: 8%;
+    width: 84%;
+    height: 84%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+    filter: contrast(1.12) brightness(1.12);
+  }
+
+  & img[data-front] {
+    opacity: 1;
+  }
+
+  /* The caption repeats the active row's identity — /01 · NAME — so the
+     row↔preview association reads in both directions. */
+  & figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-2xs) var(--space-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    & b {
+      color: var(--color-signal);
+      font-weight: 400;
+    }
+  }
+}
+
+@media (min-width: 56.25em) {
+  .work-split {
+    grid-template-columns: minmax(0, 1fr) clamp(24rem, 31vw, 31rem);
+    column-gap: clamp(4rem, 8vw, 8.75rem);
+  }
+
+  .work-preview {
+    display: block;
+  }
+}

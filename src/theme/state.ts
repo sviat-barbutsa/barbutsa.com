@@ -1,10 +1,12 @@
+import { PALETTE } from "./palette";
+
 export type ResolvedTheme = "light" | "dark";
 
 export const STORAGE_KEY = "atlas-theme";
 
 export const THEME_COLORS: Record<ResolvedTheme, string> = {
-  dark: "#141412",
-  light: "#ece9e2",
+  dark: PALETTE.ink,
+  light: PALETTE.paper,
 };
 
 export function isResolvedTheme(value: string | null): value is ResolvedTheme {

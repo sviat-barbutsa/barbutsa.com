@@ -1,0 +1,126 @@
+/* ============================================================
+   LAYER: components / index-row
+   ------------------------------------------------------------
+   The Edge Atlas list unit (projects, articles) and its layout
+   variants. Split from core.css: the art/preview variants made it
+   a component big enough to deserve its own budget.
+   ============================================================ */
+
+/* numbered index row — the Edge Atlas list unit (projects, articles).
+   Horizontal padding + equal negative margins: text stays aligned with
+   the page grid, but the hover background gets breathing room instead
+   of touching the content at its edges. */
+.index-row {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: var(--space-s);
+  align-items: baseline;
+  padding-block: var(--space-m);
+  padding-inline: var(--space-s);
+  margin-inline: calc(-1 * var(--space-s));
+  border-bottom: var(--hairline);
+  transition: background var(--dur-fast) var(--ease-out);
+
+  & .no {
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    color: var(--color-text-2);
+  }
+
+  &:hover {
+    background: var(--color-surface);
+  }
+
+  /* Status wears the site's status grammar (dot + word, like "observing"),
+     never the stack-label grammar. */
+  & .index-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+  }
+
+  & .lab-art {
+    grid-column: 4;
+    width: 14rem;
+    aspect-ratio: 16 / 10;
+    height: auto;
+    object-fit: contain;
+    background: var(--color-well);
+    align-self: center;
+    border: 1px solid var(--color-faint);
+    filter: contrast(1.15) brightness(1.1);
+  }
+
+  /* Art rows: number · capped text · capped spacer · frame · meta. Slack
+     is absorbed AFTER the image so it stays attached to its project text
+     and the meta stays pinned right. Narrow viewports drop the rail. */
+  &[data-has-art] {
+    grid-template-columns: 3.5rem minmax(0, 38rem) clamp(1rem, 7vw, 9rem) 14rem minmax(0, 1fr);
+    column-gap: var(--space-m);
+
+    & > .label {
+      grid-column: 5;
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 48em) {
+    &[data-has-art] {
+      grid-template-columns: 3.5rem 1fr auto;
+    }
+
+    & .lab-art {
+      display: none;
+    }
+  }
+
+  &[data-state="featured"] .no {
+    color: var(--color-signal);
+  }
+
+  &[data-layout="dated"] {
+    grid-template-columns: 8rem 1fr auto;
+  }
+
+  &[data-layout="timeline"] {
+    grid-template-columns: 7rem 1fr;
+  }
+
+  &[data-layout="home-writing"] {
+    grid-template-columns: 6rem 1fr auto;
+  }
+
+  & .index-title {
+    font-size: var(--step-1);
+  }
+
+  & .index-title[data-size="body"] {
+    font-size: var(--step-0);
+    font-weight: 500;
+  }
+
+  & .index-title[data-weight="strong"] {
+    font-weight: 700;
+  }
+
+  & .index-title[data-weight="semibold"] {
+    font-weight: 640;
+  }
+
+  & .index-summary {
+    max-width: var(--index-summary-measure, 52ch);
+    font-size: var(--step--1);
+  }
+
+  &[data-layout="home-work"] .index-summary {
+    --index-summary-measure: 48ch;
+  }
+
+  &[data-layout="timeline"] .index-summary {
+    --index-summary-measure: 62ch;
+  }
+
+  & .index-meta {
+    margin-top: var(--space-2xs);
+  }
+}

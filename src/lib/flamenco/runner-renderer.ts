@@ -1,4 +1,5 @@
 import type { FrameInfo } from "../canvas-engine/engine";
+import { PALETTE } from "@/theme/palette";
 import { GROUND_RATIO, PLAYER_SIZE, PLAYER_X } from "./geometry";
 
 export interface RunnerObstacleView {
@@ -20,10 +21,10 @@ export interface RunnerViewState {
 }
 
 export function drawRunner(ctx: CanvasRenderingContext2D, frame: FrameInfo, state: RunnerViewState): void {
-  const signal = frame.tokens["--color-signal"] || "#d4f34a";
-  const text = frame.tokens["--color-text"] || "#ece9e2";
-  const dim = frame.tokens["--color-text-2"] || "#9a968a";
-  const faint = frame.tokens["--color-faint"] || "#57544b";
+  const signal = frame.tokens["--color-signal"] || PALETTE.chartreuse;
+  const text = frame.tokens["--color-text"] || PALETTE.paper;
+  const dim = frame.tokens["--color-text-2"] || PALETTE.dim;
+  const faint = frame.tokens["--color-faint"] || PALETTE.faint;
   const groundY = frame.height * GROUND_RATIO;
 
   ctx.strokeStyle = dim;

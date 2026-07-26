@@ -3,10 +3,32 @@ import type { ImageMetadata } from "astro";
 import "@/styles/main.css";
 import "@/styles/fonts.css";
 import { site } from "@/data/site";
+import { PALETTE } from "@/theme/palette";
 import StatusBar from "@/components/StatusBar.astro";
 import SiteFooter from "@/components/layout/SiteFooter.astro";
 import SiteHeader from "@/components/layout/SiteHeader.astro";
 import XrayLegend from "@/components/layout/XrayLegend.astro";
+
+/* Pre-paint inline blocks are built from the canonical palette so these
+   mirrors can never drift from tokens.css (palette-sync test guards the
+   TS side; these strings guard themselves by construction). */
+const themeBootstrap = `(() => {
+  try {
+    const t = localStorage.getItem("atlas-theme");
+    if (t === "light" || t === "dark") {
+      document.documentElement.dataset.theme = t;
+      const m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.content = t === "light" ? "${PALETTE.paper}" : "${PALETTE.ink}";
+    }
+  } catch {
+    /* storage may be blocked before paint */
+  }
+})();`;
+
+const canvasGuard = `
+html { background-color: ${PALETTE.ink}; color-scheme: dark; }
+html[data-theme="light"] { background-color: ${PALETTE.paper}; color-scheme: light; }
+`;
 
 interface Props {
   title?: string;
@@ -82,7 +104,7 @@ const speculationRules = {
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" content="#141412" />
+    <meta name="theme-color" content={PALETTE.ink} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -115,20 +137,7 @@ const speculationRules = {
          preference is deliberately ignored). Also syncs the theme-color
          meta so browser chrome matches from byte one.
          is:inline so Astro cannot hoist it. (Theme plan §6 / addendum A1) -->
-    <script is:inline>
-      (() => {
-        try {
-          const t = localStorage.getItem("atlas-theme");
-          if (t === "light" || t === "dark") {
-            document.documentElement.dataset.theme = t;
-            const m = document.querySelector('meta[name="theme-color"]');
-            if (m) m.content = t === "light" ? "#ece9e2" : "#141412";
-          }
-        } catch {
-          /* storage may be blocked before paint */
-        }
-      })();
-    </script>
+    <script is:inline set:html={themeBootstrap} />
 
     <!-- PRE-CSS CANVAS GUARD — between documents the UA paints its
          default (white) canvas until the external stylesheet applies;
@@ -138,17 +147,7 @@ const speculationRules = {
          explicit choice wins) so the canvas is correct from byte one.
          tokens.css still owns the real values: it loads later in the
          cascade and overrides. -->
-    <style is:inline>
-      html {
-        background-color: #141412;
-        color-scheme: dark;
-      }
-
-      html[data-theme="light"] {
-        background-color: #ece9e2;
-        color-scheme: light;
-      }
-    </style>
+    <Fragment set:html={`<style>${canvasGuard}</style>`} />
     <!-- self-hosted fonts (scripts/fetch-fonts.mjs) -->
     <link
       rel="preload"

@@ -71,6 +71,13 @@
   --color-signal-fill: var(--chartreuse); /* fills, both themes */
   --color-on-fill: var(--ink); /* text on signal fills */
 
+  /* theme-INVARIANT instrument surfaces — render canvases and preview
+     wells stay dark in both themes. Scope `color-scheme: dark` on such
+     a surface so nested light-dark() tokens resolve to the dark ramp
+     (see .work-preview). d-dim on well: 6.4:1 AA. */
+  --color-well: #090a09;
+  --color-well-border: rgb(255 255 255 / 12%);
+
   /* ---- typography ------------------------------------------- */
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
@@ -123,12 +130,16 @@
 
   /* ---- motion ------------------------------------------------ */
   --dur-fast: 0.18s;
+  --dur-med: 0.32s;
   --dur-slow: 0.45s;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* ---- z ------------------------------------------------------ */
   --z-header: 100;
   --z-skip: 200;
+
+  /* ---- breakpoint registry (CSS cannot var() media queries; use
+     EXACTLY these): 30em compact · 48em tablet · 56.25em desktop ---- */
 }
 
 /* Explicit choice (set by the bootstrap script / theme controller)
