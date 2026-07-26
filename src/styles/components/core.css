@@ -1,7 +1,7 @@
 /* ============================================================
    LAYER: components
    ------------------------------------------------------------
-   Named things with an identity: .kick, .btn, .index-row.
+   Named things with an identity: .kick, .btn, .panel.
    Kept SMALL — composition arranged it, base already styled the
    elements, tokens supplied the values. A component that grows
    past ~40 lines is usually smuggling layout that belongs in

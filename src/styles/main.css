@@ -22,6 +22,7 @@
 @import url("shared-motion.css") layer(components);
 @import url("components/core.css") layer(components);
 @import url("components/index-row.css") layer(components);
+@import url("components/work-index.css") layer(components);
 @import url("components/contact.css") layer(components);
 @import url("components/theme-toggle.css") layer(components);
 @import url("components/site-chrome.css") layer(components);

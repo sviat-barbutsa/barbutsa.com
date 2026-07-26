@@ -38,7 +38,9 @@ Rules:
 
 ## Component CSS map
 
-- `core.css` — kick, label, button, index row, panel.
+- `core.css` — kick, label, button, panel.
+- `index-row.css` — numbered index rows and their layout variants.
+- `work-index.css` — the shared lab index: work split, previewed-row state, preview panel (WorkIndex.astro).
 - `contact.css` — protocol/contact card and shared conf rows.
 - `theme-toggle.css` — theme switch control.
 - `site-chrome.css` — skip link, header, brand/nav, footer, footer controls.

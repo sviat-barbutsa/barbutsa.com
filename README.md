@@ -114,6 +114,8 @@ reset → tokens → base → composition → components → utilities
 Component CSS is split by feature under `src/styles/components/`:
 
 - `core.css`
+- `index-row.css`
+- `work-index.css`
 - `contact.css`
 - `theme-toggle.css`
 - `site-chrome.css`

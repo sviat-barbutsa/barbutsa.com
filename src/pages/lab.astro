@@ -1,22 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import WorkIndex from "@/components/WorkIndex.astro";
 import labs from "@/data/labs.json";
-
-/* A lab gets a card artwork by dropping a pre-optimized 208×208
-   `public/labs/<slug>.webp` — the file's existence is the flag; labs.json
-   stays schema-clean and the build needs no image pipeline. */
-const labArt = import.meta.glob("../../public/labs/*.webp");
-const hasArt = (slug: string): boolean => `../../public/labs/${slug}.webp` in labArt;
-
-/* Live labs lead the index; stable sort preserves curated order otherwise. */
-const orderedLabs = [...labs].sort((a, b) => Number(b.status === "live") - Number(a.status === "live"));
-
-const statusLabel: Record<string, string> = {
-  live: "LIVE",
-  porting: "PORTING",
-  wip: "WIP",
-  archived: "ARCHIVED",
-};
 ---
 
 <Layout
@@ -35,53 +20,7 @@ const statusLabel: Record<string, string> = {
   </div>
 
   <section class="wrap region" aria-label="Lab index">
-    {
-      orderedLabs.map((lab, i) => {
-        const art = hasArt(lab.slug);
-        return (
-          <article
-            class="index-row"
-            id={lab.slug}
-            data-state={lab.status === "live" ? "featured" : undefined}
-            data-has-art={art ? "" : undefined}
-          >
-            <span class="no">/{String(i + 1).padStart(2, "0")}</span>
-            <div>
-              <h2 class="index-title">
-                {lab.status === "live" ? (
-                  <a href={lab.url} rel="noopener noreferrer" target="_blank" data-no-prerender>
-                    {lab.title} ↗
-                  </a>
-                ) : (
-                  lab.title
-                )}
-              </h2>
-              <p class="index-summary text-dim">{lab.oneLiner}</p>
-              <p class="index-meta label">{lab.stack.join(" · ").toUpperCase()}</p>
-            </div>
-            {art && (
-              <img
-                src={`/labs/${lab.slug}.webp`}
-                alt=""
-                width="480"
-                height="480"
-                loading="lazy"
-                decoding="async"
-                class="lab-art"
-              />
-            )}
-            {lab.status === "live" ? (
-              <span class="label status-pin">
-                <i aria-hidden="true" />
-                LIVE
-              </span>
-            ) : (
-              <span class="label">{statusLabel[lab.status] ?? lab.status.toUpperCase()}</span>
-            )}
-          </article>
-        );
-      })
-    }
+    <WorkIndex variant="registry" />
     <p class="catalog-note label">
       {labs.length} UNITS · PORTING = EXTRACTION FROM THE PREVIOUS SITE IN PROGRESS · ALL SHIP WITH SOURCE
     </p>

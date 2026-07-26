@@ -2,8 +2,8 @@
    LAYER: components / index-row
    ------------------------------------------------------------
    The Edge Atlas list unit (projects, articles) and its layout
-   variants. Split from core.css: the art/preview variants made it
-   a component big enough to deserve its own budget.
+   variants. Split from core.css to keep its own budget. The lab
+   index split and preview panel live in work-index.css.
    ============================================================ */
 
 /* numbered index row — the Edge Atlas list unit (projects, articles).
@@ -37,41 +37,6 @@
     display: flex;
     align-items: baseline;
     gap: var(--space-s);
-  }
-
-  & .lab-art {
-    grid-column: 4;
-    width: 14rem;
-    aspect-ratio: 16 / 10;
-    height: auto;
-    object-fit: contain;
-    background: var(--color-well);
-    align-self: center;
-    border: 1px solid var(--color-faint);
-    filter: contrast(1.15) brightness(1.1);
-  }
-
-  /* Art rows: number · capped text · capped spacer · frame · meta. Slack
-     is absorbed AFTER the image so it stays attached to its project text
-     and the meta stays pinned right. Narrow viewports drop the rail. */
-  &[data-has-art] {
-    grid-template-columns: 3.5rem minmax(0, 38rem) clamp(1rem, 7vw, 9rem) 14rem minmax(0, 1fr);
-    column-gap: var(--space-m);
-
-    & > .label {
-      grid-column: 5;
-      justify-self: end;
-    }
-  }
-
-  @media (max-width: 48em) {
-    &[data-has-art] {
-      grid-template-columns: 3.5rem 1fr auto;
-    }
-
-    & .lab-art {
-      display: none;
-    }
   }
 
   &[data-state="featured"] .no {
@@ -112,7 +77,7 @@
     font-size: var(--step--1);
   }
 
-  &[data-layout="home-work"] .index-summary {
+  &[data-layout="work"] .index-summary {
     --index-summary-measure: 48ch;
   }
 
