@@ -5,7 +5,9 @@
    preview panel right — content crossfades in place, the frame
    never moves. Rendered by WorkIndex.astro on the homepage and
    the /lab registry. The panel is desktop-only; narrow viewports
-   get the text index alone.
+   get the text index alone, so every preview affordance (rail,
+   wash, dimmed titles, VIEWING pointer) is gated behind the same
+   breakpoint — a highlight must never point at a hidden panel.
    ============================================================ */
 
 .work-split {
@@ -18,50 +20,10 @@
 .index-row[data-layout="work"] {
   grid-template-columns: 3.5rem 1fr auto;
 
-  /* Reserved rail: every row carries the 2px edge so nothing shifts when
-     the previewed state moves. Inactive titles sit at ~76% so the active
-     one can dominate by brightness alone — no lime titles, no cards. */
-  border-inline-start: 2px solid transparent;
-
-  & .index-title {
-    color: color-mix(in srgb, var(--color-text) 76%, var(--color-bg));
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
-  & .index-summary {
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
+  /* No panel below the breakpoint — no pointer to it either. */
   & .viewing {
-    opacity: 0;
-    transition: opacity var(--dur-fast) var(--ease-out);
+    display: none;
   }
-}
-
-/* THE invariant: the highlighted row IS the project in the preview panel.
-   One state (data-previewed, set by the intent-delay script) drives rail,
-   wash, typography, the VIEWING pointer, and the caption together. */
-.index-row[data-previewed] {
-  border-inline-start-color: var(--color-signal);
-  background: linear-gradient(90deg, color-mix(in srgb, var(--color-signal) 5%, transparent), transparent 72%);
-
-  & .index-title {
-    color: var(--color-text);
-  }
-
-  & .index-summary {
-    color: color-mix(in srgb, var(--color-text-2) 60%, var(--color-text));
-  }
-
-  & .viewing {
-    opacity: 1;
-  }
-}
-
-/* Previewable rows highlight via the previewed state, not the generic
-   hover wash — hover styling and preview state must never disagree. */
-.index-row[data-art]:hover:not([data-previewed]) {
-  background: none;
 }
 
 .work-preview {
@@ -119,5 +81,53 @@
 
   .work-preview {
     display: block;
+  }
+
+  .index-row[data-layout="work"] {
+    /* Reserved rail: every row carries the 2px edge so nothing shifts when
+       the previewed state moves. Inactive titles sit at ~76% so the active
+       one can dominate by brightness alone — no lime titles, no cards. */
+    border-inline-start: 2px solid transparent;
+
+    & .index-title {
+      color: color-mix(in srgb, var(--color-text) 76%, var(--color-bg));
+      transition: color var(--dur-fast) var(--ease-out);
+    }
+
+    & .index-summary {
+      transition: color var(--dur-fast) var(--ease-out);
+    }
+
+    & .viewing {
+      display: inline;
+      opacity: 0;
+      transition: opacity var(--dur-fast) var(--ease-out);
+    }
+  }
+
+  /* THE invariant: the highlighted row IS the project in the preview panel.
+     One state (data-previewed, set by the intent-delay script) drives rail,
+     wash, typography, the VIEWING pointer, and the caption together. */
+  .index-row[data-previewed] {
+    border-inline-start-color: var(--color-signal);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-signal) 5%, transparent), transparent 72%);
+
+    & .index-title {
+      color: var(--color-text);
+    }
+
+    & .index-summary {
+      color: color-mix(in srgb, var(--color-text-2) 60%, var(--color-text));
+    }
+
+    & .viewing {
+      opacity: 1;
+    }
+  }
+
+  /* Previewable rows highlight via the previewed state, not the generic
+     hover wash — hover styling and preview state must never disagree. */
+  .index-row[data-art]:hover:not([data-previewed]) {
+    background: none;
   }
 }

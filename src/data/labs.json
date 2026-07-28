@@ -24,6 +24,14 @@
     "status": "live"
   },
   {
+    "slug": "qr-generator",
+    "title": "QR Generator",
+    "oneLiner": "Static QR codes composed and encoded in the browser. No redirect, no account, nothing uploaded.",
+    "stack": ["React", "TypeScript", "Canvas", "SVG"],
+    "url": "https://qr.barbutsa.com",
+    "status": "live"
+  },
+  {
     "slug": "typing-lab",
     "title": "Typing Lab",
     "oneLiner": "Precision typing workbench. WPM, accuracy, per-key heat. Every state is a state machine.",
