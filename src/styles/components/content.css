@@ -32,8 +32,20 @@
   margin-top: var(--space-xl);
 }
 
+/* article page — the report is a centred reading column, not a measure-wide
+   block pinned to the left edge of the 97.5rem site grid. Running text stays
+   at --measure; figures, code and tables break out to wider bands around the
+   same centre line. */
+.article-report {
+  --max: 70rem;
+
+  /* the column is the query container the wide bands below measure against */
+  container-type: inline-size;
+}
+
 .article-header {
-  max-width: 52rem;
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
 .article-title {
@@ -48,6 +60,17 @@
 /* article prose — long-form reading on the token system */
 .prose {
   max-width: var(--measure);
+  margin-inline: auto;
+
+  & img {
+    /* An image fills the band up to its natural size and is centred when it
+       is narrower. Tall portrait screenshots are held to the viewport by
+       max-height; object-fit keeps that clamp from squashing them, and the
+       width/height attributes keep reserving the box (no lazy-load shift). */
+    max-height: 80svh;
+    margin-inline: auto;
+    object-fit: contain;
+  }
 
   & h2 {
     margin-top: var(--space-xl);
@@ -85,6 +108,40 @@
     color: var(--color-signal);
     border-bottom: 1px solid currentcolor;
   }
+
+  /* WIDE BANDS — blocks that read badly at prose measure break out of the
+     reading column and stay centred on it. 100cqw is the article column
+     (the .article-report content box), 100% is the reading column, so the
+     negative side margins are exactly half the difference. On narrow
+     viewports the two are equal and the margins fall to zero. */
+  & > :is(pre, table) {
+    --band: min(100cqw, 54rem);
+  }
+
+  /* figures — screenshots and diagrams take the whole column.
+     Markdown emits them as `<p><img><em>caption</em></p>`. */
+  & > p:has(> img) {
+    --band: 100cqw;
+
+    text-align: center;
+  }
+
+  & > :is(pre, table, p:has(> img)) {
+    width: var(--band);
+    max-width: none;
+    margin-inline: calc((100% - var(--band)) / 2);
+  }
+
+  & > p:has(> img) > em {
+    display: block;
+    max-width: var(--measure);
+    margin-block-start: var(--space-2xs);
+    margin-inline: auto;
+    color: var(--color-text-2);
+    font-family: var(--font-mono);
+    font-size: var(--mono-s);
+    text-align: center;
+  }
 }
 
 /* pagination — mono instrument controls */
@@ -114,4 +171,5 @@
 
 .article-report .pager {
   max-width: var(--measure);
+  margin-inline: auto;
 }

@@ -36,6 +36,11 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
+
+  /* Intrinsic width/height attributes (Astro emits them for CLS) would
+     hold the rendered height fixed while max-width shrinks the width —
+     i.e. a squashed frame. height:auto keeps the aspect ratio. */
+  height: auto;
 }
 
 input,
