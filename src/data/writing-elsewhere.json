@@ -3,25 +3,5 @@
     "title": "How to Handle Small Context Window Limits in RAG Systems",
     "platform": "freeCodeCamp",
     "url": "https://www.freecodecamp.org/news/how-to-handle-small-context-window-limits-in-rag-systems/"
-  },
-  {
-    "title": "The 3-Tier Memory System That Cut My AI Coding Context by 96%",
-    "platform": "Medium",
-    "url": "https://medium.com/@sviatoslavbarbutsa/the-3-tier-memory-system-that-cut-my-ai-coding-context-by-96-469165635deb"
-  },
-  {
-    "title": "LLM as Router: Intent Classification for a Local Telegram Email Agent",
-    "platform": "dev.to",
-    "url": "https://dev.to/sviat_barbutsa/llm-as-router-intent-classification-for-a-local-telegram-email-agent-23l6"
-  },
-  {
-    "title": "How Search and Ask Work: Local Hybrid RAG with ChromaDB + SQLite FTS5",
-    "platform": "dev.to",
-    "url": "https://dev.to/sviat_barbutsa/how-search-and-ask-work-local-hybrid-rag-with-chromadb-sqlite-fts5-226c"
-  },
-  {
-    "title": "From Inbox to Character: Building a Private Local AI Email Agent",
-    "platform": "dev.to",
-    "url": "https://dev.to/sviat_barbutsa/from-inbox-to-character-building-a-private-local-ai-email-agent-c3k"
   }
 ]
