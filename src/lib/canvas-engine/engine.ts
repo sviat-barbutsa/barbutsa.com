@@ -16,6 +16,7 @@
 import { EntityGroup, type Entity, type FrameInfo } from "./entity";
 import { readTokens } from "./theme";
 import { createActivityGate } from "../runtime/activity-gate";
+import { prefersReducedMotion } from "../runtime/reduced-motion";
 import { registerPausable } from "../runtime/pause-registry";
 
 export interface EngineOptions {
@@ -45,7 +46,6 @@ export class Engine {
   private ro: ResizeObserver;
   private activity: ReturnType<typeof createActivityGate>;
   private unregister = (): void => {};
-  private reduced: MediaQueryList;
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -56,7 +56,6 @@ export class Engine {
     this.ctx = ctx;
     this.tokenNames = options.tokens;
     this.maxDt = options.maxDt ?? 1 / 20;
-    this.reduced = matchMedia("(prefers-reduced-motion: reduce)");
 
     this.ro = new ResizeObserver(() => this.resize());
     this.ro.observe(canvas);
@@ -78,7 +77,7 @@ export class Engine {
     this.lastTime = this.startTime;
     this.unregister = registerPausable(this);
 
-    if (this.reduced.matches) {
+    if (prefersReducedMotion()) {
       // Stillness: a single, correct frame.
       this.renderFrame(0);
       return;
@@ -93,7 +92,7 @@ export class Engine {
   }
 
   resume(): void {
-    if (this.reduced.matches) {
+    if (prefersReducedMotion()) {
       this.renderFrame(0);
       return;
     }
@@ -103,7 +102,7 @@ export class Engine {
 
   refreshTheme(): void {
     this.tokens = readTokens(this.canvas, this.tokenNames);
-    if (!this.running || this.reduced.matches) this.renderFrame(0);
+    if (!this.running || prefersReducedMotion()) this.renderFrame(0);
   }
 
   destroy(): void {
@@ -115,7 +114,7 @@ export class Engine {
   }
 
   private get shouldLoop(): boolean {
-    return this.running && this.active && !this.reduced.matches;
+    return this.running && this.active && !prefersReducedMotion();
   }
 
   private syncRunning(): void {
@@ -138,7 +137,7 @@ export class Engine {
       width: this.width,
       height: this.height,
       tokens: this.tokens,
-      reducedMotion: this.reduced.matches,
+      reducedMotion: prefersReducedMotion(),
     };
     this.scene.update(frame);
     this.ctx.clearRect(0, 0, this.width, this.height);

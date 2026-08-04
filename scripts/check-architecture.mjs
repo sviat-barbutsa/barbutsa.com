@@ -29,6 +29,74 @@ const OBSOLETE_ATLAS = new Set([
 const OBSOLETE_STYLES = new Set(["src/styles/components.css"]);
 const OBSOLETE_REFERENCES = /\b(?:createAtlas|arcPoint|routePosition)\b|atlas\/(?:config|entities|math|svg-atlas)/;
 
+/**
+ * Modules that must stay computable without a browser: given the same inputs they produce the same
+ * outputs, so they can be unit-tested without a DOM and reasoned about without a clock.
+ *
+ * This freezes a boundary that already holds rather than demanding a refactor. A module earns a
+ * place here by being pure today; adding one that is not will fail the check immediately.
+ */
+const PURE_MODULES = [
+  "src/lib/atlas/model.ts",
+  "src/lib/atlas/route-animator.ts",
+  "src/lib/atlas/types.ts",
+  "src/lib/canvas-engine/entity.ts",
+  "src/lib/content/",
+  "src/lib/flamenco/collision.ts",
+  "src/lib/flamenco/geometry.ts",
+  "src/lib/flamenco/menu-selection.ts",
+  "src/lib/flamenco/runner-renderer.ts",
+  "src/lib/runtime/pause-registry.ts",
+  "src/lib/shell/types.ts",
+  "src/theme/animations/",
+  "src/theme/palette.ts",
+];
+
+// Not listed, deliberately: src/theme/state.ts owns the storage capability the way
+// src/lib/runtime/reduced-motion.ts owns the media query. It takes `storage?: Storage` so callers
+// and tests can inject, but the ambient fallback is the point of the module, not a leak from it.
+
+/**
+ * Ambient capabilities a pure module may not reach for.
+ *
+ * `Math.random` and `Date.now` are matched only where they are *called*. Passing either as an
+ * injected default — `random: () => number = Math.random` — is how these modules stay testable, and
+ * a rule that banned the reference outright would punish the very pattern it exists to encourage.
+ */
+const AMBIENT = [
+  { label: "window", pattern: /\bwindow\b/ },
+  { label: "document", pattern: /\bdocument\b/ },
+  { label: "localStorage", pattern: /\blocalStorage\b/ },
+  { label: "Math.random()", pattern: /\bMath\.random\s*\(/ },
+  { label: "Date.now()", pattern: /\bDate\.now\s*\(/ },
+  { label: "performance.now()", pattern: /\bperformance\.now\s*\(/ },
+  { label: "crypto", pattern: /\bcrypto\b/ },
+];
+
+/**
+ * Comments and string literals are removed before matching. Without this the rule fires on prose —
+ * "Transfer size of this document" is a doc comment, not a DOM access — and a checker that cries
+ * wolf is one people learn to silence.
+ */
+function stripCommentsAndStrings(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, " ")
+    .replace(/(^|[^:])\/\/[^\n]*/g, "$1 ")
+    .replace(/`(?:\\.|[^`\\])*`/g, '""')
+    .replace(/'(?:\\.|[^'\\\n])*'/g, '""')
+    .replace(/"(?:\\.|[^"\\\n])*"/g, '""');
+}
+
+function checkPurity(file, text) {
+  if (!file.endsWith(".ts")) return [];
+  if (!PURE_MODULES.some((entry) => (entry.endsWith("/") ? file.startsWith(entry) : file === entry))) return [];
+
+  const code = stripCommentsAndStrings(text);
+  return AMBIENT.filter(({ pattern }) => pattern.test(code)).map(
+    ({ label }) => `${file} is a pure module but reaches for ${label}`,
+  );
+}
+
 function toPosix(file) {
   return file.split(path.sep).join("/");
 }
@@ -136,6 +204,12 @@ for (const dir of REQUIRED_DIRS) {
   }
 }
 
+for (const entry of PURE_MODULES) {
+  if (!existsSync(path.join(ROOT, entry))) {
+    violations.push(`PURE_MODULES lists a path that no longer exists: ${entry}`);
+  }
+}
+
 if (existsSync(path.join(ROOT, "src/tests"))) {
   violations.push("tests must not live under src/tests");
 }
@@ -168,6 +242,7 @@ for (const file of SOURCE_DIRS.flatMap(walk)) {
   }
   violations.push(...checkFunctionBudgets(file, text));
   violations.push(...checkAuthoredPixelValues(file, text));
+  violations.push(...checkPurity(file, text));
   if (
     text.includes("canvas-engine/registry") ||
     text.includes("./registry") ||

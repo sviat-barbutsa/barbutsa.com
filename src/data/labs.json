@@ -42,10 +42,10 @@
   {
     "slug": "semantic-layout-lab",
     "title": "Semantic Layout Lab",
-    "oneLiner": "HTML5 element atlas and semantic layout builder. The platform, documented by using it.",
+    "oneLiner": "HTML5 element atlas and semantic layout creator. The platform, documented by using it.",
     "stack": ["React", "HTML5", "CSS"],
     "url": "https://layout-lab.barbutsa.com",
-    "status": "porting"
+    "status": "live"
   },
   {
     "slug": "ai-memory-playground",

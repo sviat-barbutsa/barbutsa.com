@@ -1,3 +1,5 @@
+import { prefersReducedMotion } from "@/lib/runtime/reduced-motion";
+
 export type ThemeStrategy = "fluid" | "radial" | "instant";
 
 export interface StrategyFacts {
@@ -53,7 +55,7 @@ export function hasLowPowerHint(nav: Navigator = navigator): boolean {
 
 export function collectStrategyFacts(): StrategyFacts {
   return {
-    reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,
+    reducedMotion: prefersReducedMotion(),
     forcedColors: matchMedia("(forced-colors: active)").matches,
     viewTransition: typeof document.startViewTransition === "function",
     downgraded: isDowngraded(),

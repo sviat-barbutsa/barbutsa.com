@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "build": "pnpm check && astro build",
+    "build": "pnpm check && astro build && node scripts/build-headers.mjs",
     "preview": "astro preview",
     "new:article": "node scripts/new-article.mjs",
     "lint:code": "eslint \"src/**/*.{astro,ts}\" \"tests/**/*.ts\" \"scripts/**/*.mjs\" \"*.config.{js,mjs,ts}\" --max-warnings=0",
@@ -25,7 +25,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "pnpm build && playwright test",
-    "verify": "pnpm format:check && pnpm lint && pnpm check && pnpm test:coverage && astro build && playwright test",
+    "verify:wrangler-local": "node scripts/verify-wrangler-local.mjs",
+    "verify": "pnpm format:check && pnpm lint && pnpm check && pnpm test:coverage && astro build && node scripts/build-headers.mjs && playwright test && pnpm verify:wrangler-local",
     "release:check": "pnpm verify && wrangler deploy --dry-run",
     "release": "pnpm verify && wrangler deploy"
   },

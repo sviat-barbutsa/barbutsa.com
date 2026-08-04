@@ -1,5 +1,6 @@
 import type { Telemetry } from "../telemetry-core";
 import { createActivityGate } from "../runtime/activity-gate";
+import { prefersReducedMotion } from "../runtime/reduced-motion";
 import { registerPausable } from "../runtime/pause-registry";
 import { chooseNextRoute, createRouteState, normalizeTelemetry, setRouteTelemetry, staticRoute } from "./model";
 import { RouteAnimator } from "./route-animator";
@@ -40,7 +41,7 @@ export function initAtlas(frame: HTMLElement): AtlasHandle {
   if (!view) return noopHandle();
 
   const cleanupTooltips = view.bindTooltips();
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = prefersReducedMotion();
   let telemetry: NormalizedTelemetry | null = null;
 
   if (reduced) {

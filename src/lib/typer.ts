@@ -12,6 +12,7 @@
  */
 
 import { createActivityGate } from "./runtime/activity-gate";
+import { prefersReducedMotion } from "./runtime/reduced-motion";
 import { registerPausable } from "./runtime/pause-registry";
 
 export interface TyperOptions {
@@ -60,7 +61,7 @@ export function initTyper(el: HTMLElement, phrases: readonly string[], options: 
   } = { ...DEFAULTS, ...options };
   const onDone = options.onDone;
 
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = prefersReducedMotion();
   if (reduced) {
     el.textContent = phrases[0]!;
     return { destroy: () => {} };

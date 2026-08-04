@@ -18,6 +18,7 @@ import doctrine from "@/data/doctrine.json";
   import { ambientControls } from "@/lib/typer";
   import { initShell, type ShellAction } from "@/lib/shell/controller";
   import { toggleXray } from "@/lib/xray";
+  import { prefersReducedMotion } from "@/lib/runtime/reduced-motion";
   import { site } from "@/data/site";
   import labs from "@/data/labs.json";
 
@@ -78,7 +79,7 @@ import doctrine from "@/data/doctrine.json";
     /* the easter egg — NOT in help; found via `ls -a`. The game chunk
        loads only when summoned (dynamic import = zero cost otherwise). */
     const launchFlamenco = (): string | void => {
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (prefersReducedMotion()) {
         return "this easter egg requires motion — respecting your settings";
       }
       const invoker = document.querySelector<HTMLElement>(".shell-open-btn");
