@@ -27,6 +27,9 @@
 }
 
 .work-preview {
+  --preview-caption-height: 2.75rem;
+  --preview-inset: var(--space-s);
+
   display: none;
   position: sticky;
   top: var(--space-l);
@@ -41,13 +44,19 @@
 
   & img {
     position: absolute;
-    inset: 8%;
-    width: 84%;
-    height: 84%;
-    object-fit: contain;
+    top: var(--preview-inset);
+    left: 50%;
+    width: auto;
+    max-width: calc(100% - var(--preview-inset) - var(--preview-inset));
+    height: calc(100% - var(--preview-caption-height) - var(--preview-inset) - var(--preview-inset));
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-s);
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out);
     filter: contrast(1.12) brightness(1.12);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-signal) 22%, var(--color-well-border));
+    transform: translateX(-50%);
   }
 
   & img[data-front] {
@@ -59,10 +68,12 @@
   & figcaption {
     position: absolute;
     inset: auto 0 0;
-    padding: var(--space-2xs) var(--space-xs);
+    min-height: var(--preview-caption-height);
+    padding: 0 var(--space-xs);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    border-top: 1px solid var(--color-well-border);
     text-transform: uppercase;
     letter-spacing: 0.08em;
 

@@ -102,59 +102,121 @@ function queryDom(frame: HTMLElement): AtlasDom | null {
   };
 }
 
+function showTip(dom: AtlasDom, node: SVGGElement): void {
+  if (!dom.tip) return;
+  const halo = node.querySelector("circle.halo");
+  if (!halo) return;
+  const nb = halo.getBoundingClientRect();
+  const sb = dom.frame.getBoundingClientRect();
+  const title = document.createElement("b");
+  const sub = document.createElement("span");
+  sub.className = "r";
+  title.textContent = node.dataset.city ?? "Edge node";
+  sub.textContent = ` · ${node.dataset.role ?? "network point"}`;
+  dom.tip.replaceChildren(title, sub);
+  dom.tip.style.left = `${nb.left - sb.left + nb.width / 2}px`;
+  dom.tip.style.top = `${nb.top - sb.top}px`;
+  dom.tip.classList.add("show");
+  dom.tip.setAttribute("aria-hidden", "false");
+}
+function hideTip(dom: AtlasDom): void {
+  dom.tip?.classList.remove("show");
+  dom.tip?.setAttribute("aria-hidden", "true");
+}
+function addTapTarget(node: SVGGElement): SVGCircleElement | null {
+  const halo = node.querySelector<SVGCircleElement>("circle.halo");
+  if (!halo) return null;
+  const target = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  target.classList.add("tap-target");
+  target.setAttribute("cx", halo.getAttribute("cx") ?? "0");
+  target.setAttribute("cy", halo.getAttribute("cy") ?? "0");
+  target.setAttribute("r", "1");
+  target.setAttribute("aria-hidden", "true");
+  node.insertBefore(target, halo);
+  return target;
+}
+function bindNodeTooltips(dom: AtlasDom): () => void {
+  const removers: Array<() => void> = [];
+  let pinnedNode: SVGGElement | null = null;
+  const setPinnedNode = (node: SVGGElement | null): void => {
+    if (pinnedNode === node) {
+      if (!node) hideTip(dom);
+      return;
+    }
+    pinnedNode?.classList.remove("tip-pinned");
+    pinnedNode?.setAttribute("aria-pressed", "false");
+    pinnedNode = node;
+    if (!node) return hideTip(dom);
+    node.classList.add("tip-pinned");
+    node.setAttribute("aria-pressed", "true");
+    showTip(dom, node);
+  };
+
+  for (const node of dom.nodes) {
+    node.setAttribute("aria-pressed", "false");
+    node.setAttribute("aria-describedby", "atlas-tip");
+    const target = addTapTarget(node);
+    const enter = () => !pinnedNode && showTip(dom, node);
+    const leave = () => !pinnedNode && hideTip(dom);
+    const focus = () => {
+      if (pinnedNode && pinnedNode !== node) setPinnedNode(null);
+      showTip(dom, node);
+    };
+    const blur = () => pinnedNode !== node && hideTip(dom);
+    const toggle = () => setPinnedNode(pinnedNode === node ? null : node);
+    const pointerUp = (event: PointerEvent) => {
+      if (event.pointerType === "mouse") return;
+      node.focus({ preventScroll: true });
+      toggle();
+    };
+    const keyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      toggle();
+    };
+    const accessibleClick = (event: MouseEvent) => event.detail === 0 && toggle();
+    node.addEventListener("mouseenter", enter);
+    node.addEventListener("mouseleave", leave);
+    node.addEventListener("focus", focus);
+    node.addEventListener("blur", blur);
+    node.addEventListener("pointerup", pointerUp);
+    node.addEventListener("keydown", keyDown);
+    node.addEventListener("click", accessibleClick);
+    removers.push(() => {
+      node.removeEventListener("mouseenter", enter);
+      node.removeEventListener("mouseleave", leave);
+      node.removeEventListener("focus", focus);
+      node.removeEventListener("blur", blur);
+      node.removeEventListener("pointerup", pointerUp);
+      node.removeEventListener("keydown", keyDown);
+      node.removeEventListener("click", accessibleClick);
+      target?.remove();
+    });
+  }
+
+  const dismissOnPointerDown = (event: PointerEvent) => {
+    if (!pinnedNode || !(event.target instanceof Node) || pinnedNode.contains(event.target)) return;
+    setPinnedNode(null);
+  };
+  const dismissOnEscape = (event: KeyboardEvent) => event.key === "Escape" && pinnedNode && setPinnedNode(null);
+  document.addEventListener("pointerdown", dismissOnPointerDown);
+  document.addEventListener("keydown", dismissOnEscape);
+
+  return () => {
+    setPinnedNode(null);
+    document.removeEventListener("pointerdown", dismissOnPointerDown);
+    document.removeEventListener("keydown", dismissOnEscape);
+    removers.forEach((remove) => remove());
+  };
+}
+
 export function createView(frame: HTMLElement): AtlasView | null {
   const dom = queryDom(frame);
   if (!dom) return null;
-
   const spokeFor = (code: PopCode): string => dom.svg.querySelector(`#sp-${code}`)?.getAttribute("d") ?? "";
 
-  const showTip = (node: SVGGElement): void => {
-    if (!dom.tip) return;
-    const halo = node.querySelector("circle.halo");
-    if (!halo) return;
-    const nb = halo.getBoundingClientRect();
-    const sb = dom.frame.getBoundingClientRect();
-    const city = node.dataset.city ?? "Edge node";
-    const role = node.dataset.role ?? "network point";
-    const title = document.createElement("b");
-    const sub = document.createElement("span");
-    sub.className = "r";
-    title.textContent = city;
-    sub.textContent = ` · ${role}`;
-    dom.tip.replaceChildren(title, sub);
-    dom.tip.style.left = `${nb.left - sb.left + nb.width / 2}px`;
-    dom.tip.style.top = `${nb.top - sb.top}px`;
-    dom.tip.classList.add("show");
-    dom.tip.setAttribute("aria-hidden", "false");
-  };
-
-  const hideTip = (): void => {
-    if (!dom.tip) return;
-    dom.tip.classList.remove("show");
-    dom.tip.setAttribute("aria-hidden", "true");
-  };
-
   return {
-    bindTooltips: () => {
-      const removers: Array<() => void> = [];
-      for (const node of dom.nodes) {
-        const enter = () => showTip(node);
-        node.addEventListener("mouseenter", enter);
-        node.addEventListener("mouseleave", hideTip);
-        node.addEventListener("focus", enter);
-        node.addEventListener("blur", hideTip);
-        removers.push(() => {
-          node.removeEventListener("mouseenter", enter);
-          node.removeEventListener("mouseleave", hideTip);
-          node.removeEventListener("focus", enter);
-          node.removeEventListener("blur", hideTip);
-        });
-      }
-      return () => {
-        hideTip();
-        removers.forEach((remove) => remove());
-      };
-    },
+    bindTooltips: () => bindNodeTooltips(dom),
     markHot: (code) => {
       for (const node of dom.nodes) {
         node.classList.toggle("hot", node.dataset.code === code);

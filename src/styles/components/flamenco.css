@@ -44,7 +44,7 @@
   & .fl-canvas {
     display: block;
     width: 100%;
-    height: min(20rem, 52vh);
+    height: 100%;
     outline: none;
     touch-action: manipulation;
   }
@@ -53,6 +53,8 @@
 /* flamenco pause veil — covers the stage while focus is elsewhere */
 .flamenco-panel .fl-stage {
   position: relative;
+  height: min(20rem, 52vh);
+  overflow: hidden;
 }
 
 .flamenco-panel .fl-pause {

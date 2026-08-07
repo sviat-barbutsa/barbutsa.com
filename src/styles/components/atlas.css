@@ -84,6 +84,16 @@
   & .node {
     cursor: crosshair;
     outline: none;
+    touch-action: manipulation;
+  }
+
+  & .node circle.tap-target {
+    fill: none;
+    stroke: transparent;
+    stroke-width: 44px;
+    vector-effect: non-scaling-stroke;
+    pointer-events: stroke;
+    touch-action: manipulation;
   }
 
   & .node circle.core {
@@ -95,6 +105,7 @@
     fill: none;
     stroke: color-mix(in srgb, var(--color-text) 16%, transparent);
     stroke-width: 1;
+    pointer-events: all;
     transition: stroke 0.2s ease;
   }
 
@@ -118,6 +129,7 @@
 
   & .node:hover circle.core,
   & .node:focus-visible circle.core,
+  & .node.tip-pinned circle.core,
   & .node.hot circle.core {
     fill: var(--color-signal);
     filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-signal) 70%, transparent));
@@ -125,12 +137,14 @@
 
   & .node:hover circle.halo,
   & .node:focus-visible circle.halo,
+  & .node.tip-pinned circle.halo,
   & .node.hot circle.halo {
     stroke: color-mix(in srgb, var(--color-signal) 55%, transparent);
   }
 
   & .node:hover text,
   & .node:focus-visible text,
+  & .node.tip-pinned text,
   & .node.hot text {
     fill: var(--color-text);
   }

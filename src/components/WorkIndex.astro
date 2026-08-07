@@ -18,13 +18,13 @@ const Heading = registry ? "h2" : "h3";
    pre-optimized `public/labs/<slug>.webp` exists — labs.json stays
    schema-clean and the build needs no image pipeline. */
 const orderedLabs = [...labs].sort((a, b) => Number(b.status === "live") - Number(a.status === "live"));
-const rows = registry ? orderedLabs : orderedLabs.slice(0, 5);
+const rows = registry ? orderedLabs : orderedLabs.filter((lab) => lab.status === "live").slice(0, 5);
 const labArt = import.meta.glob("../../public/labs/*.webp");
 const hasArt = (slug: string): boolean => `../../public/labs/${slug}.webp` in labArt;
 
 const statusLabel: Record<string, string> = {
   live: "LIVE",
-  porting: "PORTING",
+  porting: "IN DEVELOPMENT",
   wip: "WIP",
   archived: "ARCHIVED",
 };
@@ -37,8 +37,7 @@ const statusLabel: Record<string, string> = {
         const live = lab.status === "live";
         const art = live && hasArt(lab.slug);
         const no = `/${String(i + 1).padStart(2, "0")}`;
-        /* Live rows open the lab; home rows without a live URL anchor into
-           the registry; registry rows without a live URL are plain entries. */
+        /* Live rows open the lab; unfinished registry rows are plain entries. */
         const href = live ? lab.url : registry ? undefined : `/lab#${lab.slug}`;
         const Row = href ? "a" : "article";
         return (

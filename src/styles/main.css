@@ -26,6 +26,7 @@
 @import url("components/contact.css") layer(components);
 @import url("components/theme-toggle.css") layer(components);
 @import url("components/site-chrome.css") layer(components);
+@import url("components/site-menu.css") layer(components);
 @import url("components/atlas.css") layer(components);
 @import url("components/content.css") layer(components);
 @import url("components/home.css") layer(components);

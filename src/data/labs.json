@@ -42,8 +42,8 @@
   {
     "slug": "background-removal",
     "title": "Background Removal",
-    "oneLiner": "AI background removal with edge acceleration. Pixel-perfect output, no server in the loop.",
-    "stack": ["React", "TypeScript", "ONNX", "Canvas"],
+    "oneLiner": "Private, in-browser AI cutouts with brush refinement and batch PNG, WebP, or ZIP export.",
+    "stack": ["React", "TypeScript", "ONNX", "Web Workers"],
     "url": "https://bg-removal.barbutsa.com",
     "status": "live"
   },

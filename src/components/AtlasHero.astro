@@ -19,8 +19,8 @@
     <svg
       data-atlas-svg
       viewBox="0 0 800 520"
-      role="img"
-      aria-label="Abstract map of edge network points of presence. A request pulse travels from the origin to the nearest edge node."
+      role="group"
+      aria-label="Interactive map of edge network points of presence. A request pulse travels from the origin to the nearest edge node."
     >
       <!-- faint peer mesh -->
       <g class="mesh" aria-hidden="true">
@@ -64,7 +64,7 @@
       <g
         class="node origin"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Origin: Workers, D1, and R2"
         data-code="ORIGIN"
         data-city="Origin"
@@ -77,7 +77,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Warsaw edge point"
         data-code="WAW"
         data-city="Warsaw"
@@ -89,7 +89,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="London edge point"
         data-code="LHR"
         data-city="London"
@@ -101,7 +101,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Frankfurt edge point"
         data-code="FRA"
         data-city="Frankfurt"
@@ -113,7 +113,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Amsterdam edge point"
         data-code="AMS"
         data-city="Amsterdam"
@@ -125,7 +125,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Washington DC edge point"
         data-code="IAD"
         data-city="Washington DC"
@@ -137,7 +137,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="São Paulo edge point"
         data-code="GRU"
         data-city="São Paulo"
@@ -149,7 +149,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Tokyo edge point"
         data-code="NRT"
         data-city="Tokyo"
@@ -161,7 +161,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Singapore edge point"
         data-code="SIN"
         data-city="Singapore"
@@ -173,7 +173,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Sydney edge point"
         data-code="SYD"
         data-city="Sydney"
@@ -185,7 +185,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Johannesburg edge point"
         data-code="JNB"
         data-city="Johannesburg"
@@ -197,7 +197,7 @@
       <g
         class="node"
         tabindex="0"
-        role="group"
+        role="button"
         aria-label="Dubai edge point"
         data-code="DXB"
         data-city="Dubai"
@@ -208,7 +208,7 @@
       </g>
     </svg>
 
-    <div class="atlas-tip" data-atlas-tip role="status" aria-hidden="true"></div>
+    <div id="atlas-tip" class="atlas-tip" data-atlas-tip role="status" aria-hidden="true"></div>
 
     <p class="readout">
       <span class="dot" aria-hidden="true"></span>

@@ -1,0 +1,103 @@
+/* Compact primary navigation — explicit disclosure replaces an unhinted
+   horizontal strip until every route fits the desktop instrument bar. */
+.site-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: var(--target-min);
+  padding-inline: var(--space-xs);
+  border: var(--hairline);
+  border-radius: var(--radius-s);
+  color: var(--color-text-2);
+  font-size: var(--mono-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+
+  &::after {
+    content: "+";
+    color: var(--color-signal);
+    font-size: var(--mono-s);
+  }
+
+  &:hover {
+    color: var(--color-signal);
+    border-color: var(--color-signal);
+  }
+}
+
+.site-head[data-menu-open] .site-menu-toggle {
+  color: var(--color-text);
+  border-color: var(--color-signal);
+
+  &::after {
+    content: "−";
+  }
+}
+
+@media (max-width: 56.249em) {
+  .site-head .bar {
+    gap: var(--space-xs);
+  }
+
+  .site-head[data-menu-ready] .site-menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .site-head[data-menu-ready] nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    display: none;
+    max-height: calc(100dvh - var(--size-header));
+    margin-left: 0;
+    overflow-y: auto;
+    background: var(--color-bg);
+    border-top: var(--hairline);
+    border-bottom: var(--hairline);
+    box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 18%);
+  }
+
+  .site-head[data-menu-open] nav {
+    display: block;
+  }
+
+  .site-head[data-menu-ready] .site-nav {
+    display: grid;
+    gap: 0;
+    padding: var(--space-2xs) var(--gutter);
+    overflow: visible;
+
+    &::after {
+      display: none;
+    }
+
+    & li + li {
+      border-top: var(--hairline);
+    }
+
+    & a {
+      display: flex;
+      align-items: center;
+      min-height: var(--target-min);
+      padding-inline: var(--space-2xs);
+    }
+
+    &[data-line-ready] a[aria-current="page"] {
+      border-bottom-color: var(--color-signal);
+    }
+  }
+}
+
+@media (pointer: coarse) and (max-width: 56.249em) {
+  .site-menu-toggle,
+  .site-head[data-menu-ready] .site-nav a {
+    min-height: var(--target-coarse);
+  }
+}

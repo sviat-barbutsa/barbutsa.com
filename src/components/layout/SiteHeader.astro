@@ -17,7 +17,17 @@ const isActive = (href: string): boolean =>
       <span class="tick" aria-hidden="true"></span>
       SB&nbsp;/&nbsp;EDGE
     </a>
-    <nav aria-label="Main">
+    <button
+      type="button"
+      class="site-menu-toggle mono"
+      aria-controls="main-navigation"
+      aria-expanded="false"
+      aria-label="Open main menu"
+      data-site-menu-toggle
+    >
+      Menu
+    </button>
+    <nav id="main-navigation" aria-label="Main">
       <ul class="site-nav">
         {
           site.nav.map((item) => (
@@ -35,3 +45,34 @@ const isActive = (href: string): boolean =>
 </header>
 
 <span id="theme-status" class="visually-hidden" aria-live="polite"></span>
+
+<script>
+  const header = document.querySelector<HTMLElement>(".site-head");
+  const toggle = header?.querySelector<HTMLButtonElement>("[data-site-menu-toggle]");
+  const nav = header?.querySelector<HTMLElement>("#main-navigation");
+
+  if (header && toggle && nav) {
+    const setOpen = (open: boolean): void => {
+      header.toggleAttribute("data-menu-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", `${open ? "Close" : "Open"} main menu`);
+    };
+
+    toggle.addEventListener("click", () => setOpen(!header.hasAttribute("data-menu-open")));
+    nav.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a")) setOpen(false);
+    });
+    addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && header.hasAttribute("data-menu-open")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Node && !header.contains(event.target)) setOpen(false);
+    });
+    matchMedia("(min-width: 56.25em)").addEventListener("change", () => setOpen(false));
+
+    header.dataset.menuReady = "";
+  }
+</script>
