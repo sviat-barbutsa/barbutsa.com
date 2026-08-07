@@ -1,13 +1,5 @@
 [
   {
-    "slug": "background-removal",
-    "title": "Background Removal",
-    "oneLiner": "AI background removal with edge acceleration. Pixel-perfect output, no server in the loop.",
-    "stack": ["React", "TypeScript", "ONNX", "Canvas"],
-    "url": "https://bg-removal.barbutsa.com",
-    "status": "porting"
-  },
-  {
     "slug": "hand-detection",
     "title": "Hand Detection",
     "oneLiner": "Real-time hand landmark tracking in the browser. Camera in, coordinates out.",
@@ -45,6 +37,14 @@
     "oneLiner": "HTML5 element atlas and semantic layout creator. The platform, documented by using it.",
     "stack": ["React", "HTML5", "CSS"],
     "url": "https://layout-lab.barbutsa.com",
+    "status": "live"
+  },
+  {
+    "slug": "background-removal",
+    "title": "Background Removal",
+    "oneLiner": "AI background removal with edge acceleration. Pixel-perfect output, no server in the loop.",
+    "stack": ["React", "TypeScript", "ONNX", "Canvas"],
+    "url": "https://bg-removal.barbutsa.com",
     "status": "live"
   },
   {
