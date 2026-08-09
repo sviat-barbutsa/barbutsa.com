@@ -48,7 +48,47 @@
   }
 
   &[data-layout="timeline"] {
-    grid-template-columns: 7rem 1fr;
+    grid-template-columns: minmax(10.5rem, 12rem) minmax(0, 1fr);
+    align-items: start;
+
+    & .career-dates {
+      display: flex;
+      gap: 0.35ch;
+      align-items: baseline;
+      padding-block-start: 0.15em;
+      white-space: nowrap;
+    }
+
+    & .career-entry {
+      min-width: 0;
+    }
+
+    & .index-title-row {
+      flex-wrap: wrap;
+      gap: var(--space-2xs) var(--space-s);
+    }
+
+    & .career-current {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    & .career-organization {
+      margin-block-start: var(--space-3xs);
+      font-size: var(--step--1);
+    }
+
+    & .career-employer {
+      color: var(--color-text);
+      font-weight: 650;
+    }
+
+    & .career-case-link {
+      color: var(--color-signal);
+      font-family: var(--font-mono);
+      font-size: var(--mono-s);
+      text-underline-offset: 0.2em;
+    }
   }
 
   &[data-layout="home-writing"] {
@@ -87,5 +127,21 @@
 
   & .index-meta {
     margin-top: var(--space-2xs);
+  }
+}
+
+.career-timeline-intro {
+  max-width: var(--measure);
+}
+
+@media (max-width: 40rem) {
+  .index-row[data-layout="timeline"] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs);
+
+    & .career-dates {
+      padding-block-start: 0;
+      white-space: normal;
+    }
   }
 }

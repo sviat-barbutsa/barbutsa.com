@@ -1,0 +1,241 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+interface CaseStudyImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption: string;
+  format?: "wide" | "mobile";
+}
+
+interface CaseStudyFact {
+  label: string;
+  value: string;
+}
+
+interface CaseStudyHighlight {
+  title: string;
+  description: string;
+}
+
+interface CaseStudyAction {
+  label: string;
+  href: string;
+  external: boolean;
+}
+
+interface CaseStudyArticle {
+  title: string;
+  summary: string;
+  href: string;
+}
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  eyebrow: string;
+  status: string;
+  lead: string;
+  ownership: string;
+  publicUrl?: string;
+  publicActionLabel?: string;
+  primaryAction?: CaseStudyAction;
+  kickerLabel?: string;
+  overviewTitle?: string;
+  evidenceTitle?: string;
+  evidenceIntro?: string;
+  boundaryTitle?: string;
+  galleryLayout?: "standard" | "mobile-grid";
+  relatedArticles?: readonly CaseStudyArticle[];
+  facts: readonly CaseStudyFact[];
+  overview: readonly string[];
+  highlights: readonly CaseStudyHighlight[];
+  evidence: readonly CaseStudyImage[];
+  boundaries: readonly string[];
+}
+
+const {
+  slug,
+  title,
+  description,
+  eyebrow,
+  status,
+  lead,
+  ownership,
+  publicUrl,
+  publicActionLabel,
+  primaryAction,
+  kickerLabel = "CLIENT",
+  overviewTitle = "A service journey built around the next useful action.",
+  evidenceTitle = "Responsive pages from the live client website.",
+  evidenceIntro = "These fresh captures focus on the implemented interface and intentionally omit client-managed contact data.",
+  boundaryTitle = "What the portfolio evidence means.",
+  galleryLayout = "standard",
+  relatedArticles = [],
+  facts,
+  overview,
+  highlights,
+  evidence,
+  boundaries,
+} = Astro.props;
+const hero = evidence[0];
+const publicHost = publicUrl ? new URL(publicUrl).hostname.replace(/^www\./, "") : null;
+const heroAction =
+  primaryAction ??
+  (publicUrl && publicActionLabel ? { label: publicActionLabel, href: publicUrl, external: true } : undefined);
+const structuredData = {
+  "@type": "CreativeWork",
+  name: title,
+  description,
+  url: new URL(`/work/${slug}`, Astro.site),
+  creator: { "@id": `${Astro.site}#person` },
+};
+---
+
+<Layout
+  title={title}
+  documentTitle={`${title} | Sviatoslav Barbutsa`}
+  description={description}
+  type="article"
+  section="Product work"
+  cover={hero.src}
+  coverAlt={hero.alt}
+  structuredData={structuredData}
+>
+  <article class="case-study" data-case-study={slug}>
+    <header class="wrap region case-study-hero" aria-labelledby="case-study-title">
+      <div class="case-study-hero-grid">
+        <div class="stack case-study-hero-copy">
+          <p class="kick"><span class="idx">{kickerLabel}</span> {eyebrow}</p>
+          <p class="label case-study-status" data-tone="signal">{status}</p>
+          <h1 id="case-study-title" class="page-title">{title}</h1>
+          <p class="case-study-lead">{lead}</p>
+          <p class="case-study-ownership">{ownership}</p>
+          <div class="cluster case-study-actions">
+            {
+              heroAction && (
+                <a
+                  class="btn"
+                  href={heroAction.href}
+                  target={heroAction.external ? "_blank" : undefined}
+                  rel={heroAction.external ? "noopener noreferrer" : undefined}
+                >
+                  {heroAction.label}
+                </a>
+              )
+            }
+            <a class="case-study-back" href="/work">All selected work →</a>
+          </div>
+          {
+            publicUrl && publicHost && (
+              <p class="case-study-live-url">
+                <span class="label" data-tone="signal">
+                  LIVE URL
+                </span>
+                <a href={publicUrl} target="_blank" rel="noopener noreferrer">
+                  {publicHost} ↗
+                </a>
+              </p>
+            )
+          }
+        </div>
+
+        <figure class="case-study-hero-media" data-format={hero.format ?? "wide"}>
+          <img
+            src={hero.src}
+            alt={hero.alt}
+            width={hero.width}
+            height={hero.height}
+            fetchpriority="high"
+            decoding="async"
+          />
+          <figcaption>{hero.caption}</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="wrap case-study-facts" aria-label="Project facts">
+      <dl>
+        {
+          facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="wrap region case-study-reading stack" aria-labelledby="case-study-overview">
+      <p class="kick"><span class="idx">01</span> Delivery</p>
+      <h2 id="case-study-overview" class="section-title">{overviewTitle}</h2>
+      {overview.map((paragraph) => <p class="case-study-copy">{paragraph}</p>)}
+      <div class="case-study-highlight-grid">
+        {
+          highlights.map((highlight, index) => (
+            <article class="panel stack">
+              <p class="label" data-tone="signal">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3>{highlight.title}</h3>
+              <p class="text-dim">{highlight.description}</p>
+            </article>
+          ))
+        }
+      </div>
+      {
+        relatedArticles.length > 0 && (
+          <aside class="case-study-series stack" aria-labelledby="case-study-series-title">
+            <p class="kick">Technical writing</p>
+            <h3 id="case-study-series-title">Read the five-part Llamail build series.</h3>
+            <ol>
+              {relatedArticles.map((article) => (
+                <li>
+                  <a href={article.href}>{article.title} →</a>
+                  <p>{article.summary}</p>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        )
+      }
+    </section>
+
+    <section class="wrap region stack" aria-labelledby="case-study-evidence">
+      <p class="kick"><span class="idx">02</span> Interface evidence</p>
+      <h2 id="case-study-evidence" class="section-title">{evidenceTitle}</h2>
+      {evidenceIntro && <p class="text-dim measure">{evidenceIntro}</p>}
+      <div class="case-study-gallery" data-layout={galleryLayout}>
+        {
+          evidence.slice(1).map((image) => (
+            <figure data-format={image.format ?? "wide"}>
+              <img
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>{image.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="wrap region case-study-boundary" aria-labelledby="case-study-boundary">
+      <div class="stack">
+        <p class="kick"><span class="idx">03</span> Delivery boundary</p>
+        <h2 id="case-study-boundary" class="section-title">{boundaryTitle}</h2>
+      </div>
+      <ul>
+        {boundaries.map((boundary) => <li>{boundary}</li>)}
+      </ul>
+    </section>
+  </article>
+</Layout>

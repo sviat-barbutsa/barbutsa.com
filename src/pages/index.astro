@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import AtlasHero from "@/components/AtlasHero.astro";
 import Doctrine from "@/components/Doctrine.astro";
 import SelectedWork from "@/components/SelectedWork.astro";
+import WorkIndex from "@/components/WorkIndex.astro";
 import { site } from "@/data/site";
 import caseStudies from "@/data/case-studies.json";
 import { getRecentArticles } from "@/lib/content/articles";
@@ -14,7 +15,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
 
 <Layout>
   <!-- 00 · HERO -->
-  <section class="wrap region hero-grid" data-shell-bounds>
+  <section class="wrap region hero-grid" data-home-section="hero" data-shell-bounds>
     <div class="stack" style="--flow: var(--space-m);">
       <p class="kick">
         <span class="idx">{site.name.toUpperCase()}</span>
@@ -24,11 +25,10 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
         Systems that stay<br /><em>understandable.</em>
       </h1>
       <p class="measure text-dim">
-        {site.positioning} React and TypeScript architecture, AI product systems, and SaaS that runs where the users are —
-        on the edge.
+        {site.positioning}
       </p>
       <div class="cluster">
-        <a class="btn" href="/lab">Selected work →</a>
+        <a class="btn" href="/work">Selected work →</a>
         <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a>
       </div>
       <Doctrine />
@@ -38,12 +38,48 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
 
   <SelectedWork />
 
-  <!-- 02 · WRITING -->
-  <section class="wrap region" aria-labelledby="h-writing">
+  <!-- 02 · LIVE SOFTWARE -->
+  <section class="wrap region stack" aria-labelledby="h-tools" data-home-section="tools">
+    <div class="repel">
+      <p class="kick"><span class="idx">02</span> Live software</p>
+      <a class="label" data-tone="signal" href="/lab">VIEW ALL SOFTWARE →</a>
+    </div>
+    <h2 id="h-tools" class="section-title">Software you can use</h2>
+    <p class="text-dim measure">
+      Focused browser tools for image editing, QR creation, generative graphics, and semantic HTML — each independently
+      deployed and available to use.
+    </p>
+    <WorkIndex variant="home" />
+  </section>
+
+  <!-- 03 · ARCHITECTURE -->
+  <section class="wrap region stack" aria-labelledby="h-arch" data-home-section="architecture">
+    <p class="kick"><span class="idx">03</span> Patterns & trade-offs</p>
+    <h2 id="h-arch" class="section-title">Architecture Notes</h2>
+    <p class="text-dim measure">
+      Concise design explorations covering system boundaries, trade-offs, and how each request path is expected to fail.
+    </p>
+    <div class="grid" style="--grid-min: 20rem;">
+      {
+        caseStudies.slice(0, 4).map((cs) => (
+          <a class="panel stack case-card" style="--flow: var(--space-xs);" href="/architecture">
+            <span class="label" data-tone="signal">
+              ROUTE ○ {cs.route.join(" — ")}
+            </span>
+            <h3 class="panel-title">{cs.title}</h3>
+            <p class="panel-summary text-dim">{cs.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 04 · WRITING -->
+  <section class="wrap region" aria-labelledby="h-writing" data-home-section="writing">
     <div class="writing-grid">
       <div class="stack">
         <div class="repel">
-          <p class="kick"><span class="idx">02</span> Writing</p>
+          <p class="kick"><span class="idx">04</span> Writing</p>
           <a class="label" data-tone="signal" href="/articles">ALL ARTICLES →</a>
         </div>
         <h2 id="h-writing" class="section-title" data-measure="narrow">Notes from production.</h2>
@@ -67,36 +103,13 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
   </section>
 
-  <!-- 03 · ARCHITECTURE -->
-  <section class="wrap region stack" aria-labelledby="h-arch">
-    <p class="kick"><span class="idx">03</span> Architecture</p>
-    <h2 id="h-arch" class="section-title">Case studies, drawn as routes.</h2>
-    <p class="text-dim measure">
-      Every system is a path a request takes. If you cannot draw the path in three nodes, the system is not done being
-      designed.
-    </p>
-    <div class="grid" style="--grid-min: 20rem;">
-      {
-        caseStudies.slice(0, 4).map((cs) => (
-          <a class="panel stack case-card" style="--flow: var(--space-xs);" href="/architecture">
-            <span class="label" data-tone="signal">
-              ROUTE ○ {cs.route.join(" — ")}
-            </span>
-            <h3 class="panel-title">{cs.title}</h3>
-            <p class="panel-summary text-dim">{cs.summary}</p>
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- 04 · CONTACT — left-aligned like every other region; the card on
+  <!-- 05 · CONTACT — left-aligned like every other region; the card on
        the right is contact.protocol (the operator.conf pattern) and is
        where the Sable assistant's entry line will live later. -->
-  <section class="wrap region" aria-labelledby="h-contact">
+  <section class="wrap region" aria-labelledby="h-contact" data-home-section="contact">
     <div class="sidebar" style="--sidebar-width: 22rem;">
       <div class="stack" style="--flow: var(--space-m);">
-        <p class="kick"><span class="idx">04</span> Contact</p>
+        <p class="kick"><span class="idx">05</span> Contact</p>
         {
           /* clamp: "understandable?" (15 glyphs) must never break mid-word
             on narrow viewports — same guarantee as the hero title */

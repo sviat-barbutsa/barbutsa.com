@@ -40,8 +40,8 @@ test("skip link, keyboard navigation, and aria-current state are correct", async
 
   const mobileMenu = page.locator("[data-site-menu-toggle]");
   if (await mobileMenu.isVisible()) await mobileMenu.click();
-  const articles = page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Articles" });
-  await articles.focus();
+  const writing = page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Writing" });
+  await writing.focus();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/articles$/);
   const active = page.locator('nav[aria-label="Main"] [aria-current="page"]');
@@ -54,42 +54,44 @@ test("skip link, keyboard navigation, and aria-current state are correct", async
 });
 
 test("mobile primary menu exposes every route and closes predictably", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-
   const menu = page.locator("[data-site-menu-toggle]");
   const nav = page.getByRole("navigation", { name: "Main" });
-  await expect(menu).toBeVisible();
-  await expect(menu).toHaveAttribute("aria-expanded", "false");
-  await expect(nav).toBeHidden();
 
-  await menu.click();
-  await expect(menu).toHaveAttribute("aria-expanded", "true");
-  await expect(menu).toHaveAttribute("aria-label", "Close main menu");
-  await expect(nav).toBeVisible();
+  for (const width of [320, 375, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveAttribute("aria-expanded", "false");
+    await expect(nav).toBeHidden();
 
-  for (const label of ["Home", "Lab", "Packages", "Articles", "Architecture", "About", "Contact"]) {
-    const link = nav.getByRole("link", { name: label, exact: true });
-    await expect(link).toBeVisible();
-    const box = await link.boundingBox();
-    expect(box, `${label} should have a rendered touch target`).not.toBeNull();
-    expect(box!.x).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(390);
-    expect(box!.height).toBeGreaterThanOrEqual(44);
+    await menu.click();
+    await expect(menu).toHaveAttribute("aria-expanded", "true");
+    await expect(menu).toHaveAttribute("aria-label", "Close main menu");
+    await expect(nav).toBeVisible();
+
+    for (const label of ["Home", "Work", "Architecture", "Writing", "Tools", "About", "Contact"]) {
+      const link = nav.getByRole("link", { name: label, exact: true });
+      await expect(link).toBeVisible();
+      const box = await link.boundingBox();
+      expect(box, `${label} should have a rendered touch target at ${width}px`).not.toBeNull();
+      expect(box!.x).toBeGreaterThanOrEqual(0);
+      expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+
+    await page.keyboard.press("Escape");
+    await expect(nav).toBeHidden();
+    await expect(menu).toBeFocused();
+    await expect(menu).toHaveAttribute("aria-expanded", "false");
   }
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
-
-  await page.keyboard.press("Escape");
-  await expect(nav).toBeHidden();
-  await expect(menu).toBeFocused();
-  await expect(menu).toHaveAttribute("aria-expanded", "false");
 
   await menu.click();
   await page.mouse.click(380, 800);
   await expect(nav).toBeHidden();
 
   await menu.click();
-  await nav.getByRole("link", { name: "Articles", exact: true }).click();
+  await nav.getByRole("link", { name: "Writing", exact: true }).click();
   await expect(page).toHaveURL(/\/articles$/);
   await expect(page.locator('nav[aria-label="Main"] [aria-current="page"]')).toHaveAttribute("href", "/articles");
 
@@ -102,6 +104,23 @@ test("mobile primary menu exposes every route and closes predictably", async ({ 
   await expect(menu).toBeHidden();
   await expect(nav).toBeVisible();
   await expect(nav.getByRole("link", { name: "Contact", exact: true })).toBeVisible();
+});
+
+test("shell exposes the new destinations and preserves legacy route aliases", async ({ page }) => {
+  for (const [command, route] of [
+    ["work", "/work"],
+    ["writing", "/articles"],
+    ["tools", "/lab"],
+    ["lab", "/lab"],
+    ["labs", "/lab"],
+    ["packages", "/packages"],
+  ] as const) {
+    await page.goto("/");
+    const { input } = await openShell(page);
+    await input.fill(command);
+    await input.press("Enter");
+    await expect(page).toHaveURL(new RegExp(`${route}$`));
+  }
 });
 
 test("shell commands close cleanly and Escape restores the opener", async ({ page }) => {

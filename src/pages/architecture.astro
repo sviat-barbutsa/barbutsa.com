@@ -5,20 +5,20 @@ import caseStudies from "@/data/case-studies.json";
 
 <Layout
   title="Architecture"
-  description="Case studies in system design: real-time collaboration, Cloudflare-first SaaS, RAG pipelines, agentic workflows, and enterprise frontend architecture."
+  description="Architecture notes on real-time collaboration, Cloudflare-first SaaS, RAG pipelines, agentic workflows, and enterprise frontend foundations."
 >
   <div class="wrap page-head stack">
     <p class="kick">
-      <span class="idx">ARCH</span> Case studies — postmortems & runbooks
+      <span class="idx">ARCH</span> Architecture notes — patterns & trade-offs
     </p>
-    <h1 class="page-title">Case studies, drawn as routes.</h1>
+    <h1 class="page-title">Architecture notes, drawn as routes.</h1>
     <p class="text-dim measure">
-      Written the way incidents get written up: what was built, what broke, what the design does about it. Anonymized,
-      load-bearing, and free of hero narratives — the system is the protagonist.
+      Concise design explorations and generalized production patterns: where boundaries go, which trade-offs matter, and
+      how each path is expected to fail.
     </p>
   </div>
 
-  <section class="wrap region" aria-label="Case studies">
+  <section class="wrap region" aria-label="Architecture notes">
     <div class="grid" style="--grid-min: 22rem; --grid-gap: var(--space-m);">
       {
         caseStudies.map((cs, i) => (
@@ -38,7 +38,7 @@ import caseStudies from "@/data/case-studies.json";
 
     <div class="section-closing stack">
       <p class="text-dim">
-        Five case studies in system design. Each answers the same question:
+        Five notes on system design. Each asks the same question:
         <strong>where do the boundaries go, and what happens when a piece fails?</strong> The interesting parts are load-bearing.
         Everything else is deliberately dull.
       </p>

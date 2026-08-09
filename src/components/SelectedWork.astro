@@ -1,13 +1,147 @@
 ---
-import WorkIndex from "@/components/WorkIndex.astro";
+import { publishedFlagshipProjects } from "@/data/flagship-projects";
+
+interface Props {
+  variant?: "home" | "index";
+}
+
+const { variant = "home" } = Astro.props;
+const home = variant === "home";
+const headingId = home ? "h-selected-work" : "h-published-work";
+const supportingProjects = publishedFlagshipProjects.filter((project) => project.card.tier === "supporting");
+const supportingTailSize = supportingProjects.length % 3;
+const supportingTailStart = supportingProjects.length - supportingTailSize;
+const cardProjects = publishedFlagshipProjects.map((project) => {
+  const supportingIndex = supportingProjects.findIndex((candidate) => candidate.slug === project.slug);
+  const inSupportingTail = supportingTailSize > 0 && supportingIndex >= supportingTailStart;
+
+  return {
+    project,
+    supportingTail: inSupportingTail ? supportingTailSize : undefined,
+    supportingTailPosition: inSupportingTail ? supportingIndex - supportingTailStart + 1 : undefined,
+  };
+});
 ---
 
-<!-- 01 · SELECTED WORK -->
-<section class="wrap region stack" aria-labelledby="h-work">
+<section
+  class="wrap region stack selected-product-work"
+  aria-labelledby={headingId}
+  data-home-section={home ? "selected-work" : undefined}
+>
   <div class="repel">
-    <p class="kick"><span class="idx">01</span> Selected work — the lab</p>
-    <a class="label" data-tone="signal" href="/lab">FULL INDEX →</a>
+    <p class="kick"><span class="idx">{home ? "01" : "LIVE"}</span> Product evidence</p>
+    {
+      home && (
+        <a class="label" data-tone="signal" href="/work">
+          WORK INDEX →
+        </a>
+      )
+    }
   </div>
-  <h2 id="h-work" class="visually-hidden">Selected work</h2>
-  <WorkIndex variant="home" />
+  <h2 id={headingId} class="section-title">{home ? "Selected Product Work" : "Published project overviews"}</h2>
+  <p class="text-dim measure">
+    Substantial products shown through real interfaces, precise availability, engineering ownership, and verifiable
+    implementation evidence.
+  </p>
+
+  <div class="flagship-grid">
+    {
+      cardProjects.map(({ project, supportingTail, supportingTailPosition }) => (
+        <article
+          class="flagship-card"
+          id={project.slug}
+          data-flagship-card={project.slug}
+          data-tier={project.card.tier}
+          data-supporting-tail={supportingTail}
+          data-supporting-tail-position={supportingTailPosition}
+        >
+          <figure class="flagship-media" data-media={project.media.kind} aria-label={project.media.label}>
+            <a
+              class="flagship-media-link"
+              data-card-action="media"
+              href={project.primaryAction.href}
+              target={project.primaryAction.external ? "_blank" : undefined}
+              rel={project.primaryAction.external ? "noopener noreferrer" : undefined}
+              aria-label={`View ${project.title} project`}
+            >
+              <div class="flagship-media-stage">
+                {project.media.images.map((image) =>
+                  image.sources ? (
+                    <picture>
+                      <source type="image/avif" srcset={image.sources.avif} sizes={image.sources.sizes} />
+                      <source type="image/webp" srcset={image.sources.webp} sizes={image.sources.sizes} />
+                      <img
+                        src={image.src}
+                        srcset={image.sources.webp}
+                        sizes={image.sources.sizes}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        loading={project.media.kind === "historical" ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    </picture>
+                  ) : (
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading={project.media.kind === "historical" ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  ),
+                )}
+              </div>
+              {project.media.kind === "route" && (
+                <div class="flagship-route" aria-label={`System route: ${project.media.route.join(" to ")}`}>
+                  {project.media.route.map((node, index) => (
+                    <>
+                      {index > 0 && <span aria-hidden="true">↓</span>}
+                      <b>{node}</b>
+                    </>
+                  ))}
+                </div>
+              )}
+            </a>
+            {project.card.status && <p class="label flagship-status">{project.card.status}</p>}
+          </figure>
+
+          <div class="flagship-body">
+            <div class="flagship-meta-line">
+              <p class="label" data-tone="signal">
+                {project.card.meta}
+              </p>
+            </div>
+            <h3 class="flagship-title">{project.title}</h3>
+            <p class="text-dim flagship-summary">{project.card.summary}</p>
+            <p class="flagship-ownership">{project.card.ownership}</p>
+            <p class="label flagship-tech">{project.card.technologies.join(" · ")}</p>
+            <div class="cluster flagship-actions">
+              <a
+                class="btn"
+                data-card-action="primary"
+                href={project.primaryAction.href}
+                target={project.primaryAction.external ? "_blank" : undefined}
+                rel={project.primaryAction.external ? "noopener noreferrer" : undefined}
+              >
+                {project.primaryAction.label}
+              </a>
+              {project.card.tier === "supporting" && project.secondaryAction && (
+                <a
+                  class="flagship-related-link"
+                  data-card-action="related"
+                  href={project.secondaryAction.href}
+                  target={project.secondaryAction.external ? "_blank" : undefined}
+                  rel={project.secondaryAction.external ? "noopener noreferrer" : undefined}
+                >
+                  {project.secondaryAction.label}
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
 </section>

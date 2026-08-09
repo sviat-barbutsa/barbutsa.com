@@ -32,20 +32,35 @@ html[data-theme="light"] { background-color: ${PALETTE.paper}; color-scheme: lig
 
 interface Props {
   title?: string;
+  documentTitle?: string;
   description?: string;
   type?: "website" | "article";
   publishedTime?: Date;
   section?: string;
-  cover?: ImageMetadata;
+  cover?: ImageMetadata | string;
+  coverAlt?: string;
+  structuredData?: Record<string, unknown> | readonly Record<string, unknown>[];
 }
 
-const { title, description = site.description, type = "website", publishedTime, section, cover } = Astro.props;
-const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const {
+  title,
+  documentTitle,
+  description = site.description,
+  type = "website",
+  publishedTime,
+  section,
+  cover,
+  coverAlt,
+  structuredData,
+} = Astro.props;
+const pageTitle = documentTitle ?? (title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`);
 const path = Astro.url.pathname.replace(/\.html$/, "");
 const canonicalUrl = new URL(path === "/" ? "/" : path, site.url);
 const defaultOgImage = new URL("/og-image.png", site.url);
-const ogImage = cover ? new URL(cover.src, site.url) : defaultOgImage;
-const ogImageAlt = cover && title ? title : `${site.name} — ${site.role} — barbutsa.com`;
+const coverSrc = typeof cover === "string" ? cover : cover?.src;
+const ogImage = coverSrc ? new URL(coverSrc, site.url) : defaultOgImage;
+const ogImageAlt = coverAlt ?? (cover && title ? title : `${site.name} — ${site.role} — barbutsa.com`);
+const structuredNodes = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -81,6 +96,7 @@ const jsonLd = {
           },
         ]
       : []),
+    ...structuredNodes,
   ],
 };
 const speculationRules = {

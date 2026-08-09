@@ -15,35 +15,58 @@ function requireProject(testInfo: TestInfo, project: "chromium-desktop" | "chrom
   test.skip(testInfo.project.name !== project, `Snapshot belongs to ${project}`);
 }
 
+async function prepareHomepageMedia(page: Page): Promise<void> {
+  const images = page.locator('[data-home-section="selected-work"] img');
+  await images.last().scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => images.evaluateAll((nodes) => nodes.every((node) => (node as HTMLImageElement).naturalWidth > 0)))
+    .toBe(true);
+  await images.evaluateAll(async (nodes) => {
+    await Promise.all(nodes.map((node) => (node as HTMLImageElement).decode()));
+  });
+  await page.evaluate(
+    () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),
+  );
+  await page.locator('[data-home-section="selected-work"]').screenshot({ animations: "disabled" });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(
+    () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),
+  );
+}
+
 const screenshotOptions = {
   animations: "disabled" as const,
   caret: "hide" as const,
   fullPage: true,
+  style: "[data-pulse] { visibility: hidden !important; }",
 };
 
 test.describe("visual regression", () => {
   test("homepage desktop explicit dark", async ({ page }, testInfo) => {
     requireProject(testInfo, "chromium-desktop");
     await prepare(page, "/", "dark");
-    await expect(page).toHaveScreenshot("home-desktop-dark.png", {
+    await prepareHomepageMedia(page);
+    const screenshot = await page.screenshot({
       ...screenshotOptions,
       mask: [
         page.locator("[data-sb-clock]"),
         page.locator("[data-sb-colo]"),
         page.locator("[data-doctrine]"),
         page.locator("[data-readout-text]"),
-        page.locator("[data-pulse]"),
       ],
     });
+    expect(screenshot).toMatchSnapshot("home-desktop-dark.png");
   });
 
   test("homepage mobile explicit light", async ({ page }, testInfo) => {
     requireProject(testInfo, "chromium-mobile");
     await prepare(page, "/", "light");
-    await expect(page).toHaveScreenshot("home-mobile-light.png", {
+    await prepareHomepageMedia(page);
+    const screenshot = await page.screenshot({
       ...screenshotOptions,
-      mask: [page.locator("[data-doctrine]"), page.locator("[data-readout-text]"), page.locator("[data-pulse]")],
+      mask: [page.locator("[data-doctrine]"), page.locator("[data-readout-text]")],
     });
+    expect(screenshot).toMatchSnapshot("home-mobile-light.png");
   });
 
   test("article archive desktop", async ({ page }, testInfo) => {

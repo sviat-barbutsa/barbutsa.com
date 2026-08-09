@@ -2,23 +2,23 @@
 
 export const site = {
   name: "Sviatoslav Barbutsa",
-  role: "Senior Frontend Architect & AI Engineer",
+  role: "Lead Software Engineer · Frontend Architect · Applied AI",
   email: "sviatoslav.barbutsa@gmail.com", // CV-canonical; swap to a domain address when mail is set up
   url: "https://barbutsa.com",
   description:
-    "Sviatoslav Barbutsa builds systems that stay understandable. React and TypeScript architecture, AI product systems, Cloudflare-first SaaS.",
+    "Sviatoslav Barbutsa designs and ships complex product interfaces, SaaS platforms, real-time systems, and practical AI capabilities.",
   positioning:
-    "Thirteen years of commercial software. Boring tools where they matter, ambitious pieces isolated enough to be reliable.",
+    "I design and ship complex product interfaces, SaaS platforms, real-time systems, and practical AI capabilities from architecture through production.",
   facts: {
     location: "Houston, TX · remote · U.S. work authorization",
     proof: "StackOverflow 5k+ reputation · Upwork 100% Job Success",
   },
   nav: [
     { href: "/", label: "Home" },
-    { href: "/lab", label: "Lab" },
-    { href: "/packages", label: "Packages" },
-    { href: "/articles", label: "Articles" },
+    { href: "/work", label: "Work" },
     { href: "/architecture", label: "Architecture" },
+    { href: "/articles", label: "Writing" },
+    { href: "/lab", label: "Tools" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ],

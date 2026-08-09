@@ -1,0 +1,108 @@
+---
+import CaseStudyPage from "@/components/CaseStudyPage.astro";
+import "@/styles/components/case-study.css";
+
+const description =
+  "English Voice Coach is a local-first Android speaking coach with voice, text, and photo practice, on-device correction, repeat matching, and review workflows.";
+---
+
+<CaseStudyPage
+  slug="english-voice-coach"
+  title="English Voice Coach"
+  description={description}
+  kickerLabel="PRODUCT"
+  eyebrow="Independent Android product · 2026"
+  status="GOOGLE PLAY CLOSED TEST · IN REVIEW"
+  lead="A private Android speaking coach that turns voice, typed sentences, and photographed text into corrections, explanations, natural alternatives, listening, and repeat practice."
+  ownership="Designed and built end to end: Flutter product architecture, Android/JNI integration, native inference boundaries, local storage, model setup, testing, release preparation, and the complete practice experience."
+  primaryAction={{
+    label: "Watch the four demo videos ↗",
+    href: "https://www.youtube.com/playlist?list=PLSFpAE7CkhDg",
+    external: true,
+  }}
+  overviewTitle="One practice loop across voice, text, and real-world English."
+  evidenceTitle="Current Android release-candidate interface."
+  evidenceIntro="Earlier prototype captures used the working name English Practice. This case study intentionally uses current English Voice Coach captures from the release-candidate interface."
+  boundaryTitle="What local-first and the repeat percentage mean."
+  galleryLayout="mobile-grid"
+  facts={[
+    { label: "Role", value: "Independent product · built end to end" },
+    { label: "Platform", value: "Flutter · Android/JNI" },
+    { label: "Local runtime", value: "whisper.cpp · LiteRT-LM" },
+    { label: "Release", value: "Play closed test · in review" },
+  ]}
+  overview={[
+    "Voice practice records a short phrase and transcribes it with native whisper.cpp. Text practice sends typed English directly to the correction boundary, while photo practice uses Android image selection and ML Kit OCR before entering the same correction flow. Gemma through LiteRT-LM returns a correction, a natural alternative, an explanation, and structured issue details.",
+    "Flutter owns the product interface and state. Android platform channels own recording, local model files, native inference, OCR, and speech playback. Completed attempts are organized into topic-based review, while corrected or natural phrases can be played and repeated without sending practice content to a hosted model.",
+  ]}
+  highlights={[
+    {
+      title: "Three useful input paths",
+      description:
+        "Speak, type, or photograph English text. Each input path converges on the same correction and review experience instead of becoming a separate feature silo.",
+    },
+    {
+      title: "Local inference with explicit fallbacks",
+      description:
+        "Whisper transcription and Gemma correction run through native Android boundaries. A successful transcript remains visible if correction fails, and Android TextToSpeech remains available when the optional local neural voice is unavailable.",
+    },
+    {
+      title: "Repeat matching, not pronunciation grading",
+      description:
+        "The displayed percentage compares the target phrase with the locally transcribed repeat at word level. It helps users retry the sentence; it does not measure accent or pronunciation accuracy.",
+    },
+    {
+      title: "Tested on a physical Android device",
+      description:
+        "The implemented flows were exercised on a Samsung SM-S938U1. The project records 150 passing Flutter tests plus analyzer, APK, App Bundle, signing, and Play-upload evidence without claiming universal device performance.",
+    },
+  ]}
+  evidence={[
+    {
+      src: "/work/english-voice-coach/01-topics-local-first.jpg",
+      alt: "English Voice Coach home screen showing local speech, grammar, and voice readiness with practice topics",
+      width: 1080,
+      height: 2160,
+      caption: "Current release identity · local runtime readiness and topic-based practice",
+      format: "mobile",
+    },
+    {
+      src: "/work/english-voice-coach/02-voice-practice.jpg",
+      alt: "English Voice Coach voice practice screen with topic selection and a large tap-to-record microphone control",
+      width: 1080,
+      height: 2160,
+      caption: "Voice practice · native recording and local transcription entry point",
+      format: "mobile",
+    },
+    {
+      src: "/work/english-voice-coach/03-correction-and-natural.jpg",
+      alt: "English Voice Coach result showing original text, correction, natural version, playback, and explanation",
+      width: 1080,
+      height: 2160,
+      caption: "Correction result · corrected and natural phrasing with listening and repeat actions",
+      format: "mobile",
+    },
+    {
+      src: "/work/english-voice-coach/04-repeat-match.jpg",
+      alt: "English Voice Coach repeat-practice screen showing a 76 percent word-level phrase match and the transcribed repeat",
+      width: 1080,
+      height: 2160,
+      caption: "Repeat practice · phrase-to-transcript word matching, not pronunciation scoring",
+      format: "mobile",
+    },
+    {
+      src: "/work/english-voice-coach/05-review-by-topic.jpg",
+      alt: "English Voice Coach review screen grouping saved practice attempts and common issues by topic",
+      width: 1080,
+      height: 2160,
+      caption: "Review · saved attempts, issue categories, search, and practice-again workflow",
+      format: "mobile",
+    },
+  ]}
+  boundaries={[
+    "After setup, speech transcription, correction, phrase matching, practice history, and supported voice playback run on the Android device. This is local-first, not a claim that every operation is permanently offline.",
+    "First-run setup downloads validated local AI files over HTTPS and needs substantial device storage. Optional generated-feedback reports leave the device only after the user reviews the report and explicitly taps Send.",
+    "The 76% shown in the evidence is the local word-level similarity between a target sentence and Whisper’s transcript of the repeat. It is not pronunciation, accent, or fluency accuracy.",
+    "Current device evidence is centered on a Samsung SM-S938U1. The app is an Android closed-test release under review, not a public Google Play release or a claim of broad device qualification.",
+  ]}
+/>

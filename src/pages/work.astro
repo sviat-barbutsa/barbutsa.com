@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SelectedWork from "@/components/SelectedWork.astro";
+import { gatedFlagshipProjects } from "@/data/flagship-projects";
+---
+
+<Layout
+  title="Selected Product Work"
+  description="Evidence-led product work by Sviatoslav Barbutsa: real interfaces, precise availability, engineering ownership, and publication gates."
+>
+  <div class="wrap page-head stack">
+    <p class="kick"><span class="idx">WORK</span> Products, systems & delivery</p>
+    <h1 class="page-title">Selected product work.</h1>
+    <p class="text-dim measure">
+      Public installation is not the only useful proof. These overviews distinguish current product evidence from work
+      that still needs an external credibility or confidentiality gate.
+    </p>
+  </div>
+
+  <SelectedWork variant="index" />
+
+  <section class="wrap region stack publication-gates" aria-labelledby="h-publication-gates">
+    <p class="kick"><span class="idx">GATE</span> Reserved slots</p>
+    <h2 id="h-publication-gates" class="section-title">Not published as product work yet.</h2>
+    <p class="text-dim measure">
+      These projects remain outside the published card grid until the named evidence and publication boundaries are
+      satisfied.
+    </p>
+    <div class="grid" style="--grid-min: 20rem;">
+      {
+        gatedFlagshipProjects.map((project) => (
+          <article class="panel stack publication-gate" id={project.slug} style="--flow: var(--space-xs);">
+            <p class="label">{project.statusLabel}</p>
+            <h3 class="panel-title">{project.title}</h3>
+            <p class="panel-summary text-dim">{project.summary}</p>
+            <p>{project.publicationGate}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

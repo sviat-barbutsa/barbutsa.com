@@ -2,7 +2,7 @@
   {
     "slug": "real-time-collaboration-platform",
     "title": "Real-Time Collaboration Platform",
-    "summary": "Presence, conflict resolution, and sync that degrades politely when the network does not. CRDT sync over Durable Objects — and what actually degrades first at ten thousand concurrent editors.",
+    "summary": "Presence, conflict resolution, and sync designed to degrade politely when the network does not. A high-concurrency collaboration pattern with explicit backpressure, state ownership, and degradation boundaries.",
     "route": ["CLIENT", "DO", "SYNC"],
     "stack": ["React", "Node.js", "WebSockets", "PostgreSQL", "Redis"]
   },

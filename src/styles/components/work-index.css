@@ -29,6 +29,7 @@
 .work-preview {
   --preview-caption-height: 2.75rem;
   --preview-inset: var(--space-s);
+  --preview-image-inset: var(--space-xs);
 
   display: none;
   position: sticky;
@@ -51,6 +52,7 @@
     height: calc(100% - var(--preview-caption-height) - var(--preview-inset) - var(--preview-inset));
     aspect-ratio: 1;
     object-fit: cover;
+    padding: var(--preview-image-inset);
     border-radius: var(--radius-s);
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out);

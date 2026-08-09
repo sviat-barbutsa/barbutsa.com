@@ -1,5 +1,22 @@
 import { expect, test } from "@playwright/test";
 
+test("Atlas presents metro labels while preserving internal routing codes", async ({ page }) => {
+  await page.goto("/");
+
+  const metroLabels = [
+    { city: "London", code: "LHR", label: "LON" },
+    { city: "Washington DC", code: "IAD", label: "WAS" },
+    { city: "São Paulo", code: "GRU", label: "SAO" },
+    { city: "Tokyo", code: "NRT", label: "TYO" },
+  ] as const;
+
+  for (const metro of metroLabels) {
+    const node = page.locator(`[data-code="${metro.code}"]`);
+    await expect(node).toHaveAttribute("data-city", metro.city);
+    await expect(node.locator("text")).toHaveText(metro.label);
+  }
+});
+
 test("Atlas tooltips work with pointer and keyboard", async ({ page, isMobile }) => {
   test.skip(Boolean(isMobile), "Pointer hover is a desktop interaction");
   await page.goto("/");
@@ -18,18 +35,24 @@ test("Atlas tooltips work with pointer and keyboard", async ({ page, isMobile })
   await page.mouse.move(coreRight + (haloRight - coreRight) / 2, (haloBox?.y ?? 0) + (haloBox?.height ?? 0) / 2);
   await expect(tip).toHaveClass(/show/);
   await expect(tip).toHaveAttribute("aria-hidden", "false");
-  await expect(tip).toContainText("Warsaw · edge PoP");
+  await expect(tip).toHaveText("Warsaw");
   await page.mouse.move(0, 0);
   await expect(tip).toHaveAttribute("aria-hidden", "true");
 
   await warsaw.locator("text").hover();
-  await expect(tip).toContainText("Warsaw · edge PoP");
+  await expect(tip).toHaveText("Warsaw");
   await page.mouse.move(0, 0);
+  await expect(tip).toHaveAttribute("aria-hidden", "true");
+
+  const origin = page.locator('[data-code="ORIGIN"]');
+  await origin.focus();
+  await expect(tip).toHaveText("Origin · Workers · D1 · R2");
+  await origin.evaluate((node) => (node as SVGGElement).blur());
   await expect(tip).toHaveAttribute("aria-hidden", "true");
 
   const london = page.locator('[data-code="LHR"]');
   await london.focus();
-  await expect(tip).toContainText("London · edge PoP");
+  await expect(tip).toHaveText("London");
   await london.evaluate((node) => (node as SVGGElement).blur());
   await expect(tip).toHaveAttribute("aria-hidden", "true");
 
@@ -56,11 +79,25 @@ test("Atlas node taps pin, switch, and dismiss tooltips", async ({ page, isMobil
   await expect(warsaw).toHaveAttribute("aria-pressed", "false");
   await expect(warsaw).toHaveAttribute("aria-describedby", "atlas-tip");
 
-  const targetStyle = await warsaw.locator("circle.tap-target").evaluate((node) => {
+  const target = warsaw.locator("circle.tap-target");
+  const targetStyle = await target.evaluate((node) => {
     const style = getComputedStyle(node);
-    return { strokeWidth: style.strokeWidth, touchAction: style.touchAction, vectorEffect: style.vectorEffect };
+    return {
+      pointerEvents: style.pointerEvents,
+      strokeWidth: style.strokeWidth,
+      touchAction: style.touchAction,
+    };
   });
-  expect(targetStyle).toEqual({ strokeWidth: "44px", touchAction: "manipulation", vectorEffect: "non-scaling-stroke" });
+  expect(targetStyle).toEqual({
+    pointerEvents: "none",
+    strokeWidth: "0px",
+    touchAction: "manipulation",
+  });
+
+  const targetBox = await target.boundingBox();
+  expect(targetBox).not.toBeNull();
+  expect(targetBox!.width).toBeGreaterThanOrEqual(44);
+  expect(targetBox!.height).toBeGreaterThanOrEqual(44);
 
   const haloBox = await warsaw.locator("circle.halo").boundingBox();
   expect(haloBox).not.toBeNull();
@@ -69,7 +106,7 @@ test("Atlas node taps pin, switch, and dismiss tooltips", async ({ page, isMobil
 
   await page.touchscreen.tap(tapX, tapY);
   await expect(tip).toHaveClass(/show/);
-  await expect(tip).toContainText("Warsaw · edge PoP");
+  await expect(tip).toHaveText("Warsaw");
   await expect(warsaw).toHaveAttribute("aria-pressed", "true");
 
   await page.touchscreen.tap(tapX, tapY);
@@ -77,8 +114,13 @@ test("Atlas node taps pin, switch, and dismiss tooltips", async ({ page, isMobil
   await expect(warsaw).toHaveAttribute("aria-pressed", "false");
 
   await page.touchscreen.tap(tapX, tapY);
-  await london.locator("circle.core").tap();
-  await expect(tip).toContainText("London · edge PoP");
+  await frame.evaluate((node) => node.scrollIntoView({ behavior: "instant", block: "center", inline: "center" }));
+  const londonHaloBox = await london.locator("circle.halo").boundingBox();
+  expect(londonHaloBox).not.toBeNull();
+  const londonTapX = (londonHaloBox?.x ?? 0) + (londonHaloBox?.width ?? 0) / 2;
+  const londonTapY = (londonHaloBox?.y ?? 0) + (londonHaloBox?.height ?? 0) / 2;
+  await page.touchscreen.tap(londonTapX, londonTapY);
+  await expect(tip).toHaveText("London");
   await expect(warsaw).toHaveAttribute("aria-pressed", "false");
   await expect(london).toHaveAttribute("aria-pressed", "true");
 
@@ -86,7 +128,7 @@ test("Atlas node taps pin, switch, and dismiss tooltips", async ({ page, isMobil
   await expect(tip).toHaveAttribute("aria-hidden", "true");
   await expect(london).toHaveAttribute("aria-pressed", "false");
 
-  await london.locator("circle.core").tap();
+  await page.touchscreen.tap(londonTapX, londonTapY);
   await page.keyboard.press("Escape");
   await expect(tip).toHaveAttribute("aria-hidden", "true");
 });

@@ -1,3 +1,4 @@
+import { bindNearestNodeTouchRouter } from "./touch-router";
 import type { AtlasRoute, NormalizedTelemetry, PopCode } from "./types";
 
 export interface AtlasView {
@@ -109,11 +110,16 @@ function showTip(dom: AtlasDom, node: SVGGElement): void {
   const nb = halo.getBoundingClientRect();
   const sb = dom.frame.getBoundingClientRect();
   const title = document.createElement("b");
-  const sub = document.createElement("span");
-  sub.className = "r";
   title.textContent = node.dataset.city ?? "Edge node";
-  sub.textContent = ` · ${node.dataset.role ?? "network point"}`;
-  dom.tip.replaceChildren(title, sub);
+  const role = node.dataset.role;
+  if (role) {
+    const sub = document.createElement("span");
+    sub.className = "r";
+    sub.textContent = ` · ${role}`;
+    dom.tip.replaceChildren(title, sub);
+  } else {
+    dom.tip.replaceChildren(title);
+  }
   dom.tip.style.left = `${nb.left - sb.left + nb.width / 2}px`;
   dom.tip.style.top = `${nb.top - sb.top}px`;
   dom.tip.classList.add("show");
@@ -122,18 +128,6 @@ function showTip(dom: AtlasDom, node: SVGGElement): void {
 function hideTip(dom: AtlasDom): void {
   dom.tip?.classList.remove("show");
   dom.tip?.setAttribute("aria-hidden", "true");
-}
-function addTapTarget(node: SVGGElement): SVGCircleElement | null {
-  const halo = node.querySelector<SVGCircleElement>("circle.halo");
-  if (!halo) return null;
-  const target = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  target.classList.add("tap-target");
-  target.setAttribute("cx", halo.getAttribute("cx") ?? "0");
-  target.setAttribute("cy", halo.getAttribute("cy") ?? "0");
-  target.setAttribute("r", "1");
-  target.setAttribute("aria-hidden", "true");
-  node.insertBefore(target, halo);
-  return target;
 }
 function bindNodeTooltips(dom: AtlasDom): () => void {
   const removers: Array<() => void> = [];
@@ -151,11 +145,11 @@ function bindNodeTooltips(dom: AtlasDom): () => void {
     node.setAttribute("aria-pressed", "true");
     showTip(dom, node);
   };
+  const toggleNode = (node: SVGGElement): void => setPinnedNode(pinnedNode === node ? null : node);
 
   for (const node of dom.nodes) {
     node.setAttribute("aria-pressed", "false");
     node.setAttribute("aria-describedby", "atlas-tip");
-    const target = addTapTarget(node);
     const enter = () => !pinnedNode && showTip(dom, node);
     const leave = () => !pinnedNode && hideTip(dom);
     const focus = () => {
@@ -163,23 +157,16 @@ function bindNodeTooltips(dom: AtlasDom): () => void {
       showTip(dom, node);
     };
     const blur = () => pinnedNode !== node && hideTip(dom);
-    const toggle = () => setPinnedNode(pinnedNode === node ? null : node);
-    const pointerUp = (event: PointerEvent) => {
-      if (event.pointerType === "mouse") return;
-      node.focus({ preventScroll: true });
-      toggle();
-    };
     const keyDown = (event: KeyboardEvent) => {
       if (event.key !== "Enter" && event.key !== " ") return;
       event.preventDefault();
-      toggle();
+      toggleNode(node);
     };
-    const accessibleClick = (event: MouseEvent) => event.detail === 0 && toggle();
+    const accessibleClick = (event: MouseEvent) => event.detail === 0 && toggleNode(node);
     node.addEventListener("mouseenter", enter);
     node.addEventListener("mouseleave", leave);
     node.addEventListener("focus", focus);
     node.addEventListener("blur", blur);
-    node.addEventListener("pointerup", pointerUp);
     node.addEventListener("keydown", keyDown);
     node.addEventListener("click", accessibleClick);
     removers.push(() => {
@@ -187,12 +174,19 @@ function bindNodeTooltips(dom: AtlasDom): () => void {
       node.removeEventListener("mouseleave", leave);
       node.removeEventListener("focus", focus);
       node.removeEventListener("blur", blur);
-      node.removeEventListener("pointerup", pointerUp);
       node.removeEventListener("keydown", keyDown);
       node.removeEventListener("click", accessibleClick);
-      target?.remove();
     });
   }
+
+  const unbindTouchRouter = bindNearestNodeTouchRouter({
+    nodes: dom.nodes,
+    onSelect: (node) => {
+      node.focus({ preventScroll: true });
+      toggleNode(node);
+    },
+    svg: dom.svg,
+  });
 
   const dismissOnPointerDown = (event: PointerEvent) => {
     if (!pinnedNode || !(event.target instanceof Node) || pinnedNode.contains(event.target)) return;
@@ -204,6 +198,7 @@ function bindNodeTooltips(dom: AtlasDom): () => void {
 
   return () => {
     setPinnedNode(null);
+    unbindTouchRouter();
     document.removeEventListener("pointerdown", dismissOnPointerDown);
     document.removeEventListener("keydown", dismissOnEscape);
     removers.forEach((remove) => remove());

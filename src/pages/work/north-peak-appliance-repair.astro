@@ -1,0 +1,87 @@
+---
+import CaseStudyPage from "@/components/CaseStudyPage.astro";
+import "@/styles/components/case-study.css";
+
+const description =
+  "A commissioned WordPress delivery by Sviatoslav Barbutsa: responsive appliance-repair booking, service guides, and ZIP-based Greater Houston coverage.";
+---
+
+<CaseStudyPage
+  slug="north-peak-appliance-repair"
+  title="North Peak Appliance Repair"
+  description={description}
+  eyebrow="Commissioned WordPress delivery · 2026"
+  status="LIVE CLIENT WEBSITE"
+  lead="A responsive service website that turns a local repair request into a clear booking journey, while giving the client structured control over services, scheduling, coverage, and customer requests."
+  ownership="Web architecture, custom WordPress theme and plugin implementation, responsive UX, booking workflow, service-area experience, and delivery documentation."
+  publicUrl="https://northpeakfastrepair.com/"
+  publicActionLabel="Visit live website ↗"
+  facts={[
+    { label: "Engagement", value: "Commissioned client delivery" },
+    { label: "Role", value: "Web Architect & Full-Stack WordPress Developer" },
+    { label: "Platform", value: "WordPress · PHP · JavaScript" },
+    { label: "Public state", value: "Live client website" },
+  ]}
+  overview={[
+    "The public experience leads with the customer’s immediate decision: describe the appliance problem, choose a preferred day and arrival window, and request an appointment without navigating through a generic contact funnel.",
+    "The implementation separates presentation from operational data. A custom theme owns the responsive interface, while the companion WordPress plugin owns services, booking records, scheduling rules, notifications, and business settings so the client can manage the site without editing templates.",
+  ]}
+  highlights={[
+    {
+      title: "Responsive booking journey",
+      description:
+        "Appliance selection, service address, preferred date, arrival window, and issue details are composed into one focused request flow.",
+    },
+    {
+      title: "Structured service content",
+      description:
+        "Nine appliance service guides connect discovery pages, service cards, booking defaults, and locally relevant owner guidance.",
+    },
+    {
+      title: "ZIP-based service coverage",
+      description:
+        "An interactive Leaflet map, ZIP checker, and client-managed zones make approximate coverage visible without treating a map as the final scheduling decision.",
+    },
+    {
+      title: "Client-operable delivery",
+      description:
+        "WordPress administration, content ownership, booking statuses, operating guides, and handover documentation are part of the delivery boundary.",
+    },
+  ]}
+  evidence={[
+    {
+      src: "/work/north-peak/north-peak-homepage-showcase.png",
+      alt: "North Peak Appliance Repair homepage with a service offer and clear booking actions",
+      width: 950,
+      height: 712,
+      caption: "Homepage service-request path · live client website",
+    },
+    {
+      src: "/work/north-peak/north-peak-services.png",
+      alt: "North Peak appliance service guide grid for refrigerator, washer, dryer, and other repairs",
+      width: 1585,
+      height: 906,
+      caption: "Service discovery links visitors to nine focused repair guides.",
+    },
+    {
+      src: "/work/north-peak/north-peak-service-area.png",
+      alt: "North Peak Greater Houston service-area page with ZIP polygons, coverage checker, and communities",
+      width: 1585,
+      height: 906,
+      caption: "The updated ZIP-based service-area map and coverage checker.",
+    },
+    {
+      src: "/work/north-peak/north-peak-mobile.png",
+      alt: "North Peak responsive mobile homepage with service offer and booking actions",
+      width: 375,
+      height: 680,
+      caption: "Mobile-first service request path.",
+      format: "mobile",
+    },
+  ]}
+  boundaries={[
+    "This is commissioned delivery evidence, not a claim about traffic, leads, conversion, revenue, or other client business outcomes.",
+    "The linked website is live. Operational contact details, reviews, service configuration, and ongoing launch decisions remain client-owned.",
+    "The portfolio uses fresh, public-safe captures of the implemented interface and does not reproduce customer requests or private WordPress administration data.",
+  ]}
+/>

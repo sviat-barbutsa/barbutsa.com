@@ -1,0 +1,215 @@
+#architecture-and-ownership {
+  scroll-margin-top: calc(var(--size-header) + var(--space-m));
+}
+
+.eaze-ownership-statement {
+  padding-left: var(--space-s);
+  border-left: 3px solid var(--color-signal);
+}
+
+.eaze-ownership-grid,
+.eaze-split,
+.eaze-retrospective {
+  display: grid;
+  gap: var(--space-m);
+  align-items: start;
+}
+
+.eaze-list {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li {
+    position: relative;
+    padding-left: var(--space-s);
+  }
+
+  & li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--color-signal);
+    font-family: var(--font-mono);
+  }
+}
+
+.eaze-list-wide {
+  max-width: 72ch;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-s) var(--space-l);
+}
+
+.eaze-architecture-figure {
+  margin: var(--space-l) 0 0;
+}
+
+.eaze-architecture-map {
+  padding: var(--space-m);
+  border: var(--hairline);
+  background:
+    linear-gradient(var(--color-border) 1px, transparent 1px) 0 0 / 100% var(--space-l),
+    var(--color-surface);
+}
+
+.eaze-architecture-root {
+  display: grid;
+  gap: var(--space-3xs);
+  max-width: 22rem;
+  margin-inline: auto;
+  padding: var(--space-s);
+  border: 1px solid var(--color-signal);
+  background: var(--color-bg);
+  text-align: center;
+
+  & span,
+  & strong {
+    font-family: var(--font-mono);
+  }
+
+  & span {
+    color: var(--color-signal);
+    font-size: var(--mono-xs);
+    letter-spacing: var(--tracking-caps);
+  }
+}
+
+.eaze-architecture-routes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--space-m);
+  margin-top: var(--space-xl);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--space-xl));
+    left: 50%;
+    width: 1px;
+    height: var(--space-xl);
+    background: var(--color-signal);
+  }
+}
+
+.eaze-architecture-node {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2xs);
+  min-height: 9rem;
+  padding: var(--space-s);
+  border: var(--hairline);
+  background: var(--color-bg);
+
+  & span,
+  & small {
+    font-family: var(--font-mono);
+  }
+
+  & span {
+    color: var(--color-signal);
+    font-size: var(--mono-xs);
+    letter-spacing: 0.12em;
+  }
+
+  & small {
+    color: var(--color-text-2);
+    line-height: 1.55;
+  }
+}
+
+.eaze-architecture-figure figcaption,
+.eaze-boundary-text {
+  max-width: 72ch;
+  margin-block-start: var(--space-xs);
+  color: var(--color-text-2);
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+}
+
+.eaze-journey {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  list-style: none;
+  background: var(--color-border);
+
+  & li {
+    min-height: 7.5rem;
+    display: grid;
+    align-content: space-between;
+    gap: var(--space-s);
+    padding: var(--space-s);
+    background: var(--color-bg);
+  }
+
+  & span {
+    color: var(--color-signal);
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+  }
+}
+
+.eaze-outcomes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  gap: var(--space-m);
+
+  & p {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+    padding-top: var(--space-s);
+    border-top: 2px solid var(--color-signal);
+  }
+
+  & strong {
+    font-size: var(--step-2);
+  }
+
+  & span {
+    color: var(--color-text-2);
+  }
+}
+
+.eaze-architecture-node[data-boundary="external"] {
+  border-style: dashed;
+
+  & span {
+    color: var(--color-text-2);
+  }
+}
+
+.eaze-continuity {
+  border-block: var(--hairline);
+  background: var(--color-surface);
+}
+
+@media (min-width: 48em) {
+  .eaze-journey {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 56.25em) {
+  .eaze-ownership-grid,
+  .eaze-split,
+  .eaze-retrospective {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl);
+  }
+}
+
+@media (max-width: 30em) {
+  .eaze-architecture-map {
+    padding: var(--space-s);
+  }
+
+  .eaze-architecture-node {
+    min-height: 0;
+  }
+}

@@ -1,0 +1,230 @@
+.flagship-grid {
+  width: min(100%, 68rem);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-l);
+  align-items: start;
+}
+
+.flagship-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: var(--hairline);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+}
+
+.flagship-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  margin: 0;
+  display: grid;
+  overflow: hidden;
+  color-scheme: dark;
+  background: var(--color-well);
+  border-bottom: 1px solid var(--color-well-border);
+}
+
+.flagship-media-link {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  color: inherit;
+  overflow: hidden;
+
+  &:focus-visible {
+    outline-offset: -3px;
+  }
+}
+
+.flagship-media-stage {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs);
+  transition:
+    filter 180ms ease,
+    transform 220ms ease;
+
+  & picture {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  & img {
+    display: block;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.flagship-media-link:is(:hover, :focus-visible) .flagship-media-stage {
+  filter: brightness(1.08) contrast(1.02);
+  transform: scale(1.015);
+}
+
+.flagship-media:is([data-media="historical"], [data-media="product"]) {
+  & .flagship-media-stage {
+    padding: 0;
+  }
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.flagship-media[data-media="route"] .flagship-media-link {
+  grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+}
+
+.flagship-card[data-flagship-card="llamail-local-ai-email-agent"] .flagship-media-stage img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.flagship-route {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-3xs);
+  padding: var(--space-xs);
+  border-left: 1px solid var(--color-well-border);
+  color: var(--color-text-2);
+  font-family: var(--font-mono);
+  font-size: clamp(0.55rem, 1.8vw, var(--mono-xs));
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+
+  & b {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  & span {
+    color: var(--color-signal);
+  }
+}
+
+.flagship-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  padding: var(--space-m);
+}
+
+.flagship-meta-line {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-xs);
+}
+
+.flagship-status {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  color: var(--color-text);
+  background: var(--color-well);
+  border: var(--hairline);
+  pointer-events: none;
+}
+
+.flagship-title {
+  font-size: var(--step-2);
+}
+
+.flagship-card[data-tier="supporting"] .flagship-title {
+  font-size: var(--step-1);
+}
+
+.flagship-summary {
+  max-width: 58ch;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.flagship-card[data-tier="supporting"] .flagship-summary {
+  -webkit-line-clamp: 2;
+}
+
+.flagship-ownership {
+  max-width: 58ch;
+  font-size: var(--step--1);
+  color: var(--color-text);
+}
+
+.flagship-tech {
+  overflow-wrap: anywhere;
+  text-transform: none;
+}
+
+.flagship-actions {
+  --cluster-align: center;
+
+  width: 100%;
+
+  & .btn {
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.65em 1.15em;
+  }
+}
+
+.flagship-related-link {
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  font-size: var(--mono-xs);
+}
+
+.flagship-related-link:hover {
+  color: var(--color-signal);
+}
+
+@media (min-width: 56.25em) {
+  .flagship-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .flagship-card[data-tier="featured"] {
+    grid-column: span 3;
+  }
+
+  .flagship-card[data-tier="supporting"] {
+    grid-column: span 2;
+  }
+
+  .flagship-card[data-supporting-tail="1"] {
+    grid-column: 3 / span 2;
+  }
+
+  .flagship-card[data-supporting-tail="2"][data-supporting-tail-position="1"] {
+    grid-column: 2 / span 2;
+  }
+
+  .flagship-card[data-supporting-tail="2"][data-supporting-tail-position="2"] {
+    grid-column: 4 / span 2;
+  }
+}

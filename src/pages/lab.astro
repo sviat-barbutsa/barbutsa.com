@@ -5,24 +5,24 @@ import labs from "@/data/labs.json";
 ---
 
 <Layout
-  title="Lab"
-  description="Independent experiments across AI, computer vision, WebGL, and frontend architecture. Each lab runs on its own subdomain, isolated from everything else."
+  title="Tools & Experiments"
+  description="Independent browser tools, creative software, technical demos, and developer workbenches. Availability and product type are labeled separately."
 >
   <div class="wrap page-head stack">
     <p class="kick">
-      <span class="idx">LAB</span> Independent deployments, one per subdomain
+      <span class="idx">TOOLS</span> Independent software, one deployment per subdomain
     </p>
-    <h1 class="page-title">Ambitious pieces, isolated enough to be reliable.</h1>
+    <h1 class="page-title">Tools & Experiments</h1>
     <p class="text-dim measure">
-      Each lab is its own deployment on its own subdomain. A heavy model or a broken experiment cannot touch this site
-      or the other labs — the architecture is the thesis.
+      Live entries are finished browser tools you can use today. Demos and workbenches are labeled by both what they are
+      and their current development status. Every entry runs independently, so one project cannot affect another.
     </p>
   </div>
 
-  <section class="wrap region" aria-label="Lab index">
+  <section class="wrap region" aria-label="Tools and experiments index">
     <WorkIndex variant="registry" />
     <p class="catalog-note label">
-      {labs.length} UNITS · PORTING = EXTRACTION FROM THE PREVIOUS SITE IN PROGRESS · ALL SHIP WITH SOURCE
+      {labs.length} ENTRIES · STATUS DESCRIBES AVAILABILITY · TYPE DESCRIBES WHAT IT IS
     </p>
   </section>
 </Layout>

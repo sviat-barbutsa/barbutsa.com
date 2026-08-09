@@ -1,0 +1,109 @@
+---
+import CaseStudyPage from "@/components/CaseStudyPage.astro";
+import "@/styles/components/case-study.css";
+
+const description =
+  "Llamail is a self-hosted email agent with deterministic routing, local hybrid retrieval, cited answers, and human-reviewed actions through Telegram.";
+---
+
+<CaseStudyPage
+  slug="llamail"
+  title="Llamail"
+  description={description}
+  kickerLabel="SYSTEM"
+  eyebrow="Independent local-first email agent · 2026"
+  status="SELF-HOSTED · NO PUBLIC DEMO"
+  lead="A private email system designed to let a small local model search, explain, draft, and route useful actions without treating the model as unrestricted application logic."
+  ownership="Designed and built end to end: system architecture, FastAPI services, routing, retrieval, local-model integration, storage, Telegram workflow, and operator experience."
+  primaryAction={{
+    label: "Read the build series →",
+    href: "/articles/private-local-ai-email-agent",
+    external: false,
+  }}
+  overviewTitle="Deterministic application behavior, with the model used where language helps."
+  evidenceTitle="A real interface and the system behind it."
+  evidenceIntro="The Telegram capture is sanitized portfolio evidence. The architecture diagram shows which work stays local and where external services remain part of the route."
+  boundaryTitle="Local-first does not mean every dependency is local."
+  facts={[
+    { label: "Role", value: "Independent system · built end to end" },
+    { label: "Runtime", value: "FastAPI · llama.cpp · local GPU" },
+    { label: "Retrieval", value: "ChromaDB + SQLite FTS5" },
+    { label: "Interface", value: "Telegram via n8n" },
+  ]}
+  overview={[
+    "Llamail keeps predictable commands on explicit handlers. Slash commands and recognized compound commands route directly; free-form requests use the local model as a conservative intent classifier, then normal application code validates and executes the selected handler.",
+    "Sable is the Telegram interface and operator persona for Llamail, not a separate email platform. It presents cited answers, reports incoming-email analysis, and keeps consequential actions visible for human review instead of giving the model direct, unbounded control.",
+  ]}
+  highlights={[
+    {
+      title: "Deterministic routing first",
+      description:
+        "Known commands avoid model latency and ambiguity. Natural-language classification is a fallback that returns structured intent for validated application handlers.",
+    },
+    {
+      title: "Hybrid retrieval with citations",
+      description:
+        "Semantic search in ChromaDB and keyword search in SQLite FTS5 are combined before generation, so answers can point back to the retrieved email evidence.",
+    },
+    {
+      title: "Human-reviewed actions",
+      description:
+        "Drafting and mailbox actions remain explicit operator workflows. The interface shows what the system understood before a consequential action is accepted.",
+    },
+    {
+      title: "Measured on local hardware",
+      description:
+        "Personal measurements on an RTX 4080 Mobile 12 GB system were about ~3 seconds for hybrid search, ~7 seconds for retrieval plus answer generation, and ~4 seconds for natural-language intent classification. These are hardware-specific observations, not a performance guarantee.",
+    },
+  ]}
+  relatedArticles={[
+    {
+      title: "From Inbox to Character: Building a Private, Local AI Email Agent",
+      summary: "The complete system, local-model runtime, Telegram interface, storage, and operating boundary.",
+      href: "/articles/private-local-ai-email-agent",
+    },
+    {
+      title: "How /search and /ask Work: Local Hybrid RAG with ChromaDB + SQLite FTS5",
+      summary: "Weighted semantic and keyword retrieval across a large mailbox, with relevance-aware citations.",
+      href: "/articles/local-hybrid-rag-chromadb-sqlite-fts5",
+    },
+    {
+      title: "LLM as Router: Intent Classification for a Local Telegram Email Agent",
+      summary: "Slash commands and deterministic handlers first; natural-language classification only as a fallback.",
+      href: "/articles/llm-as-router-intent-classification",
+    },
+    {
+      title: "Behind the Build: Hidden Headaches of a Local Gmail AI Agent",
+      summary: "Gmail synchronization, labels, threads, identifiers, and the failure modes that shaped the design.",
+      href: "/articles/hidden-headaches-local-gmail-ai-agent",
+    },
+    {
+      title: "LLM-Personalized Email Campaigns with Python, Gmail, and Local AI",
+      summary: "Previewed personalization, throttled delivery, reply tracking, and conservative classification.",
+      href: "/articles/llm-personalized-email-campaigns",
+    },
+  ]}
+  evidence={[
+    {
+      src: "/work/llamail-telegram.jpg",
+      alt: "Sanitized Telegram capture of Sable returning a cited Llamail answer and an incoming-email analysis report",
+      width: 1080,
+      height: 2340,
+      caption: "Sanitized Sable Telegram UI · cited answer and operator-visible email analysis",
+      format: "mobile",
+    },
+    {
+      src: "/work/llamail/llamail-architecture.png",
+      alt: "Llamail architecture diagram separating Telegram and Gmail services from the local FastAPI, retrieval, storage, and model runtime",
+      width: 840,
+      height: 418,
+      caption: "System boundary · external Gmail and Telegram routes around local inference, retrieval, and state",
+    },
+  ]}
+  boundaries={[
+    "Local inference, embeddings, application services, SQLite FTS5, and ChromaDB run on the owner’s machine.",
+    "Gmail and Telegram remain external services. Gmail API access and Telegram messages cross those service boundaries, so this is not a zero-cloud claim.",
+    "Llamail is self-hosted software rather than a hosted product. There is no public live demo or public Telegram handle because operation requires user-owned integrations and local model hardware.",
+    "The measurements above came from personal hardware and real development use. They do not claim universal latency, adoption, or production-scale qualification.",
+  ]}
+/>

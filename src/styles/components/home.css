@@ -15,6 +15,10 @@
   }
 }
 
+.publication-gate {
+  border-style: dashed;
+}
+
 .writing-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -50,5 +54,32 @@
 
   .hero-title {
     font-size: clamp(2.5rem, 4.6vw, 4.8rem);
+  }
+}
+
+@media (max-width: 56.249em) {
+  .hero-grid {
+    gap: var(--space-l);
+  }
+
+  .hero-grid .atlas-shell {
+    inline-size: min(100%, 16.75rem);
+    justify-self: center;
+  }
+
+  .hero-grid [data-atlas-svg] {
+    height: auto;
+  }
+
+  .hero-grid .node circle.tap-target {
+    r: 72px;
+    fill: transparent;
+    stroke-width: 0;
+    pointer-events: none;
+    touch-action: manipulation;
+  }
+
+  .hero-grid .readout {
+    display: none;
   }
 }

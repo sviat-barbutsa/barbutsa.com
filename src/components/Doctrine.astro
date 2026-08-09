@@ -32,7 +32,7 @@ import doctrine from "@/data/doctrine.json";
     const commands: Record<string, ShellAction> = {
       help: {
         type: "say",
-        text: "commands: whoami · ls · articles · lab · packages · architecture · about · cv · contact · theme · xray · clear",
+        text: "commands: whoami · ls · work · writing · tools · architecture · about · cv · contact · theme · xray · clear",
       },
       whoami: {
         type: "say",
@@ -48,14 +48,21 @@ import doctrine from "@/data/doctrine.json";
         type: "say",
         text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
       },
+      "ls tools": {
+        type: "say",
+        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+      },
       "ls -a": {
         type: "say",
         text: [".flamenco", ...labs.map((l) => l.slug)].join("  "),
       },
       home: nav("/"),
+      work: nav("/work"),
+      tools: nav("/lab"),
       lab: nav("/lab"),
       labs: nav("/lab"),
       packages: nav("/packages"),
+      writing: nav("/articles"),
       articles: nav("/articles"),
       architecture: nav("/architecture"),
       about: nav("/about"),

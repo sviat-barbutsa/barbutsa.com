@@ -1,0 +1,121 @@
+---
+import EazeGamesArchitecture from "@/components/case-studies/EazeGamesArchitecture.astro";
+import EazeGamesDelivery from "@/components/case-studies/EazeGamesDelivery.astro";
+import EazeGamesEvidence from "@/components/case-studies/EazeGamesEvidence.astro";
+import {
+  eazeDescription as description,
+  eazeFacts as facts,
+  eazeMedia as media,
+  eazeMediaBase as base,
+  eazeProofs as proofs,
+  eazeStructuredData as structuredData,
+} from "@/data/eazegames-case-study";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="EazeGames Original Web Platform"
+  documentTitle="EazeGames Original Web Platform | Sviatoslav Barbutsa"
+  description={description}
+  type="article"
+  section="Product work"
+  cover={`${base}eazegames-og-1200x630.webp`}
+  coverAlt="EazeGames Original Web Platform historical production case study"
+  structuredData={structuredData}
+>
+  <article class="eaze-case">
+    <header class="wrap region eaze-hero" aria-labelledby="eaze-title">
+      <div class="eaze-hero-grid">
+        <div class="stack eaze-hero-copy">
+          <p class="kick"><span class="idx">WORK 01</span> Production platform · original frontend · 2016-2017</p>
+          <h1 id="eaze-title" class="page-title eaze-title">EazeGames - Original Web Platform</h1>
+          <p class="eaze-lead">
+            I designed the frontend architecture and implemented the original web application for a real-time
+            skill-gaming platform with multiplayer competitions, payments, role-based access, a webshop, and
+            multilingual UX.
+          </p>
+          <div class="cluster eaze-actions">
+            <a class="btn" href="#architecture-and-ownership">Explore the original product architecture ↓</a>
+          </div>
+          <p class="eaze-disclaimer" data-eaze-disclaimer>
+            I designed the frontend architecture and implemented the original web application during my 2016-2017
+            engagement. EazeGames remains an active product and has since been redesigned and further developed by its
+            current team. The archival screenshots below document the Version 1 interface I worked on; the live site is
+            linked only for current product context.
+          </p>
+        </div>
+
+        <figure class="eaze-figure eaze-hero-figure">
+          <picture>
+            <source
+              type="image/avif"
+              srcset={`${base}${media.home.name}-960.avif 960w, ${base}${media.home.name}.avif 1820w`}
+              sizes="(min-width: 900px) 54vw, 100vw"
+            />
+            <source
+              type="image/webp"
+              srcset={`${base}${media.home.name}-960.webp 960w, ${base}${media.home.name}.webp 1820w`}
+              sizes="(min-width: 900px) 54vw, 100vw"
+            />
+            <img
+              src={`${base}${media.home.name}.webp`}
+              srcset={`${base}${media.home.name}-960.webp 960w, ${base}${media.home.name}.webp 1820w`}
+              sizes="(min-width: 900px) 54vw, 100vw"
+              alt={media.home.alt}
+              width={media.home.width}
+              height={media.home.height}
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>{media.home.caption}</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="wrap eaze-facts" aria-labelledby="eaze-facts-title">
+      <h2 id="eaze-facts-title" class="visually-hidden">Engagement facts</h2>
+      <dl class="eaze-fact-grid">
+        {
+          facts.map(([label, value]) => (
+            <div>
+              <>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="wrap region stack" aria-labelledby="eaze-proof-title">
+      <p class="kick"><span class="idx">PROOF</span> Production evidence</p>
+      <h2 id="eaze-proof-title" class="section-title">What this project demonstrates.</h2>
+      <ul class="eaze-proof-strip">
+        {
+          proofs.map((proof, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {proof}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="wrap region eaze-reading stack" aria-labelledby="product-context">
+      <p class="kick"><span class="idx">01</span> Product context</p>
+      <h2 id="product-context" class="section-title">A stateful product before modern React frameworks.</h2>
+      <p class="eaze-section-lead">
+        EazeGames combined HTML5 skill games with player-versus-player competitions, practice and money balances,
+        rankings, payments, account verification, and multilingual customer journeys. The frontend needed to make a
+        complex product understandable while remaining responsive to live competition and account events.
+      </p>
+    </section>
+
+    <EazeGamesEvidence />
+    <EazeGamesArchitecture />
+    <EazeGamesDelivery />
+  </article>
+</Layout>

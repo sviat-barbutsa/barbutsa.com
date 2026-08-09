@@ -1,7 +1,7 @@
 ---
 import labs from "@/data/labs.json";
 
-/* One lab index, two surfaces. The home teaser and the /lab registry render
+/* One tools index, two surfaces. The home teaser and the /lab registry render
    the same rows, preview panel, and previewed-state behavior from this one
    component; the variant only sets scope — row count, anchor ids, heading
    depth, and how much registry detail (full stack, non-live status) shows. */
@@ -28,6 +28,14 @@ const statusLabel: Record<string, string> = {
   wip: "WIP",
   archived: "ARCHIVED",
 };
+
+const kindLabel: Record<string, string> = {
+  "product-tool": "PRODUCT TOOL",
+  "creative-tool": "CREATIVE TOOL",
+  "developer-tool": "DEVELOPER TOOL",
+  "technical-demo": "TECHNICAL DEMO",
+  "developer-workbench": "DEVELOPER WORKBENCH",
+};
 ---
 
 <div class="work-split">
@@ -35,6 +43,7 @@ const statusLabel: Record<string, string> = {
     {
       rows.map((lab, i) => {
         const live = lab.status === "live";
+        const kind = kindLabel[lab.kind] ?? lab.kind.replaceAll("-", " ").toUpperCase();
         const art = live && hasArt(lab.slug);
         const no = `/${String(i + 1).padStart(2, "0")}`;
         /* Live rows open the lab; unfinished registry rows are plain entries. */
@@ -72,7 +81,9 @@ const statusLabel: Record<string, string> = {
                 {!live && registry && <span class="label">{statusLabel[lab.status] ?? lab.status.toUpperCase()}</span>}
               </div>
               <p class="index-summary text-dim">{lab.oneLiner}</p>
-              <p class="index-meta label">{(registry ? lab.stack : lab.stack.slice(0, 3)).join(" · ").toUpperCase()}</p>
+              <p class="index-meta label">
+                {[kind, ...(registry ? lab.stack : lab.stack.slice(0, 3))].join(" · ").toUpperCase()}
+              </p>
             </div>
             {art && (
               <span class="label viewing" aria-hidden="true">

@@ -1,0 +1,291 @@
+.case-study {
+  overflow: clip;
+}
+
+.case-study-hero {
+  padding-block-start: clamp(var(--space-l), 6vw, var(--space-3xl));
+}
+
+.case-study-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(var(--space-l), 5vw, var(--space-3xl));
+  align-items: center;
+}
+
+.case-study-hero-copy {
+  --flow: var(--space-m);
+}
+
+.case-study-status {
+  width: fit-content;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid color-mix(in srgb, var(--color-signal) 55%, transparent);
+  background: color-mix(in srgb, var(--color-signal) 9%, transparent);
+}
+
+.case-study-lead {
+  max-width: 54ch;
+  color: var(--color-text-2);
+  font-size: var(--step-1);
+  line-height: 1.55;
+}
+
+.case-study-ownership {
+  max-width: 58ch;
+  padding-inline-start: var(--space-s);
+  border-inline-start: 2px solid var(--color-signal);
+  color: var(--color-text);
+}
+
+.case-study-actions {
+  --cluster-align: center;
+}
+
+.case-study-back {
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+}
+
+.case-study-live-url {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  align-items: baseline;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--mono-s);
+}
+
+.case-study-hero-media,
+.case-study-gallery figure {
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-well);
+  border: var(--hairline);
+  border-radius: var(--radius-s);
+}
+
+.case-study-hero-media[data-format="mobile"] {
+  width: min(100%, 24rem);
+  justify-self: center;
+}
+
+.case-study-hero-media img,
+.case-study-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case-study-hero-media figcaption,
+.case-study-gallery figcaption {
+  padding: var(--space-xs) var(--space-s);
+  color: var(--color-text-2);
+  border-top: var(--hairline);
+  font-family: var(--font-mono);
+  font-size: var(--mono-xs);
+}
+
+.case-study-facts dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border-block: var(--hairline);
+}
+
+.case-study-facts div {
+  min-width: 0;
+  padding: var(--space-m);
+}
+
+.case-study-facts div + div {
+  border-inline-start: var(--hairline);
+}
+
+.case-study-facts dt {
+  margin-block-end: var(--space-3xs);
+  color: var(--color-text-2);
+  font-family: var(--font-mono);
+  font-size: var(--mono-xs);
+  text-transform: uppercase;
+}
+
+.case-study-facts dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.case-study-reading {
+  max-width: 68rem;
+}
+
+.case-study-copy {
+  max-width: 72ch;
+  color: var(--color-text-2);
+  font-size: var(--step-0);
+  line-height: 1.7;
+}
+
+.case-study-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-m);
+  padding-block-start: var(--space-m);
+}
+
+.case-study-highlight-grid .panel {
+  --flow: var(--space-xs);
+}
+
+.case-study-highlight-grid h3 {
+  font-size: var(--step-1);
+}
+
+.case-study-series {
+  --flow: var(--space-s);
+
+  padding-block-start: var(--space-xl);
+}
+
+.case-study-series h3 {
+  font-size: var(--step-2);
+}
+
+.case-study-series ol {
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: llamail-series;
+}
+
+.case-study-series li {
+  position: relative;
+  padding: var(--space-m) var(--space-m) var(--space-m) calc(var(--space-xl) + var(--space-xs));
+  background: var(--color-surface);
+  border: var(--hairline);
+  counter-increment: llamail-series;
+}
+
+.case-study-series li::before {
+  position: absolute;
+  inset-block-start: var(--space-m);
+  inset-inline-start: var(--space-m);
+  color: var(--color-signal);
+  font-family: var(--font-mono);
+  content: counter(llamail-series, decimal-leading-zero);
+}
+
+.case-study-series a {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.case-study-series p {
+  max-width: 68ch;
+  margin: var(--space-3xs) 0 0;
+  color: var(--color-text-2);
+}
+
+.case-study-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-l);
+  align-items: start;
+}
+
+.case-study-gallery figure {
+  grid-column: 1 / -1;
+}
+
+.case-study-gallery figure[data-format="mobile"] {
+  grid-column: 5 / span 4;
+}
+
+.case-study-gallery[data-layout="mobile-grid"] figure[data-format="mobile"] {
+  grid-column: span 4;
+}
+
+.case-study-boundary {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.case-study-boundary ul {
+  display: grid;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-study-boundary li {
+  padding: var(--space-m);
+  color: var(--color-text-2);
+  background: var(--color-surface);
+  border: var(--hairline);
+  border-inline-start: 2px solid var(--color-signal);
+}
+
+@media (max-width: 56.24em) {
+  .case-study-hero-grid,
+  .case-study-boundary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-study-facts dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-study-facts div + div {
+    border-inline-start: 0;
+  }
+
+  .case-study-facts div:nth-child(even) {
+    border-inline-start: var(--hairline);
+  }
+
+  .case-study-facts div:nth-child(n + 3) {
+    border-block-start: var(--hairline);
+  }
+
+  .case-study-gallery figure[data-format="mobile"] {
+    grid-column: 3 / span 8;
+  }
+
+  .case-study-gallery[data-layout="mobile-grid"] figure[data-format="mobile"] {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 40em) {
+  .case-study-highlight-grid,
+  .case-study-facts dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-study-facts div + div {
+    border-block-start: var(--hairline);
+  }
+
+  .case-study-facts div:nth-child(even) {
+    border-inline-start: 0;
+  }
+
+  .case-study-gallery {
+    gap: var(--space-m);
+  }
+
+  .case-study-gallery figure[data-format="mobile"] {
+    grid-column: 2 / span 10;
+  }
+
+  .case-study-gallery[data-layout="mobile-grid"] figure[data-format="mobile"] {
+    grid-column: span 12;
+  }
+}

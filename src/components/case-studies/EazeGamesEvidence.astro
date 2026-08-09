@@ -1,0 +1,88 @@
+---
+import { eazeMedia as media, eazeMediaBase as base } from "@/data/eazegames-case-study";
+---
+
+<section class="wrap region stack eaze-evidence" aria-labelledby="evidence-title">
+  <p class="kick"><span class="idx">02</span> Original Version 1 evidence</p>
+  <h2 id="evidence-title" class="section-title">Six views of the implemented product.</h2>
+  <p class="text-dim measure">
+    These are sanitized archival interfaces, not recreated concepts. Account and player identities use obvious test
+    data; signup and email-confirmation screens are intentionally excluded.
+  </p>
+
+  <div class="eaze-evidence-stack">
+    {
+      ([media.landing, media.onboarding, media.navigation, media.rankings] as const).map((item) => (
+        <figure class="eaze-figure">
+          <picture>
+            <source
+              type="image/avif"
+              srcset={`${base}${item.name}-960.avif 960w, ${base}${item.name}.avif ${item.width}w`}
+              sizes="(min-width: 900px) 86vw, 100vw"
+            />
+            <source
+              type="image/webp"
+              srcset={`${base}${item.name}-960.webp 960w, ${base}${item.name}.webp ${item.width}w`}
+              sizes="(min-width: 900px) 86vw, 100vw"
+            />
+            <img
+              src={`${base}${item.name}.webp`}
+              srcset={`${base}${item.name}-960.webp 960w, ${base}${item.name}.webp ${item.width}w`}
+              sizes="(min-width: 900px) 86vw, 100vw"
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>{item.caption}</figcaption>
+        </figure>
+      ))
+    }
+
+    <div class="eaze-evidence-pair">
+      <figure class="eaze-figure">
+        <picture>
+          <source
+            type="image/avif"
+            srcset={`${base}${media.live.name}-960.avif 960w, ${base}${media.live.name}.avif 1796w`}
+            sizes="(min-width: 900px) 48vw, 100vw"
+          />
+          <source
+            type="image/webp"
+            srcset={`${base}${media.live.name}-960.webp 960w, ${base}${media.live.name}.webp 1796w`}
+            sizes="(min-width: 900px) 48vw, 100vw"
+          />
+          <img
+            src={`${base}${media.live.name}.webp`}
+            srcset={`${base}${media.live.name}-960.webp 960w, ${base}${media.live.name}.webp 1796w`}
+            sizes="(min-width: 900px) 48vw, 100vw"
+            alt={media.live.alt}
+            width={media.live.width}
+            height={media.live.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <figcaption>{media.live.caption}</figcaption>
+      </figure>
+
+      <figure class="eaze-figure">
+        <picture>
+          <source type="image/avif" srcset={`${base}${media.notifications.name}.avif`} />
+          <source type="image/webp" srcset={`${base}${media.notifications.name}.webp`} />
+          <img
+            src={`${base}${media.notifications.name}.webp`}
+            alt={media.notifications.alt}
+            width={media.notifications.width}
+            height={media.notifications.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <figcaption>{media.notifications.caption}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
