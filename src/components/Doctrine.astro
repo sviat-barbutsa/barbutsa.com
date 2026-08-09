@@ -26,35 +26,36 @@ import doctrine from "@/data/doctrine.json";
   if (root) {
     const ambient = ambientControls.get(root);
     const status = document.getElementById("theme-status");
+    const liveLabs = labs.filter((lab) => lab.status === "live");
+    const routeCommands = ["home", "work", "writing", "tools", "architecture", "about", "contact", "packages"];
+    const liveToolCommands = liveLabs.map((lab) => lab.slug);
 
     const nav = (href: string): ShellAction => ({ type: "go", href });
 
     const commands: Record<string, ShellAction> = {
       help: {
         type: "say",
-        text: "commands: whoami · ls · work · writing · tools · architecture · about · cv · contact · theme · xray · clear",
+        text: "try: ls · ls tools · work · writing · tools · architecture · about · contact · theme · xray",
       },
       whoami: {
         type: "say",
         text: `${site.name} — ${site.role.toLowerCase()}`,
       },
-      /* the truthful hint: real ls also admits what it isn't showing.
-         A dev who reads "1 hidden" knows exactly what to type next. */
       ls: {
         type: "say",
-        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+        text: routeCommands.join("  ") + "  · 1 hidden",
       },
       "ls labs": {
         type: "say",
-        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+        text: liveToolCommands.join("  ") || "no live tools",
       },
       "ls tools": {
         type: "say",
-        text: labs.map((l) => l.slug).join("  ") + "  · 1 hidden",
+        text: liveToolCommands.join("  ") || "no live tools",
       },
       "ls -a": {
         type: "say",
-        text: [".flamenco", ...labs.map((l) => l.slug)].join("  "),
+        text: [...routeCommands, ...liveToolCommands, ".flamenco"].join("  "),
       },
       home: nav("/"),
       work: nav("/work"),
@@ -82,6 +83,10 @@ import doctrine from "@/data/doctrine.json";
       },
       clear: { type: "run", fn: () => {} },
     };
+
+    for (const lab of liveLabs) {
+      commands[lab.slug] = nav(lab.url);
+    }
 
     /* the easter egg — NOT in help; found via `ls -a`. The game chunk
        loads only when summoned (dynamic import = zero cost otherwise). */

@@ -7,8 +7,14 @@ test("EazeGames is a compact archive card with historical and current-product bo
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
-  await expect(cards).toHaveCount(4);
-  await expect(cards.locator("h3")).toHaveText(["English Voice Coach", "Llamail", "EazeGames", "Zharwing Memory"]);
+  await expect(cards).toHaveCount(5);
+  await expect(cards.locator("h3")).toHaveText([
+    "English Voice Coach",
+    "Llamail",
+    "EazeGames",
+    "Zharwing Memory",
+    "North Peak Appliance Repair",
+  ]);
 
   const eaze = selected.locator('[data-flagship-card="eazegames-original-web-platform"]');
   await expect(eaze).toHaveAttribute("data-tier", "supporting");

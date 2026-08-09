@@ -48,12 +48,7 @@ test.describe("visual regression", () => {
     await prepareHomepageMedia(page);
     const screenshot = await page.screenshot({
       ...screenshotOptions,
-      mask: [
-        page.locator("[data-sb-clock]"),
-        page.locator("[data-sb-colo]"),
-        page.locator("[data-doctrine]"),
-        page.locator("[data-readout-text]"),
-      ],
+      mask: [page.locator(".status-bar"), page.locator("[data-doctrine]"), page.locator(".readout")],
     });
     expect(screenshot).toMatchSnapshot("home-desktop-dark.png");
   });
@@ -64,7 +59,7 @@ test.describe("visual regression", () => {
     await prepareHomepageMedia(page);
     const screenshot = await page.screenshot({
       ...screenshotOptions,
-      mask: [page.locator("[data-doctrine]"), page.locator("[data-readout-text]")],
+      mask: [page.locator("[data-doctrine]"), page.locator(".readout")],
     });
     expect(screenshot).toMatchSnapshot("home-mobile-light.png");
   });
