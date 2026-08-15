@@ -69,7 +69,7 @@ and JSON-LD (Person + WebSite). Article pages additionally emit `og:type: articl
 
 The schema enforces SEO invariants: `summary` (which becomes the meta description) is required and capped at 160
 characters so search results never truncate it; a broken `cover` path fails the build. Search operations
-(Search Console, indexing, authority strategy) live in `../SEO_PLAN.md`, outside the repo.
+(Search Console, indexing) are handled outside the repo.
 
 ### Publishing
 
