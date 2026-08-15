@@ -4,7 +4,7 @@ export async function openShell(page: Page): Promise<{ input: Locator; opener: L
   const opener = page.getByRole("button", { name: /open site command line/i });
   await opener.focus();
   await page.keyboard.press("Enter");
-  const input = page.getByLabel("command");
+  const input = page.getByLabel("command", { exact: true });
   await expect(input).toBeVisible();
   await expect(input).toBeFocused();
   return { input, opener };

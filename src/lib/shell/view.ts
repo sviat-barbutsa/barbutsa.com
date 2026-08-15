@@ -1,17 +1,16 @@
 export interface ShellView {
   readonly live: HTMLElement;
-  readonly srButton: HTMLButtonElement;
   updateMax(): void;
   clearLive(): void;
   follow(): void;
   unfollow(): void;
   enterInputMode(): HTMLInputElement | null;
   exitInputMode(): void;
-  focusButton(): void;
+  focusOpener(): void;
   destroy(): void;
 }
 
-export function createShellView(root: HTMLElement, onButtonOpen: () => void): ShellView | null {
+export function createShellView(root: HTMLElement, onOpen: () => void): ShellView | null {
   const live = root.querySelector<HTMLElement>("[data-typer-text]");
   const liveBox = root.querySelector<HTMLElement>(".live");
   const caret = root.querySelector<HTMLElement>(".caret");
@@ -20,6 +19,20 @@ export function createShellView(root: HTMLElement, onButtonOpen: () => void): Sh
   const bounds = root.closest<HTMLElement>("[data-shell-bounds]") ?? root.parentElement;
   let follower: MutationObserver | null = null;
   let input: HTMLInputElement | null = null;
+  const openerLabel = 'Open site command line (type "help")';
+
+  const enterOpenerMode = (): void => {
+    root.removeAttribute("aria-hidden");
+    root.setAttribute("role", "button");
+    root.setAttribute("aria-label", openerLabel);
+    root.tabIndex = 0;
+  };
+
+  const exitOpenerMode = (): void => {
+    root.removeAttribute("role");
+    root.removeAttribute("aria-label");
+    root.removeAttribute("tabindex");
+  };
 
   const updateMax = (): void => {
     if (!bounds || !liveBox) return;
@@ -46,20 +59,19 @@ export function createShellView(root: HTMLElement, onButtonOpen: () => void): Sh
     if (liveBox) liveBox.scrollTop = 0;
   };
 
-  root.setAttribute("aria-hidden", "true");
   root.style.cursor = "text";
-  const srButton = document.createElement("button");
-  srButton.type = "button";
-  srButton.className = "shell-open-btn";
-  srButton.textContent = 'Open site command line (type "help")';
-  root.parentElement?.insertBefore(srButton, root);
-  srButton.addEventListener("click", onButtonOpen);
+  enterOpenerMode();
+  const onOpenerKey = (event: KeyboardEvent): void => {
+    if (event.target !== root || (event.key !== "Enter" && event.key !== " ")) return;
+    event.preventDefault();
+    onOpen();
+  };
+  root.addEventListener("keydown", onOpenerKey);
   addEventListener("resize", updateMax, { passive: true });
   updateMax();
 
   return {
     live,
-    srButton,
     updateMax,
     clearLive: () => {
       live.textContent = "";
@@ -68,7 +80,7 @@ export function createShellView(root: HTMLElement, onButtonOpen: () => void): Sh
     unfollow,
     enterInputMode: () => {
       if (input) return input;
-      root.removeAttribute("aria-hidden");
+      exitOpenerMode();
       live.hidden = true;
       if (caret) caret.hidden = true;
       root.dataset.shellOpen = "";
@@ -87,17 +99,18 @@ export function createShellView(root: HTMLElement, onButtonOpen: () => void): Sh
     exitInputMode: () => {
       input?.remove();
       input = null;
-      root.setAttribute("aria-hidden", "true");
+      enterOpenerMode();
       live.hidden = false;
       if (caret) caret.hidden = false;
       delete root.dataset.shellOpen;
       if (liveBox) liveBox.hidden = false;
     },
-    focusButton: () => srButton.focus(),
+    focusOpener: () => root.focus(),
     destroy: () => {
       removeEventListener("resize", updateMax);
-      srButton.removeEventListener("click", onButtonOpen);
-      srButton.remove();
+      root.removeEventListener("keydown", onOpenerKey);
+      exitOpenerMode();
+      root.setAttribute("aria-hidden", "true");
       follower?.disconnect();
       input?.remove();
     },

@@ -56,4 +56,6 @@ test("Flamenco imports lazily, traps focus, pauses, resumes, and tears down", as
   await page.keyboard.press("Escape");
   await expect(page.locator(".flamenco-overlay")).toHaveCount(0);
   await expect(opener).toBeFocused();
+  await expect(opener).toHaveAttribute("data-typer", "");
+  await expect(page.locator(".shell-open-btn")).toHaveCount(0);
 });

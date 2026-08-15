@@ -94,8 +94,7 @@ import doctrine from "@/data/doctrine.json";
       if (prefersReducedMotion()) {
         return "this easter egg requires motion — respecting your settings";
       }
-      const invoker = document.querySelector<HTMLElement>(".shell-open-btn");
-      void import("@/lib/flamenco").then((module) => module.openFlamenco(invoker));
+      void import("@/lib/flamenco").then((module) => module.openFlamenco(root));
     };
     commands["flamenco"] = { type: "run", fn: launchFlamenco };
     commands[".flamenco"] = { type: "run", fn: launchFlamenco };

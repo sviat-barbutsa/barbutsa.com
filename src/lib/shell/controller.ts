@@ -94,7 +94,7 @@ export function initShell(root: HTMLElement, config: ShellConfig): ShellHandle {
     } else if (event.key === "Escape") {
       event.stopPropagation();
       close();
-      view?.focusButton();
+      view?.focusOpener();
     }
   }
 

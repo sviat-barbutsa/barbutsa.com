@@ -128,13 +128,13 @@ test("shell commands close cleanly and Escape restores the opener", async ({ pag
   const first = await openShell(page);
   await first.input.fill("whoami");
   await first.input.press("Enter");
-  await expect(page.getByLabel("command")).toHaveCount(0);
+  await expect(page.getByLabel("command", { exact: true })).toHaveCount(0);
   await expect(page.locator("#theme-status")).toContainText("Sviatoslav Barbutsa");
   await expect(page.locator("[data-doctrine] .typeline")).not.toHaveAttribute("data-shell-open", "");
 
   const second = await openShell(page);
   await second.input.press("Escape");
-  await expect(page.getByLabel("command")).toHaveCount(0);
+  await expect(page.getByLabel("command", { exact: true })).toHaveCount(0);
   await expect(second.opener).toBeFocused();
 });
 
