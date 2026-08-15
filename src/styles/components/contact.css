@@ -1,8 +1,8 @@
-/* proto-card — the home contact card. Composes .atlas-frame (border,
-   corner ticks, tinted surface) and .atlas-meta (bar + pulsing dot):
-   the hero's instrument grammar, not a new one. Life comes from the
-   established micro-signals — the OPEN dot and the prompt caret — not
-   from an ambient background (one ambient scene per page: the atlas). */
+/* proto-card — the home contact card. Reuses .atlas-frame (border,
+   corner ticks, tinted surface) and .atlas-meta (bar + pulsing dot)
+   from the hero instead of inventing a new frame. Motion is just the
+   OPEN dot and the prompt caret - no ambient background here, one
+   ambient scene per page (the atlas). */
 .proto-card {
   align-self: start;
   min-width: 0;

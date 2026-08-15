@@ -26,12 +26,12 @@ pnpm verify
 pnpm release:check
 ```
 
-`pnpm verify` is the canonical local and CI gate. `pnpm release` runs `pnpm verify` before `wrangler deploy`. Do not use `pnpm release` for dry-run validation; use `pnpm release:check`.
+`pnpm verify` is the single gate, same locally and in CI. `pnpm release` runs `pnpm verify` before `wrangler deploy`. Do not use `pnpm release` for dry-run validation; use `pnpm release:check`.
 
 ## Content
 
 Articles are Markdown files in `src/content/articles/` with typed frontmatter (`src/content.config.ts`). The schema is
-the editorial gate: a missing summary, malformed date, or broken cover image fails the build, not the page.
+the gate: a missing summary, malformed date, or broken cover image fails the build.
 
 ### Writing an article
 
@@ -84,13 +84,13 @@ pipeline; content ships the same way code does.
 
 ### Why there is no admin panel
 
-Content is typed Markdown in Git. The editor is the admin panel, the schema is the validation layer, `pnpm release`
-is the publish button, and Git is the audit log. A CMS would add a second write path, external dependencies, and an
-optional-fields UI that is strictly weaker than a build that refuses invalid content.
+Content is typed Markdown in Git. Editing happens in the editor, validation in the schema, publishing via
+`pnpm release`, history in Git. A CMS would add a second write path and external dependencies for a weaker version of
+what the build already enforces.
 
-If remote editing ever becomes a recurring need, the pre-selected design is a git-backed panel (Sveltia CMS as a
-static `/admin` page committing through the GitHub API, deploys triggered by push). It ships as plain static assets,
-so it cannot affect public routes. Until that need is real, it stays unbuilt.
+If remote editing ever becomes a recurring need, the plan is a git-backed panel (Sveltia CMS as a static `/admin`
+page committing through the GitHub API, deploys triggered by push). It ships as plain static assets, so it can't
+affect public routes. Not built until actually needed.
 
 ## Architecture
 
@@ -105,7 +105,7 @@ so it cannot affect public routes. Until that need is real, it stays unbuilt.
 
 ## CSS
 
-`src/styles` is the canonical production CSS tree. `main.css` declares the cascade layer order:
+`src/styles` is the only production CSS tree. `main.css` declares the cascade layer order:
 
 ```text
 reset → tokens → base → composition → components → utilities

@@ -1,31 +1,31 @@
 /* ============================================================
-   LAYER: tokens — EDGE ATLAS design language (dark canonical,
+   LAYER: tokens — EDGE ATLAS design language (dark default,
    light companion)
    ------------------------------------------------------------
    Shared raw values (colors, dimensions, font names) live here.
-   Components consume tokens for shared design decisions; local,
-   intrinsic whole-pixel geometry is allowed when it is not a
-   reusable system value. A component-level hex color still maps
-   to an existing token or becomes a named token here, on purpose.
+   Components consume tokens for shared design decisions; local
+   whole-pixel geometry is fine when it's not a reusable system
+   value. A component-level hex still has to map to an existing
+   token or become a named token here.
 
-   THEMING MODEL (2026, no duplication):
+   THEMING MODEL (no duplication):
    - Every themed color is defined ONCE via light-dark().
    - `color-scheme` decides which side applies:
-       :root                     → dark  (brand default; the OS
-                                   preference is deliberately ignored)
+       :root                     → dark  (brand default; OS
+                                   preference is ignored)
        html[data-theme="dark"]   → dark   (explicit choice)
        html[data-theme="light"]  → light  (explicit choice)
-   - The theme switcher only ever flips data-theme; it never
-     touches color values. See theme-motion.css + the theme
-     controller for the animated switch.
+   - The theme switcher only flips data-theme, it never touches
+     color values. See theme-motion.css + the theme controller
+     for the animated switch.
 
-   Palette contract:
-   - ONE signal hue. Chartreuse in the dark theme; the SAME hue
+   Palette:
+   - ONE signal hue. Chartreuse in the dark theme; the same hue
      darkened to olive for text/lines in the light theme (bright
-     chartreuse is ~1.3:1 on paper — illegible as text). Bright
-     chartreuse remains the FILL color in both themes (buttons,
+     chartreuse is ~1.3:1 on paper - unreadable as text). Bright
+     chartreuse stays the FILL color in both themes (buttons,
      selection) with near-black text on it.
-   - Warm charcoal / warm paper. Nothing blue-tinted, ever.
+   - Warm charcoal / warm paper. Nothing blue-tinted.
 
    Contrast, measured (WCAG):
      DARK  — paper on ink 15.2:1 AAA · dim on ink 6.2:1 AA ·
@@ -33,7 +33,7 @@
      LIGHT — text on bg 14.4:1 AAA · dim on bg 5.9:1 AA ·
              olive on bg 6.1:1 AA · ink on chartreuse fill 14.7:1
              AAA · faint 2.2:1 DECOR ONLY
-   Any new color token ships with its measured ratio here.
+   New color tokens get their measured ratio added here.
    ============================================================ */
 
 :root {
@@ -142,9 +142,9 @@
      EXACTLY these): 30em compact · 48em tablet · 56.25em desktop ---- */
 }
 
-/* Explicit choice (set by the bootstrap script / theme controller)
-   overrides the system preference. Theme switching = flipping ONE
-   attribute; every light-dark() token follows. */
+/* explicit choice (set by the bootstrap script / theme controller)
+   wins. Theme switch = flip one attribute, every light-dark() token
+   follows. */
 html[data-theme="dark"] {
   color-scheme: dark;
 }

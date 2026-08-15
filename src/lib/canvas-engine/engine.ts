@@ -9,8 +9,8 @@
  *  - token theming via computed style (light-dark() safe)
  *  - clean destroy() with no leaked observers/frames
  *
- * Scenes provide entities; the engine provides time and discipline.
- * If a scene outgrows this file, it belongs in a lab, not here.
+ * Scenes just provide entities, the engine handles the timing and lifecycle.
+ * If a scene needs more than this file offers, it should become a lab instead.
  */
 
 import { EntityGroup, type Entity, type FrameInfo } from "./entity";
@@ -78,7 +78,7 @@ export class Engine {
     this.unregister = registerPausable(this);
 
     if (prefersReducedMotion()) {
-      // Stillness: a single, correct frame.
+      // reduced motion: render one static frame, no loop
       this.renderFrame(0);
       return;
     }

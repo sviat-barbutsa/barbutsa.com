@@ -1,13 +1,10 @@
 /**
- * One owner for the reduced-motion preference.
+ * One place for the reduced-motion query. The string used to be copy-pasted in
+ * five places (typer, atlas controller, canvas engine, shell, theme strategy) -
+ * easy to typo one copy and keep animating for someone who turned motion off.
  *
- * The query string was written out at five call sites — the typer, the atlas controller, the canvas
- * engine, the shell easter egg and the strategy facts. Five copies of a string that must match
- * exactly is five chances to typo one and silently animate for someone who asked us not to.
- *
- * Read at call time rather than captured at module load, so a caller that asks again after the
- * visitor changes the setting gets the new answer. Callers that cache the result themselves keep
- * whatever staleness they already had; that is their decision to make, not this module's.
+ * Read at call time, not cached at module load, so if the visitor changes the
+ * setting later callers get the new answer.
  */
 const QUERY = "(prefers-reduced-motion: reduce)";
 

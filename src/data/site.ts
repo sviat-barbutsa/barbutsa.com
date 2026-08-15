@@ -3,7 +3,7 @@
 export const site = {
   name: "Sviatoslav Barbutsa",
   role: "Lead Software Engineer · Frontend Architect · Applied AI",
-  email: "sviatoslav.barbutsa@gmail.com", // CV-canonical; swap to a domain address when mail is set up
+  email: "sviatoslav.barbutsa@gmail.com", // same as in the CV; swap to a domain address when mail is set up
   url: "https://barbutsa.com",
   description:
     "Sviatoslav Barbutsa designs and ships complex product interfaces, SaaS platforms, real-time systems, and practical AI capabilities.",

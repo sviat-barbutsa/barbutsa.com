@@ -1,14 +1,13 @@
 /* ============================================================
    LAYER: composition
    ------------------------------------------------------------
-   Layout primitives. They arrange children; they know NOTHING
-   about what the children are. No colors, no fonts, no borders
-   here — only flow, grid, gaps, and alignment.
+   Layout primitives. They arrange children and know nothing
+   about what the children are. No colors, fonts or borders
+   here - only flow, grid, gaps and alignment.
 
    Before writing `display:flex` inside a component, check if
-   one of these already does the job. Most layouts on the site
-   should be built by combining these, then lightly skinned by
-   a component class.
+   one of these already covers it. Most layouts on the site are
+   combinations of these plus a light component skin.
 
    Each primitive exposes a --knob with a default, tunable
    inline or by a component:  <div class="stack" style="--flow:var(--space-l)">

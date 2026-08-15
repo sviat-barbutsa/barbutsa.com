@@ -1,8 +1,8 @@
 /* ============================================================
-   X-RAY MODE (INSTRUMENTS_PLAN §2) — outlines ONLY, never borders:
-   outlines cannot affect layout, so toggling is guaranteed shift-free.
-   No pseudo-element labels: a ::before inside a flex/grid container
-   becomes an item and corrupts the very layout being displayed.
+   X-RAY MODE — outlines only, never borders: outlines don't
+   affect layout, so toggling causes no shift. No pseudo-element
+   labels: a ::before inside a flex/grid container becomes an
+   item and breaks the very layout it's supposed to show.
    ============================================================ */
 html[data-xray] .region {
   outline: 1px solid var(--color-signal);

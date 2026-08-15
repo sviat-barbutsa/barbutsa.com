@@ -1,7 +1,7 @@
 /* typeline — generic terminal typewriter (see Typewriter.astro).
-   ZERO layout shift by construction: .ghost (the longest phrase,
-   visibility:hidden) and .live share one grid cell, so the box is
-   always sized for the worst case — including wrapped lines.
+   No layout shift: .ghost (the longest phrase, visibility:hidden)
+   and .live share one grid cell, so the box is always sized for
+   the worst case, wrapped lines included.
    --flow: extra breathing room when placed inside a .stack. */
 .typeline {
   --flow: var(--space-l);
@@ -15,8 +15,8 @@
   align-items: baseline;
   gap: var(--space-xs);
 
-  /* NOT margin:0 — that would beat the .stack flow (components layer
-     wins over composition). NOT prose either: escape p{max-width}. */
+  /* not margin:0 - that would beat the .stack flow (components layer
+     wins over composition). max-width:none to escape p{max-width}. */
   max-width: none;
 
   & .prompt {
@@ -37,12 +37,11 @@
     user-select: none;
   }
 
-  /* .live is OUT OF FLOW on purpose: the in-flow ghost alone defines
-     the reserved height, so multi-line shell answers can never move
-     the blocks above — they grow DOWNWARD as an overlay, capped at
-     --shell-max (the hero grid's bottom edge, set by shell/view.ts), then
-     scroll. Background makes the overlay legible over whatever sits
-     below the reserved line. */
+  /* .live is out of flow: the in-flow ghost alone defines the reserved
+     height, so multi-line shell answers never push the blocks above -
+     they grow downward as an overlay, capped at --shell-max (the hero
+     grid's bottom edge, set by shell/view.ts), then scroll. Background
+     keeps the overlay readable over whatever sits below. */
   & .live {
     position: absolute;
     inset: 0 0 auto;
@@ -67,7 +66,7 @@
   }
 }
 
-/* shell input — same metrics as the typed line (INSTRUMENTS_PLAN §3) */
+/* shell input — same metrics as the typed line */
 .shell-input {
   align-self: start;
   block-size: 1lh;

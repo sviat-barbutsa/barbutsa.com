@@ -1,15 +1,15 @@
 /**
- * telemetry — real facts about this visit. Two sources, both free:
+ * telemetry — facts about the current visit. Two sources:
  *
  *  1. /cdn-cgi/trace — plain-text endpoint every Cloudflare-proxied
- *     domain exposes: the visitor's actual edge colo (IATA) + country.
- *     Same-origin, no third party, nothing stored. (INSTRUMENTS_PLAN §1)
- *  2. PerformanceNavigationTiming — the measured TTFB and transfer
- *     size of the very page being viewed.
+ *     domain exposes: the visitor's edge colo (IATA) + country.
+ *     Same-origin, no third party, nothing stored.
+ *  2. PerformanceNavigationTiming — measured TTFB and transfer size
+ *     of the page being viewed.
  *
- * Never throws; resolves with whatever subset is truthfully known,
- * or null. On localhost/non-Cloudflare hosts, the trace simply fails
- * inside its timeout and only performance facts remain.
+ * Never throws; resolves with whatever is actually known, or null.
+ * On localhost/non-Cloudflare hosts the trace just fails inside its
+ * timeout and only the performance part remains.
  */
 
 import { isLocalHostName, parseTrace, readNavigationTelemetry, type Telemetry } from "./telemetry-core";

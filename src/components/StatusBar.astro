@@ -1,9 +1,9 @@
 ---
 /**
- * Status bar — editor-style statusline at the bottom edge
- * (INSTRUMENTS_PLAN §4). Ambient truth: current section, scroll %,
- * visitor colo + measured ttfb, theme, UTC clock. Desktop only;
- * aria-hidden (it duplicates information available elsewhere).
+ * Status bar — editor-style statusline at the bottom edge: current
+ * section, scroll %, visitor colo + measured ttfb, theme, UTC clock.
+ * Desktop only; aria-hidden because everything here is available
+ * elsewhere on the page.
  */
 ---
 
@@ -27,6 +27,10 @@
   const bar = document.querySelector<HTMLElement>(".status-bar");
   if (bar) {
     const statusBar = initStatusBar(bar);
-    addEventListener("pagehide", () => statusBar.destroy(), { once: true });
+    /* skip teardown when the page goes into bfcache - it may come back */
+    addEventListener("pagehide", (event) => {
+      if (event.persisted) return;
+      statusBar.destroy();
+    });
   }
 </script>

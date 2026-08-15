@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import astro from "eslint-plugin-astro";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import { MAX_FILE_LINES, MAX_FUNCTION_LINES } from "./scripts/budgets.mjs";
 
 const browserGlobals = {
   ...globals.browser,
@@ -37,7 +38,7 @@ export default [
       "max-lines": [
         "error",
         {
-          max: 250,
+          max: MAX_FILE_LINES,
           skipBlankLines: false,
           skipComments: false,
         },
@@ -45,7 +46,7 @@ export default [
       "max-lines-per-function": [
         "error",
         {
-          max: 120,
+          max: MAX_FUNCTION_LINES,
           skipBlankLines: false,
           skipComments: false,
           IIFEs: true,

@@ -1,11 +1,11 @@
 ---
 /**
- * The one load-bearing animation on the site: a request finding its
- * nearest edge. SVG geometry from the approved Edge Atlas concept;
- * behavior in src/lib/atlas/controller.ts (route draw + pulse, hover
- * tooltips, hot nodes, live readout). Colors are 100% CSS tokens, so
- * both themes and the animated theme switch work untouched. Pauses
- * offscreen; renders a static routed state under reduced motion.
+ * The main hero animation: a request finding its nearest edge node.
+ * SVG geometry from the Edge Atlas concept; behavior in
+ * src/lib/atlas/controller.ts (route draw + pulse, hover tooltips,
+ * hot nodes, live readout). Colors are all CSS tokens, so both themes
+ * and the animated theme switch work without extra code. Pauses
+ * offscreen; reduced motion gets a static routed state.
  */
 ---
 
@@ -180,17 +180,15 @@
   if (frame) {
     const atlas = initAtlas(frame);
     let active = true;
-    /* never blocks first paint; the atlas upgrades itself when facts land */
+    /* doesn't block first paint - the atlas updates itself when telemetry arrives */
     getTelemetry().then((telemetry) => {
       if (active) atlas.setTelemetry(telemetry);
     });
-    addEventListener(
-      "pagehide",
-      () => {
-        active = false;
-        atlas.destroy();
-      },
-      { once: true },
-    );
+    /* skip teardown when the page goes into bfcache - it may come back */
+    addEventListener("pagehide", (event) => {
+      if (event.persisted) return;
+      active = false;
+      atlas.destroy();
+    });
   }
 </script>

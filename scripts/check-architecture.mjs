@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
+import { MAX_FILE_LINES, MAX_FUNCTION_LINES } from "./budgets.mjs";
 
 const ROOT = process.cwd();
 const REPORT_ONLY = process.argv.includes("--report");
@@ -16,8 +17,7 @@ const REQUIRED_DIRS = [
   "tests/unit",
   "tests/e2e",
 ];
-const MAX_LINES = 250;
-const MAX_FUNCTION_LINES = 120;
+const MAX_LINES = MAX_FILE_LINES;
 const EXTENSIONS = new Set([".ts", ".astro", ".css"]);
 const OBSOLETE_ATLAS = new Set([
   "src/lib/atlas/config.ts",
@@ -30,11 +30,9 @@ const OBSOLETE_STYLES = new Set(["src/styles/components.css"]);
 const OBSOLETE_REFERENCES = /\b(?:createAtlas|arcPoint|routePosition)\b|atlas\/(?:config|entities|math|svg-atlas)/;
 
 /**
- * Modules that must stay computable without a browser: given the same inputs they produce the same
- * outputs, so they can be unit-tested without a DOM and reasoned about without a clock.
- *
- * This freezes a boundary that already holds rather than demanding a refactor. A module earns a
- * place here by being pure today; adding one that is not will fail the check immediately.
+ * Modules that must work without a browser: same inputs -> same outputs, so they
+ * can be unit tested without a DOM or a clock. Only list modules that are already
+ * pure - adding one that isn't fails the check right away.
  */
 const PURE_MODULES = [
   "src/lib/atlas/model.ts",
@@ -52,16 +50,16 @@ const PURE_MODULES = [
   "src/theme/palette.ts",
 ];
 
-// Not listed, deliberately: src/theme/state.ts owns the storage capability the way
-// src/lib/runtime/reduced-motion.ts owns the media query. It takes `storage?: Storage` so callers
-// and tests can inject, but the ambient fallback is the point of the module, not a leak from it.
+// src/theme/state.ts is not listed: it's the storage wrapper itself (same role as
+// reduced-motion.ts for the media query). It takes `storage?: Storage` for tests,
+// but falling back to the real localStorage is its job.
 
 /**
- * Ambient capabilities a pure module may not reach for.
+ * Ambient stuff a pure module must not reach for.
  *
- * `Math.random` and `Date.now` are matched only where they are *called*. Passing either as an
- * injected default — `random: () => number = Math.random` — is how these modules stay testable, and
- * a rule that banned the reference outright would punish the very pattern it exists to encourage.
+ * Math.random and Date.now are only matched where they are called. Passing them as
+ * an injected default (`random: () => number = Math.random`) is fine - that's the
+ * pattern that keeps these modules testable, so the rule must not ban the reference.
  */
 const AMBIENT = [
   { label: "window", pattern: /\bwindow\b/ },
@@ -74,15 +72,29 @@ const AMBIENT = [
 ];
 
 /**
- * Comments and string literals are removed before matching. Without this the rule fires on prose —
- * "Transfer size of this document" is a doc comment, not a DOM access — and a checker that cries
- * wolf is one people learn to silence.
+ * Strip comments and string literals before matching, otherwise the rule fires on
+ * doc comments ("Transfer size of this document" is prose, not a DOM access).
  */
 function stripCommentsAndStrings(text) {
   return text
     .replace(/\/\*[\s\S]*?\*\//g, " ")
     .replace(/(^|[^:])\/\/[^\n]*/g, "$1 ")
     .replace(/`(?:\\.|[^`\\])*`/g, '""')
+    .replace(/'(?:\\.|[^'\\\n])*'/g, '""')
+    .replace(/"(?:\\.|[^"\\\n])*"/g, '""');
+}
+
+/**
+ * Same idea, but keeps line positions for the function-length counter: a brace
+ * inside a string or comment would skew the brace count, and a collapsed newline
+ * would skew the line count. So comment and template bodies become spaces of the
+ * same shape instead of disappearing.
+ */
+function stripForLineCounting(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, (match) => preserveNewlines(match))
+    .replace(/(^|[^:])\/\/[^\n]*/g, "$1 ")
+    .replace(/`(?:\\.|[^`\\])*`/g, (match) => preserveNewlines(match))
     .replace(/'(?:\\.|[^'\\\n])*'/g, '""')
     .replace(/"(?:\\.|[^"\\\n])*"/g, '""');
 }
@@ -123,7 +135,7 @@ function countLines(text) {
 function checkFunctionBudgets(file, text) {
   if (!file.endsWith(".ts")) return [];
   const violations = [];
-  const lines = text.split(/\r?\n/);
+  const lines = stripForLineCounting(text).split(/\r?\n/);
   const starts = [];
   const patterns = [
     /\bfunction\s+\w+[^(]*\([^)]*\)\s*[:\w\s<>|&,\x5B\x5D?]*\{/,

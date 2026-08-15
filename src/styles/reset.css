@@ -1,9 +1,9 @@
 /* ============================================================
    LAYER: reset
    ------------------------------------------------------------
-   Neutralize browser defaults. Nothing here is a design
-   decision — if a rule expresses taste, it belongs in `base`.
-   This file should almost never change.
+   Neutralize browser defaults. No design decisions here -
+   anything that expresses taste goes to `base`. This file
+   should almost never change.
    ============================================================ */
 
 *,
@@ -78,7 +78,7 @@ p {
   overflow-wrap: break-word;
 }
 
-/* Motion is opt-in for everyone, opt-out for those who ask. */
+/* kill animations for users who asked for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

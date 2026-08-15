@@ -1,9 +1,9 @@
 /**
- * canvas-engine/entity — the component model for canvas scenes.
+ * canvas-engine/entity — component model for canvas scenes.
  *
- * An Entity is the canvas equivalent of a UI component: a small unit
- * with a uniform lifecycle. Scenes are composed by adding entities to
- * an Engine (or an EntityGroup) — never by writing one giant draw().
+ * An Entity is a small unit with a uniform lifecycle, basically a UI
+ * component for the canvas. Scenes are built by adding entities to an
+ * Engine (or EntityGroup) instead of writing one giant draw().
  */
 
 export interface FrameInfo {

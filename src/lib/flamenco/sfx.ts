@@ -3,7 +3,7 @@
  * files: every sound is an oscillator with a gain envelope, ~free.
  * The AudioContext is created lazily on first play — always after a
  * user gesture (the game itself opens via a typed command), so
- * autoplay policies are satisfied by construction.
+ * autoplay policies are never an issue.
  */
 
 const STORE_KEY = "flamenco-snd";

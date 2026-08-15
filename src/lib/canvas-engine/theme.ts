@@ -1,8 +1,8 @@
 /**
- * canvas-engine/theme — the canvas obeys the CSS token system.
+ * canvas-engine/theme — reads CSS tokens for canvas drawing.
  *
- * Subtlety that justifies the probe: our tokens are `light-dark(...)`
- * values, and for UNREGISTERED custom properties light-dark() is NOT
+ * Why the probe element: our tokens are `light-dark(...)` values, and
+ * for UNREGISTERED custom properties light-dark() is NOT
  * evaluated at computed-value time — getPropertyValue returns the
  * literal string, which Canvas2D silently rejects (leaving fillStyle
  * at its previous value; the whole scene goes default-black). So each

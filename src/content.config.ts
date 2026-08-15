@@ -2,8 +2,8 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 /**
- * Articles — Markdown with typed frontmatter (STACK_PLAN §3).
- * A malformed date or missing summary fails the BUILD, not the page.
+ * Articles — Markdown with typed frontmatter.
+ * A malformed date or missing summary fails the build.
  */
 const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/articles" }),

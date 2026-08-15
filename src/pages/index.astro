@@ -103,16 +103,15 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
   </section>
 
-  <!-- 05 · CONTACT — left-aligned like every other region; the card on
-       the right is contact.protocol (the operator.conf pattern) and is
-       where the Sable assistant's entry line will live later. -->
+  <!-- 05 · CONTACT — card on the right is contact.protocol; the Sable
+       assistant's entry line goes there later. -->
   <section class="wrap region" aria-labelledby="h-contact" data-home-section="contact">
     <div class="sidebar" style="--sidebar-width: 22rem;">
       <div class="stack" style="--flow: var(--space-m);">
         <p class="kick"><span class="idx">05</span> Contact</p>
         {
-          /* clamp: "understandable?" (15 glyphs) must never break mid-word
-            on narrow viewports — same guarantee as the hero title */
+          /* clamp so "understandable?" (15 glyphs) doesn't break mid-word
+            on narrow viewports, same as the hero title */
         }
         <h2 id="h-contact" class="home-contact-title">Have a system that needs to stay understandable?</h2>
         <p class="home-contact-copy text-dim">
@@ -125,9 +124,9 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
         </p>
       </div>
       {
-        /* the hero's frame grammar (atlas-frame: hairline + corner ticks +
-          meta bar) applied to contact. The email lives on the left; the
-          card ends with a $-prompt mailto so it stays self-contained. */
+        /* reuses the hero atlas-frame look (hairline + corner ticks + meta
+          bar). Email lives on the left; the card ends with its own $-prompt
+          mailto. */
       }
       <aside class="proto-card atlas-frame" aria-label="Contact details">
         <p class="atlas-meta">
@@ -152,7 +151,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
                   .map((s, i) => (
                     <>
                       {i > 0 && " · "}
-                      <a href={s.href} data-no-prerender>
+                      <a href={s.href} target="_blank" rel="noopener noreferrer" data-no-prerender>
                         {s.label}
                       </a>
                     </>

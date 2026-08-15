@@ -42,8 +42,8 @@ export function writeStoredTheme(theme: ResolvedTheme, storage?: Storage): void 
 export function resolveCurrentTheme(root: HTMLElement): ResolvedTheme {
   const set = root.dataset.theme;
   if (set === "light" || set === "dark") return set;
-  /* No explicit choice → dark. The OS preference is deliberately ignored:
-     dark is the brand default; only a user's own toggle overrides it. */
+  /* no explicit choice → dark. We ignore the OS preference: dark is the
+     brand default, only the user's own toggle changes it. */
   return "dark";
 }
 

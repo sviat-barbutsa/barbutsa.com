@@ -1,9 +1,16 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { PALETTE } from "../../src/theme/palette";
 import { launchFlamenco, openShell } from "./actions";
 import { loadSitemapInventory } from "./site";
 
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
+
+/* getComputedStyle serializes colors as rgb(); the palette mirror holds hex. */
+function hexToRgb(hex: string): string {
+  const value = Number.parseInt(hex.slice(1), 16);
+  return `rgb(${(value >> 16) & 255}, ${(value >> 8) & 255}, ${value & 255})`;
+}
 
 async function expectNoViolations(page: Page, state: string): Promise<void> {
   const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
@@ -44,9 +51,10 @@ test.describe("accessibility", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
     /* Style recalc after the data-theme flip is async under load; scan only
        once the switched palette has landed (l-dim on the doctrine line), or
-       axe can catch a stale dark-ramp color. */
+       axe can catch a stale dark-ramp color. The expected value comes from
+       the palette mirror, which palette-sync pins to tokens.css. */
     const doctrineLine = page.locator("[data-doctrine] [data-typer-text]");
-    await expect.poll(() => doctrineLine.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(92, 88, 76)");
+    await expect.poll(() => doctrineLine.evaluate((el) => getComputedStyle(el).color)).toBe(hexToRgb(PALETTE.lDim));
     await expectNoViolations(page, "homepage after theme switch");
   });
 

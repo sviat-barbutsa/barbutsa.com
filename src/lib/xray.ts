@@ -1,8 +1,8 @@
 /**
- * xray — the site documents its own architecture (INSTRUMENTS_PLAN §2).
- * One attribute (html[data-xray]) switches it; CSS draws the overlay
- * (outlines only — they never affect layout). Session-scoped: a
- * diagnostic mode should not survive to the next visit.
+ * xray — overlay mode where the page shows its own layout structure.
+ * One attribute (html[data-xray]) toggles it; CSS draws the overlay
+ * (outlines only, they don't affect layout). Session-scoped so the
+ * diagnostic mode doesn't survive to the next visit.
  */
 
 const KEY = "atlas-xray";
@@ -64,8 +64,8 @@ export function initXray(): () => void {
     removers.push(() => b.removeEventListener("click", onClick));
   }
 
-  /* pin: the legend is fixed and can cover content (e.g. the footer) —
-     one click moves it to the opposite edge so nothing is uninspectable. */
+  /* pin: the legend is fixed and can cover content (e.g. the footer);
+     one click moves it to the opposite edge */
   let edge: "top" | "bottom" = "bottom";
   try {
     if (sessionStorage.getItem(PIN_KEY) === "top") edge = "top";

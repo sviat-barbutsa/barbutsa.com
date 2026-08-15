@@ -1,13 +1,13 @@
 /* ============================================================
    LAYER: components / work-index
    ------------------------------------------------------------
-   The shared lab index: disciplined text rows left, ONE fixed
-   preview panel right — content crossfades in place, the frame
-   never moves. Rendered by WorkIndex.astro on the homepage and
-   the /lab registry. The panel is desktop-only; narrow viewports
-   get the text index alone, so every preview affordance (rail,
-   wash, dimmed titles, VIEWING pointer) is gated behind the same
-   breakpoint — a highlight must never point at a hidden panel.
+   The shared lab index: text rows left, one fixed preview panel
+   right - content crossfades in place, the frame doesn't move.
+   Rendered by WorkIndex.astro on the homepage and the /lab
+   registry. The panel is desktop-only; narrow viewports get the
+   text index alone, so every preview affordance (rail, wash,
+   dimmed titles, VIEWING pointer) sits behind the same
+   breakpoint - a highlight shouldn't point at a hidden panel.
    ============================================================ */
 
 .work-split {

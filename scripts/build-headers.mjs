@@ -1,19 +1,15 @@
 /**
  * Writes dist/_headers after the build.
  *
- * The CSP is generated rather than hand-written because this site ships inline scripts on purpose:
- * the theme bootstrap has to run before first paint, and it is built from PALETTE so it cannot
- * drift from tokens.css. Externalising it would trade a guarantee for a round trip, and hard-coding
- * its hash would rot the first time the palette changes.
+ * The CSP is generated because the site ships inline scripts (the theme bootstrap
+ * must run before first paint, and it's built from PALETTE so it changes with the
+ * palette). Instead of hand-maintaining hashes, they are read back out of the HTML
+ * that was actually built - so the policy always matches what shipped.
  *
- * So the hashes are read back out of the HTML that was actually built. A script that ships is a
- * script that is hashed, by construction — the failure mode where the policy and the page disagree
- * cannot occur.
- *
- * `application/ld+json` is skipped: it is a data block the browser never executes, so CSP does not
- * gate it. Speculation rules are hashed like any other inline script — the `'inline-speculation-rules'`
- * keyword cannot be used here, because CSP ignores the unsafe-inline family entirely once a policy
- * carries any hash, and this one does.
+ * application/ld+json is skipped: it's a data block, the browser never executes it,
+ * CSP doesn't gate it. Speculation rules are hashed like any other inline script -
+ * the 'inline-speculation-rules' keyword doesn't work here because CSP ignores the
+ * unsafe-inline family once the policy has any hash, and this one does.
  */
 
 import { createHash } from "node:crypto";

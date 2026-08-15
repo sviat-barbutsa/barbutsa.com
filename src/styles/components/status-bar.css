@@ -1,6 +1,6 @@
 /* ============================================================
-   STATUS BAR (INSTRUMENTS_PLAN §4) — desktop only, fixed bottom.
-   body padding reserves the space, so nothing is ever covered.
+   STATUS BAR — desktop only, fixed bottom. body padding
+   reserves the space so nothing gets covered.
    ============================================================ */
 .status-bar {
   display: none;

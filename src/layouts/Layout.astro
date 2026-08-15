@@ -4,17 +4,18 @@ import "@/styles/main.css";
 import "@/styles/fonts.css";
 import { site } from "@/data/site";
 import { PALETTE } from "@/theme/palette";
+import { STORAGE_KEY } from "@/theme/state";
 import StatusBar from "@/components/StatusBar.astro";
 import SiteFooter from "@/components/layout/SiteFooter.astro";
 import SiteHeader from "@/components/layout/SiteHeader.astro";
 import XrayLegend from "@/components/layout/XrayLegend.astro";
 
-/* Pre-paint inline blocks are built from the canonical palette so these
-   mirrors can never drift from tokens.css (palette-sync test guards the
-   TS side; these strings guard themselves by construction). */
+/* Pre-paint inline blocks read PALETTE and STORAGE_KEY from the real
+   modules, so these strings can't drift from tokens.css / theme/state.ts
+   (palette-sync test covers the TS side). */
 const themeBootstrap = `(() => {
   try {
-    const t = localStorage.getItem("atlas-theme");
+    const t = localStorage.getItem("${STORAGE_KEY}");
     if (t === "light" || t === "dark") {
       document.documentElement.dataset.theme = t;
       const m = document.querySelector('meta[name="theme-color"]');
@@ -148,21 +149,20 @@ const speculationRules = {
     <meta name="twitter:image:alt" content={ogImageAlt} />
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
-    <!-- THEME BOOTSTRAP — before the stylesheet paints; applies only a
-         STORED choice (absent one, tokens.css defaults to dark — the OS
-         preference is deliberately ignored). Also syncs the theme-color
-         meta so browser chrome matches from byte one.
-         is:inline so Astro cannot hoist it. (Theme plan §6 / addendum A1) -->
+    <!-- theme bootstrap - runs before the stylesheet paints. Applies only
+         a STORED choice (no stored choice → tokens.css defaults to dark,
+         OS preference is ignored). Also syncs the theme-color meta so the
+         browser chrome matches right away. is:inline so Astro can't hoist it. -->
     <script is:inline set:html={themeBootstrap} />
 
-    <!-- PRE-CSS CANVAS GUARD — between documents the UA paints its
+    <!-- pre-CSS canvas guard - between documents the browser paints its
          default (white) canvas until the external stylesheet applies;
          with a render-blocking cross-origin font CSS that gap can
          outlive Chrome's paint holding and blink. This inline block
-         mirrors tokens.css' theming model (dark-canonical, OS ignored,
-         explicit choice wins) so the canvas is correct from byte one.
-         tokens.css still owns the real values: it loads later in the
-         cascade and overrides. -->
+         mirrors the tokens.css theming model (dark default, OS ignored,
+         explicit choice wins) so the canvas color is right immediately.
+         tokens.css loads later in the cascade and overrides with the
+         real values. -->
     <Fragment set:html={`<style>${canvasGuard}</style>`} />
     <!-- self-hosted fonts (scripts/fetch-fonts.mjs) -->
     <link
@@ -180,8 +180,8 @@ const speculationRules = {
       crossorigin
     />
 
-    <!-- Speculation Rules: prerender internal links on interaction intent.
-         Unsupported browsers ignore the script tag entirely. (STACK_PLAN §6.1) -->
+    <!-- speculation rules: prerender internal links on interaction intent.
+         Unsupported browsers just ignore the script tag. -->
     <script type="speculationrules" is:inline set:html={JSON.stringify(speculationRules)} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -206,13 +206,13 @@ const speculationRules = {
       import { initXray } from "@/lib/xray";
       import { initNavLine } from "@/lib/nav-line";
       const cleanups = [initThemeController(), initXray(), initNavLine()];
-      addEventListener(
-        "pagehide",
-        () => {
-          cleanups.forEach((cleanup) => cleanup());
-        },
-        { once: true },
-      );
+      /* persisted pagehide = the page goes into the back/forward cache and
+         may come back, so don't tear down here - otherwise it gets restored
+         with dead controllers. Cleanup only on a real unload. */
+      addEventListener("pagehide", (event) => {
+        if (event.persisted) return;
+        cleanups.forEach((cleanup) => cleanup());
+      });
     </script>
   </body>
 </html>

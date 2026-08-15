@@ -22,7 +22,7 @@ Rules:
 - `utilities.css` stays small and last.
 - Component-local geometry and optical offsets are allowed when they are intrinsic to that component.
 - Inline styles are reserved for CSS custom-property knobs and genuinely dynamic demos.
-- Astro pages do not own scoped static CSS; page-specific rules use a named feature stylesheet in the canonical tree.
+- Astro pages do not own scoped static CSS; page-specific rules use a named feature stylesheet in the main tree.
 
 ## Size unit contract
 
@@ -32,8 +32,8 @@ Rules:
   values written from runtime CSS-pixel measurements.
 - Authored CSS must not contain fractional `px` values. At 24px and above, authored integer `px` values must be even.
   A vendor or intrinsic exact size may opt out with a same-line `size-system-exact` comment.
-- This is a source-value convention, not a rendered-pixel guarantee: relative units, viewport math, browser zoom, and
-  DOM measurements can legitimately resolve to fractional CSS pixels.
+- This applies to authored source values only: relative units, viewport math, browser zoom, and DOM measurements can
+  still resolve to fractional CSS pixels.
 - Keep the root font size user-controlled. Do not set a fixed `html` font size or introduce the 62.5% conversion trick.
 
 ## Component CSS map

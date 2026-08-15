@@ -1,5 +1,5 @@
-/* Compact primary navigation — explicit disclosure replaces an unhinted
-   horizontal strip until every route fits the desktop instrument bar. */
+/* compact primary navigation — a menu button instead of a horizontally
+   scrolling strip on viewports where the routes don't fit the bar */
 .site-menu-toggle {
   display: none;
   align-items: center;

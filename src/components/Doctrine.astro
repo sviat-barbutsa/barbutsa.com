@@ -1,10 +1,9 @@
 ---
 /**
- * The doctrine line — the hero's use of the generic <Typewriter>,
- * upgraded to a working shell (INSTRUMENTS_PLAN §3): click or
- * focus+Enter, then `help`. Commands act (navigate, toggle theme/xray)
- * or answer by typing into the same line. Always one line — the
- * ghost-cell sizing guarantee holds through every state.
+ * The doctrine line — the hero <Typewriter> upgraded to a working
+ * shell: click or focus+Enter, then `help`. Commands either act
+ * (navigate, toggle theme/xray) or answer by typing into the same
+ * line. Stays one line in every state thanks to the ghost-cell sizing.
  */
 import Typewriter from "@/components/Typewriter.astro";
 import doctrine from "@/data/doctrine.json";
@@ -88,8 +87,8 @@ import doctrine from "@/data/doctrine.json";
       commands[lab.slug] = nav(lab.url);
     }
 
-    /* the easter egg — NOT in help; found via `ls -a`. The game chunk
-       loads only when summoned (dynamic import = zero cost otherwise). */
+    /* easter egg - not listed in help, found via `ls -a`. Dynamic import
+       so the game chunk only loads when actually opened. */
     const launchFlamenco = (): string | void => {
       if (prefersReducedMotion()) {
         return "this easter egg requires motion — respecting your settings";
@@ -108,6 +107,10 @@ import doctrine from "@/data/doctrine.json";
         if (status) status.textContent = text;
       },
     });
-    addEventListener("pagehide", () => shell.destroy(), { once: true });
+    /* skip teardown when the page goes into bfcache - it may come back */
+    addEventListener("pagehide", (event) => {
+      if (event.persisted) return;
+      shell.destroy();
+    });
   }
 </script>

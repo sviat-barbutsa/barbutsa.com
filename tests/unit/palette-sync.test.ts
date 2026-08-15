@@ -20,6 +20,7 @@ describe("palette mirror", () => {
     expect(PALETTE.chartreuse).toBe(cssToken("--chartreuse"));
     expect(PALETTE.dim).toBe(cssToken("--d-dim"));
     expect(PALETTE.faint).toBe(cssToken("--d-faint"));
+    expect(PALETTE.lDim).toBe(cssToken("--l-dim"));
   });
 
   it("feeds the theme-color meta pair", () => {

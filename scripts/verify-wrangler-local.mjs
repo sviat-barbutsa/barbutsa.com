@@ -1,6 +1,6 @@
 /**
- * Proves the built site behaves the way the deploy config promises, against a real local Workers
- * static-asset server rather than Astro's preview server:
+ * Checks the built site against a real local Workers static-asset server (not
+ * Astro's preview server), so the deploy config is actually exercised:
  *
  *   - the root serves the page
  *   - a missing path returns the styled 404, because not_found_handling is "404-page"
@@ -16,7 +16,7 @@ const port = process.env.WRANGLER_LOCAL_PORT ?? "8789";
 const origin = `http://127.0.0.1:${port}`;
 const startupTimeoutMs = 30_000;
 
-/** Every document response must carry these, and they can only come from dist/_headers. */
+/** every document response must have these - they can only come from dist/_headers */
 const requiredDocumentHeaders = [
   ["content-security-policy", /default-src 'self'/],
   ["referrer-policy", /no-referrer/],

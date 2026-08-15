@@ -1,6 +1,6 @@
 /* ============================================================
-   FLAMENCO — the easter egg overlay (loads only when summoned).
-   Same instrument grammar as the atlas frame.
+   FLAMENCO — the easter egg overlay (lazy-loaded, only when
+   opened from the shell). Same frame styling as the atlas.
    ============================================================ */
 .flamenco-overlay {
   position: fixed;

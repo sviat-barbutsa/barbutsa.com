@@ -2,10 +2,9 @@
    LAYER: components
    ------------------------------------------------------------
    Named things with an identity: .kick, .btn, .panel.
-   Kept SMALL — composition arranged it, base already styled the
-   elements, tokens supplied the values. A component that grows
-   past ~40 lines is usually smuggling layout that belongs in
-   `composition`.
+   Kept small - composition handles layout, base styles the
+   elements, tokens supply the values. A component past ~40
+   lines usually carries layout that belongs in `composition`.
 
    Rules of the layer:
    - Consume tokens; never raw values.

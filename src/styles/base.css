@@ -1,10 +1,9 @@
 /* ============================================================
    LAYER: base
    ------------------------------------------------------------
-   Unclassed HTML elements only. What does an <h2> look like
-   before anyone gives it a class? This layer answers that.
-   NO class selectors in this file — a class means you want
-   `composition`, `components`, or `utilities`.
+   Unclassed HTML elements only - what an <h2> looks like before
+   it gets a class. No class selectors in this file; those belong
+   in composition, components or utilities.
    ============================================================ */
 
 body {

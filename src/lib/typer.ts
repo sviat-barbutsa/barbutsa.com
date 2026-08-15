@@ -2,8 +2,8 @@
  * typer — terminal-style typewriter for the hero doctrine line.
  *
  * Types a phrase with slight human jitter, holds, erases faster,
- * blinks idle, moves to the next. Same behavioral contracts as every
- * animation on this site:
+ * blinks idle, moves to the next. Same rules as every animation on
+ * this site:
  *  - prefers-reduced-motion → one static phrase, zero timers
  *  - pauses when the tab is hidden or the element leaves the viewport
  *  - registers with the pause registry so theme-switch snapshots
@@ -86,7 +86,7 @@ export function initTyper(el: HTMLElement, phrases: readonly string[], options: 
       el.textContent = phrase().slice(0, pos);
       if (pos >= phrase().length) {
         if (!LOOP) {
-          /* once-mode: the phrase stays; no erase, no timers. */
+          /* loop:false - the phrase stays, no erase, no timers */
           finished = true;
           running = false;
           onDone?.();
@@ -96,7 +96,7 @@ export function initTyper(el: HTMLElement, phrases: readonly string[], options: 
         delay = HOLD_MS;
       } else {
         delay = TYPE_MS + Math.random() * JITTER_MS;
-        /* micro-pause after spaces reads as word rhythm */
+        /* small extra pause after a space, feels more like real typing */
         if (phrase()[pos - 1] === " ") delay += 40;
       }
     } else if (phase === "hold") {

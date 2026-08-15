@@ -1,13 +1,12 @@
 /**
  * nav-line — the sliding hairline under the site nav. One ::after on
  * the .site-nav ul, positioned by two custom properties; this module
- * only measures links and moves the props, so the motion itself stays
- * in CSS (where reduced-motion can kill it wholesale).
+ * only measures links and updates the props, the motion itself stays
+ * in CSS (where reduced-motion can disable it).
  *
- * Event-driven by the site's motion rules: it moves on hover/focus and
- * settles back on the current page's link — no ambient work. Without
- * JS the static aria-current underline (components/site-chrome.css) still renders,
- * so this is pure progressive enhancement.
+ * Moves on hover/focus, settles back on the current page's link.
+ * Without JS the static aria-current underline (site-chrome.css)
+ * still renders, so this is progressive enhancement only.
  */
 
 let cleanupCurrent: (() => void) | null = null;
@@ -35,8 +34,8 @@ export function initNavLine(): () => void {
   };
 
   place(home);
-  /* enable transitions only after first placement — the line must not
-     fly in from x:0 on page load */
+  /* enable transitions only after the first placement, otherwise the
+     line flies in from x:0 on page load */
   const readyFrame = requestAnimationFrame(() => {
     nav.dataset.lineReady = "";
   });

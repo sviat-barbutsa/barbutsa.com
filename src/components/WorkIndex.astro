@@ -2,9 +2,9 @@
 import labs from "@/data/labs.json";
 
 /* One tools index, two surfaces. The home teaser and the /lab registry render
-   the same rows, preview panel, and previewed-state behavior from this one
-   component; the variant only sets scope — row count, anchor ids, heading
-   depth, and how much registry detail (full stack, non-live status) shows. */
+   the same rows, preview panel and previewed-state behavior from this one
+   component; the variant only changes row count, anchor ids, heading depth and
+   how much registry detail (full stack, non-live status) shows. */
 interface Props {
   variant: "home" | "registry";
 }
@@ -13,10 +13,9 @@ const { variant } = Astro.props;
 const registry = variant === "registry";
 const Heading = registry ? "h2" : "h3";
 
-/* Live labs lead the list — the registry's strongest claim goes first.
-   Stable sort keeps the curated order within each group. Art flag: a
-   pre-optimized `public/labs/<slug>.webp` exists — labs.json stays
-   schema-clean and the build needs no image pipeline. */
+/* live labs first; stable sort keeps the curated order within each group.
+   Art flag: a pre-optimized `public/labs/<slug>.webp` exists - keeps
+   labs.json schema-clean and the build needs no image pipeline. */
 const orderedLabs = [...labs].sort((a, b) => Number(b.status === "live") - Number(a.status === "live"));
 const rows = registry ? orderedLabs : orderedLabs.filter((lab) => lab.status === "live").slice(0, 5);
 const labArt = import.meta.glob("../../public/labs/*.webp");
@@ -115,13 +114,12 @@ const kindLabel: Record<string, string> = {
 </div>
 
 <script>
-  /* One authoritative state: previewedProjectId. The highlighted row IS
-     the project in the panel — highlight and crossfade commit together.
-     Pointer commits after a short intent delay; keyboard is immediate;
-     leaving the list keeps the last previewed project. The panel is
-     desktop-only (work-index.css hides it below 56.25em), so below the
-     breakpoint nothing initializes: no art preload, no previewed state
-     highlighting a row whose panel is not on screen. */
+  /* single source of state: the highlighted row and the panel image commit
+     together (highlight + crossfade). Pointer commits after a short delay,
+     keyboard immediately; leaving the list keeps the last preview. The
+     panel is desktop-only (work-index.css hides it below 56.25em), so
+     below the breakpoint nothing initializes: no art preload, no highlight
+     pointing at a panel that isn't on screen. */
   const panelVisible = window.matchMedia("(min-width: 56.25em)");
   const initPreview = (): void => {
     const previewRows = Array.from(document.querySelectorAll<HTMLElement>('[data-layout="work"][data-art]'));
@@ -164,7 +162,7 @@ const kindLabel: Record<string, string> = {
   if (panelVisible.matches) {
     initPreview();
   } else {
-    /* A first crossing (rotation, window resize) can only be to `matches`. */
+    /* the first change event can only be into `matches` (rotation, resize) */
     panelVisible.addEventListener("change", initPreview, { once: true });
   }
 </script>

@@ -1,5 +1,5 @@
 /**
- * Self-host the site fonts (STACK_PLAN §6.3 / Lighthouse render-blocking fix).
+ * Self-host the site fonts (fixes the render-blocking Google Fonts CSS).
  * RUN LOCALLY (needs open internet):  node scripts/fetch-fonts.mjs
  *
  * What it does:

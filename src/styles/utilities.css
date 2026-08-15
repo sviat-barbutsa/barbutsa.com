@@ -4,11 +4,10 @@
    Single-purpose escape hatches. Last layer = they win over
    everything, without !important.
 
-   Keep this file SHORT. A utility earns its place by being
-   needed in 3+ unrelated spots; a one-off tweak belongs on the
-   component. If this file grows past ~30 rules, you are
-   reinventing Tailwind by hand — step back and check whether
-   composition/components should absorb the pattern.
+   Keep this file short: a utility should be needed in 3+
+   unrelated spots, a one-off tweak belongs on the component.
+   Past ~30 rules this turns into hand-rolled Tailwind - move
+   the pattern into composition/components instead.
    ============================================================ */
 
 .mono {
