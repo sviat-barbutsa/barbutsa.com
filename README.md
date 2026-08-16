@@ -120,6 +120,16 @@ model-checking lane; the decision surfaces here are small enough to enumerate by
 Honest limits of the evidence: the browser tests run on Chromium only (desktop and mobile emulation); there is
 no branded-browser, real-device or screen-reader run.
 
+Lighthouse is not part of the gate - a performance score is a measurement, and the gate holds structural
+things instead (static output, hashed immutable assets, self-hosted preloaded fonts, no client framework, images
+sized at build time). For the record, the home page scores 100 / 100 / 100 / 100 (performance, accessibility,
+best practices, SEO) in Chrome DevTools on desktop, 2026-08-16:
+
+![Lighthouse: 100 performance, 100 accessibility, 100 best practices, 100 SEO](docs/lighthouse-2026-08-16.png)
+
+Do not take the screenshot's word for it - run it yourself on
+[PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fbarbutsa.com%2F).
+
 ## Decisions worth knowing
 
 - **No admin panel.** Content is typed Markdown in Git; editing happens in the editor, validation in the
