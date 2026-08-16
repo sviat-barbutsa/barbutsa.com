@@ -16,7 +16,7 @@ In the second article, I went under the hood of `/search` and `/ask`: hybrid ret
 This article is about the command layer in front of that.
 
 If you missed part 1, start there first:
-[From Inbox to Character: Building a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
+[From Inbox to Character: Creating a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
 
 Part 2 covers the retrieval layer this router sits in front of:
 [How `/search` and `/ask` Work: Local Hybrid RAG with ChromaDB + SQLite FTS5](/articles/local-hybrid-rag-chromadb-sqlite-fts5)
@@ -254,7 +254,7 @@ The prompt does a few important things:
 - It includes `today`, so phrases like "last week" or "past 3 days" can become an ISO date.
 - It treats `chitchat` as a real intent instead of forcing every message into an email action.
 
-The `grammar` intent is a small writing utility built into the same Telegram agent. It's just a useful helper I use every day as a non-native English speaker. If I type something like `fix grammar: I wants to meeting on tuesday`, the router sends only that text to a dedicated proofreading prompt and returns the corrected version. It is useful when I want to clean up a sentence before pasting it into a reply, without asking the model to search my mailbox or compose a full email.
+The `grammar` intent is a small writing utility integrated into the same Telegram agent. It's just a useful helper I use every day as a non-native English speaker. If I type something like `fix grammar: I wants to meeting on tuesday`, the router sends only that text to a dedicated proofreading prompt and returns the corrected version. It is useful when I want to clean up a sentence before pasting it into a reply, without asking the model to search my mailbox or compose a full email.
 
 The `grammar` rules are there because a small model can over-eagerly interpret general writing requests as proofreading. Without those guardrails, a message like "recommend a movie for tonight" can accidentally become a grammar task. The prompt tells the model that recipes, recommendations, explanations, opinions, and ordinary small talk belong in `chitchat`.
 
@@ -490,7 +490,7 @@ That is a good place for tests later: a small list of example user messages, exp
 
 ## Why I Did Not Use a Bigger Agent Framework
 
-The principle was simple: keep it simple. For my purposes, a general tool-using agent built on a heavier framework like LangChain or LlamaIndex would be overkill. It's also good practice to build things yourself from time to time.
+The principle was simple: keep it simple. For my purposes, a general tool-using agent implemented with a heavier framework like LangChain or LlamaIndex would be overkill. It's also good practice to write the core mechanics yourself from time to time.
 
 For this project, the action set is known in advance:
 
@@ -563,7 +563,7 @@ accounts - Show connected accounts
 help - List all commands
 ```
 
-It changes discoverability immediately and it's just a nice built-in feature you can use out of the box.
+It changes discoverability immediately and it's just a useful native feature you can use out of the box.
 
 The second was the "Analyzing your message..." push notification. Local LLM routing is useful, but silence during inference feels like a bug. One quick Telegram message before the LLM call makes the wait understandable.
 

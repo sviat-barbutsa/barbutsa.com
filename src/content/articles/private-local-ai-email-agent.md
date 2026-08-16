@@ -1,5 +1,5 @@
 ---
-title: "From Inbox to Character: Building a Private, Local AI Email Agent"
+title: "From Inbox to Character: Creating a Private, Local AI Email Agent"
 date: 2026-04-06
 category: "AI Integration"
 readTime: "12 min"
@@ -11,7 +11,7 @@ draft: false
 
 There are 18k+ emails in my personal inbox, and it's only one of the accounts I have. I wanted to search through them semantically, get AI summaries, draft replies, and run email campaigns - all from my phone. I didn't want OpenAI reading my emails or Google's AI. Or anyone's. For me, local AI is the only real answer for private data processing because no one can read your data or train their models on your data while you're paying for the service.
 
-So I built my own - a private, local email agent project called Llamail. Its default synthetic persona is Sable. It helps me search, summarize, and manage my emails, and can also chat in a casual, roleplay-like manner to make the whole thing a bit more fun. ~3700 lines of Python, a Llama model running on my average, consumer laptop GPU, and a Telegram bot as the interface - and everything is handcrafted, not vibecoded. Here's how.
+So I created my own - a private, local email agent project called Llamail. Its default synthetic persona is Sable. It helps me search, summarize, and manage my emails, and can also chat in a casual, roleplay-like manner to make the whole thing a bit more fun. ~3700 lines of Python, a Llama model running on my average, consumer laptop GPU, and a Telegram bot as the interface - and everything is handcrafted, not vibecoded. Here's how.
 
 ![Sable welcome](./private-local-ai-email-agent/image-01.jpg)
 _Meet Sable - a private, local email agent with a configurable synthetic persona._
@@ -66,7 +66,7 @@ _The high-level architecture: n8n handles Gmail and Telegram events, while the P
 
 The system has two halves that barely know about each other:
 
-**n8n** (running in Docker) is a dumb message bridge. It watches Gmail for new emails and forwards Telegram messages. That's it. The Telegram command workflow is literally three nodes: `Trigger → HTTP Request → Send Message`. No logic, no branching, no code nodes. For sure I could totally skip n8n and build Python services for the Gmail and Telegram APIs but I decided to save some time. Plus, n8n has a good library of connectors so if I ever need to plug in Slack, Discord, or another service, it's a drag-and-drop node instead of a new API integration so it was another solid positive argument for me.
+**n8n** (running in Docker) is a dumb message bridge. It watches Gmail for new emails and forwards Telegram messages. That's it. The Telegram command workflow is literally three nodes: `Trigger → HTTP Request → Send Message`. No logic, no branching, no code nodes. For sure I could totally skip n8n and implement Python services for the Gmail and Telegram APIs but I decided to save some time. Plus, n8n has a good library of connectors so if I ever need to plug in Slack, Discord, or another service, it's a drag-and-drop node instead of a new API integration so it was another solid positive argument for me.
 
 **The Python webservice** (FastAPI) is the brain. Every command, every LLM call, every database query, every Gmail API interaction happens here. When I need to add a new feature, I write a Python function - not a workflow branch.
 
@@ -187,11 +187,11 @@ The key: the LLM is the _fallback_, not the primary path. Slash commands have ze
 
 ## Things That Broke
 
-These are the bugs I spent the most time on. If you're building something similar, maybe this saves you a few hours.
+These are the bugs I spent the most time on. If you're creating something similar, maybe this saves you a few hours.
 
 **1,628 failed imports from one bug.** I was importing 18,000 emails, and 1,628 kept failing with foreign key constraint errors. The cause: I was saving email chunks before the parent email row existed. The fix was literally moving one function call above another. The lesson was less fun - I should have had integration tests from the start. No, I still don't have them, and yes, I know I could ask Codex or Claude to auto-generate some, but that would break the whole handcrafted, no-vibecoded spirit of the project. If you're going to be honest, you might as well be honest all the way through.
 
-**Gmail IDs are lies.** The Gmail API returns hex IDs like `19c54cb15118c128`. The Gmail web UI uses completely different IDs like `QgrcJHrtw...`. I spent an afternoon trying to build a "View in Gmail" link. Turns out there is no conversion between these two formats. No API, no formula, nothing documented. I ended up using `rfc822msgid:` search links - the RFC822 Message-ID header is in every email, and Gmail search can find by it. It opens a search with one result instead of a direct link, but it works. Mostly.
+**Gmail IDs are lies.** The Gmail API returns hex IDs like `19c54cb15118c128`. The Gmail web UI uses completely different IDs like `QgrcJHrtw...`. I spent an afternoon trying to create a "View in Gmail" link. Turns out there is no conversion between these two formats. No API, no formula, nothing documented. I ended up using `rfc822msgid:` search links - the RFC822 Message-ID header is in every email, and Gmail search can find by it. It opens a search with one result instead of a direct link, but it works. Mostly.
 
 **Google OAuth and the trailing slash.** `http://localhost:9090` and `http://localhost:9090/` are different redirect URIs to Google. One works. One gives you `redirect_uri_mismatch`. I tried the wrong one first and spent 10 minutes reading Stack Overflow threads about client ID misconfigurations before noticing the slash.
 
@@ -230,8 +230,8 @@ You'll need:
 
 The repo has a setup guide that walks through everything.
 
-In the next article, I'll go deep into the **hybrid search system** - how combining ChromaDB semantic search with SQLite FTS5 keyword search produces better results than either one alone, and why it only took 120 lines to build.
+In the next article, I'll go deep into the **hybrid search system** - how combining ChromaDB semantic search with SQLite FTS5 keyword search produces better results than either one alone, and why the implementation required only 120 lines.
 
-If you're building something with local LLMs, I'd love to hear about it in the comments. And if you've solved the Gmail ID problem more elegantly than I did, _please_ tell me.
+If you're developing something with local LLMs, I'd love to hear about it in the comments. And if you've solved the Gmail ID problem more elegantly than I did, _please_ tell me.
 
 **P.S.** The bot avatar shown in the screenshots was generated locally, and the Sable persona is original to this project.

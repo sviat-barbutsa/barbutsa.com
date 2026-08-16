@@ -1,10 +1,10 @@
 /**
- * telemetry — facts about the current visit. Two sources:
+ * telemetry - facts about the current visit. Two sources:
  *
- *  1. /cdn-cgi/trace — plain-text endpoint every Cloudflare-proxied
+ *  1. /cdn-cgi/trace - plain-text endpoint every Cloudflare-proxied
  *     domain exposes: the visitor's edge colo (IATA) + country.
  *     Same-origin, no third party, nothing stored.
- *  2. PerformanceNavigationTiming — measured TTFB and transfer size
+ *  2. PerformanceNavigationTiming - measured TTFB and transfer size
  *     of the page being viewed.
  *
  * Never throws; resolves with whatever is actually known, or null.
@@ -23,7 +23,7 @@ function isLocalHost(): boolean {
 }
 
 async function fetchTrace(): Promise<Partial<Telemetry>> {
-  /* /cdn-cgi/trace only exists behind Cloudflare — skip the request
+  /* /cdn-cgi/trace only exists behind Cloudflare - skip the request
      entirely in local dev so the console stays clean. */
   if (isLocalHost()) return {};
   const ctrl = new AbortController();

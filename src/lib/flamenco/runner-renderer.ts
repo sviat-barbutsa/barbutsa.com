@@ -77,13 +77,13 @@ export function drawRunner(ctx: CanvasRenderingContext2D, frame: FrameInfo, stat
     ctx.fillText("YOU ARE A REQUEST. STAY CACHED.", frame.width / 2, frame.height * 0.36);
     ctx.fillStyle = dim;
     ctx.font = '500 11px "JetBrains Mono", monospace';
-    ctx.fillText("SPACE / ↑ / TAP — JUMP THE COLD STARTS", frame.width / 2, frame.height * 0.36 + 22);
+    ctx.fillText("SPACE / ↑ / TAP - JUMP THE COLD STARTS", frame.width / 2, frame.height * 0.36 + 22);
   } else if (state.phase === "dead") {
     ctx.fillStyle = text;
     ctx.font = '700 13px "JetBrains Mono", monospace';
-    ctx.fillText(`ORIGIN REACHED THE HARD WAY — ${state.msSaved}ms saved`, frame.width / 2, frame.height * 0.36);
+    ctx.fillText(`ORIGIN REACHED THE HARD WAY - ${state.msSaved}ms saved`, frame.width / 2, frame.height * 0.36);
     ctx.fillStyle = dim;
     ctx.font = '500 11px "JetBrains Mono", monospace';
-    ctx.fillText("SPACE — RETRY · ESC — QUIT", frame.width / 2, frame.height * 0.36 + 22);
+    ctx.fillText("SPACE - RETRY · ESC - QUIT", frame.width / 2, frame.height * 0.36 + 22);
   }
 }

@@ -8,7 +8,7 @@ export interface FlamencoElements {
 }
 
 const OVERLAY_MARKUP = `
-  <div class="flamenco-panel" data-fl-dialog role="dialog" aria-modal="true" aria-label="Flamenco — the packet runner">
+  <div class="flamenco-panel" data-fl-dialog role="dialog" aria-modal="true" aria-label="Flamenco - the packet runner">
     <p class="fl-meta">
       <span>.flamenco / packet-runner v1</span>
       <button type="button" class="xl-close" data-fl-quit aria-label="Quit game">×&nbsp;ESC</button>
@@ -24,7 +24,7 @@ const OVERLAY_MARKUP = `
       </div>
     </div>
     <p class="fl-foot">
-      <span>SPACE / ↑ / TAP — JUMP</span>
+      <span>SPACE / ↑ / TAP - JUMP</span>
       <button type="button" class="xl-close" data-fl-sound aria-pressed="true">SND ON</button>
       <span>YOU FOUND THE HIDDEN FILE. OLÉ.</span>
     </p>

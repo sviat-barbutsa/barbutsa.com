@@ -141,18 +141,18 @@ export const flagshipProjects: readonly FlagshipProject[] = [
     status: "release-candidate",
     statusLabel: "PLAY CLOSED TEST · IN REVIEW",
     summary:
-      "A private Android speaking coach that transcribes, corrects, explains, and turns better phrasing into repeat practice—on-device after setup.",
-    ownership: "Independent product · Designed and built end to end",
+      "A private Android speaking coach that transcribes, corrects, explains, and turns better phrasing into repeat practice-on-device after setup.",
+    ownership: "Independent product · Designed and implemented end to end",
     technologies: ["Flutter", "Android/JNI", "whisper.cpp", "LiteRT-LM", "On-device AI"],
     availability:
-      "A Google Play closed-test release has been submitted for review. Public installation is not currently available; this overview uses current-build screenshots.",
+      "A Google Play closed-test release has been submitted for review. Public installation is not currently available; this overview uses screenshots of the current version.",
     publicationState: "published",
     publicationGate: null,
     card: flagshipProjectCardCopy.voiceCoach,
     media: {
       kind: "paired",
       label: "Two current English Voice Coach Android screens",
-      caption: "Current Android build—not a concept mockup.",
+      caption: "Current Android application—not a concept mockup.",
       images: [
         {
           src: "/work/english-voice-coach-topics.jpg",

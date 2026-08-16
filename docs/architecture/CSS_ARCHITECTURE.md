@@ -38,21 +38,21 @@ Rules:
 
 ## Component CSS map
 
-- `core.css` — kick, label, button, panel.
-- `index-row.css` — numbered index rows and their layout variants.
-- `work-index.css` — the shared lab index: work split, previewed-row state, preview panel (WorkIndex.astro).
-- `contact.css` — protocol/contact card and shared conf rows.
-- `theme-toggle.css` — theme switch control.
-- `site-chrome.css` — skip link, header, brand/nav, footer, footer controls.
-- `atlas.css` — SVG Atlas frame, nodes, route, readout, tooltip.
-- `content.css` — page heads, prose, pager.
-- `home.css` — homepage hero, writing split, case-card state, and contact copy.
-- `about.css` — About-page copy and education treatment.
-- `styleguide.css` — visual samples used only by the living styleguide.
-- `terminal.css` — typewriter line, shell input, shell opener.
-- `xray.css` — X-ray outlines and legend.
-- `status-bar.css` — editor-style status bar.
-- `flamenco.css` — lazy-loaded game overlay.
+- `core.css` - kick, label, button, panel.
+- `index-row.css` - numbered index rows and their layout variants.
+- `work-index.css` - the shared lab index: work split, previewed-row state, preview panel (WorkIndex.astro).
+- `contact.css` - protocol/contact card and shared conf rows.
+- `theme-toggle.css` - theme switch control.
+- `site-chrome.css` - skip link, header, brand/nav, footer, footer controls.
+- `atlas.css` - SVG Atlas frame, nodes, route, readout, tooltip.
+- `content.css` - page heads, prose, pager.
+- `home.css` - homepage hero, writing split, case-card state, and contact copy.
+- `about.css` - About-page copy and education treatment.
+- `styleguide.css` - visual samples used only by the living styleguide.
+- `terminal.css` - typewriter line, shell input, shell opener.
+- `xray.css` - X-ray outlines and legend.
+- `status-bar.css` - editor-style status bar.
+- `flamenco.css` - lazy-loaded game overlay.
 
 ## Motion
 

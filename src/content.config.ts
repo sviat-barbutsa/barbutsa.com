@@ -2,7 +2,7 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 /**
- * Articles — Markdown with typed frontmatter.
+ * Articles - Markdown with typed frontmatter.
  * A malformed date or missing summary fails the build.
  */
 const articles = defineCollection({

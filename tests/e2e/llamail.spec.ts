@@ -12,12 +12,12 @@ test("Llamail opens a real self-hosted project page instead of a same-page ancho
   await expect(page.getByText("Sable is the Telegram interface and operator persona", { exact: false })).toBeVisible();
   await expect(page.getByText("Gmail and Telegram remain external services", { exact: false })).toBeVisible();
   await expect(page.getByText("~3 seconds", { exact: false })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Read the build series →" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Read the implementation series →" })).toHaveAttribute(
     "href",
     "/articles/private-local-ai-email-agent",
   );
 
-  const series = page.getByRole("complementary", { name: "Read the five-part Llamail build series." });
+  const series = page.getByRole("complementary", { name: "Read the five-part Llamail implementation series." });
   await expect(series.getByRole("link")).toHaveCount(5);
   await expect(series.getByRole("link", { name: /Local Hybrid RAG/ })).toHaveAttribute(
     "href",

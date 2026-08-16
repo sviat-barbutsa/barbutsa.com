@@ -1,9 +1,15 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 
 // Article scaffolding + read-time maintenance.
-//   pnpm new:article "Title" [--category "Name"]  — create a draft with valid frontmatter
-//   pnpm new:article --retime                     — recompute readTime for every article
+//   pnpm new:article "Title" [--category "Name"]  - create a draft with valid frontmatter
+//   pnpm new:article --retime                     - recompute readTime for every article
 const ROOT = process.cwd();
 const ARTICLES_DIR = path.join(ROOT, "src", "content", "articles");
 const WORDS_PER_MINUTE = 200;
@@ -47,7 +53,11 @@ function retimeAll() {
       changed += 1;
     }
   }
-  console.log(changed ? `Updated ${changed} article(s).` : "All read times already correct.");
+  console.log(
+    changed
+      ? `Updated ${changed} article(s).`
+      : "All read times already correct.",
+  );
 }
 
 function createArticle(title, category) {
@@ -58,7 +68,9 @@ function createArticle(title, category) {
   }
   const file = path.join(ARTICLES_DIR, `${slug}.md`);
   if (existsSync(file)) {
-    console.error(`Refusing to overwrite existing article: src/content/articles/${slug}.md`);
+    console.error(
+      `Refusing to overwrite existing article: src/content/articles/${slug}.md`,
+    );
     process.exit(1);
   }
   const frontmatter = [
@@ -77,8 +89,12 @@ function createArticle(title, category) {
   writeFileSync(file, frontmatter);
   mkdirSync(path.join(ARTICLES_DIR, slug), { recursive: true });
   console.log(`Created src/content/articles/${slug}.md (draft: true)`);
-  console.log(`Images go in src/content/articles/${slug}/ — reference as ./${slug}/name.png`);
-  console.log('Before publishing: write the summary, run "pnpm new:article --retime", flip draft.');
+  console.log(
+    `Images go in src/content/articles/${slug}/ - reference as ./${slug}/name.png`,
+  );
+  console.log(
+    'Before publishing: write the summary, run "pnpm new:article --retime", flip draft.',
+  );
 }
 
 const args = process.argv.slice(2);
@@ -86,12 +102,18 @@ if (args[0] === "--retime") {
   retimeAll();
 } else {
   const categoryIndex = args.indexOf("--category");
-  const category = categoryIndex >= 0 ? (args[categoryIndex + 1] ?? "") : "General";
+  const category =
+    categoryIndex >= 0 ? (args[categoryIndex + 1] ?? "") : "General";
   const title = args
-    .filter((arg, i) => categoryIndex < 0 || (i !== categoryIndex && i !== categoryIndex + 1))
+    .filter(
+      (arg, i) =>
+        categoryIndex < 0 || (i !== categoryIndex && i !== categoryIndex + 1),
+    )
     .join(" ");
   if (!title || !category) {
-    console.error('Usage: pnpm new:article "Article Title" [--category "Name"] | --retime');
+    console.error(
+      'Usage: pnpm new:article "Article Title" [--category "Name"] | --retime',
+    );
     process.exit(1);
   }
   createArticle(title, category);

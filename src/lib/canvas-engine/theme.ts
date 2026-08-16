@@ -1,9 +1,9 @@
 /**
- * canvas-engine/theme — reads CSS tokens for canvas drawing.
+ * canvas-engine/theme - reads CSS tokens for canvas drawing.
  *
  * Why the probe element: our tokens are `light-dark(...)` values, and
  * for UNREGISTERED custom properties light-dark() is NOT
- * evaluated at computed-value time — getPropertyValue returns the
+ * evaluated at computed-value time - getPropertyValue returns the
  * literal string, which Canvas2D silently rejects (leaving fillStyle
  * at its previous value; the whole scene goes default-black). So each
  * token is resolved through a probe element's `color`, where the
@@ -16,7 +16,7 @@ export function readTokens(el: Element, names: readonly string[]): Record<string
   const styles = getComputedStyle(el);
   const out: Record<string, string> = {};
 
-  /* Probe inside the same subtree so it inherits color-scheme —
+  /* Probe inside the same subtree so it inherits color-scheme -
      that inheritance is what makes light-dark() pick the right arm. */
   const probe = document.createElement("span");
   probe.style.display = "none";

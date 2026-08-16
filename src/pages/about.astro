@@ -4,15 +4,17 @@ import { careerTimeline, formatCareerMonth, toCareerDateTime } from "@/data/care
 import { site } from "@/data/site";
 
 const config = [
-  ["role", "senior frontend engineer / frontend architect"],
-  ["current", "lead software engineer — ai-powered collaborative saas"],
-  ["experience", "13+ years building web platforms from the ground up"],
-  ["frontend", "react, next.js, typescript, astro, react native"],
-  ["platform", "15 cloudflare workers microservices · do, d1, r2, kv"],
-  ["ai", "rag / vector search, llm routing, ai chat — in production"],
-  ["performance", "lighthouse 100 sites · 2.5–3× page-load improvements"],
-  ["leadership", "led teams of 2–7 · mentored 14 engineers"],
-  ["proof", "stackoverflow 5k+ · upwork 100% job success"],
+  ["role", site.role],
+  ["current", "lead software engineer · ai-powered collaborative saas"],
+  ["experience", "13+ years implementing high-impact web platforms"],
+  ["frontend", "react · next.js · typescript · design systems · storybook"],
+  ["architecture", "layered architecture · repositories · SOLID · API adapters"],
+  ["backend", "cloudflare workers · node.js · python · fastapi · django"],
+  ["realtime", "websockets · durable objects · WebRTC"],
+  ["ai", "rag · llm routing · agentic workflows · local LLM · Codex · Claude"],
+  ["performance", "lighthouse 100 · 2.5–3× page-load optimization "],
+  ["leadership", "led product teams up to 7 · mentored 14 engineers"],
+  ["proof", site.facts.proof],
   ["location", "houston, tx · remote · u.s. work authorization"],
   ["doctrine", "boring where it matters, ambitious where it is isolated"],
 ];
@@ -29,18 +31,18 @@ const independent = [
 ];
 
 const education = [
-  "M.S., Power Generation / Alternative Energy (GPA 3.96/4.0) and B.S., Electrical Engineering — Chernivtsi National University, Ukraine. Evaluated as equivalent to U.S. M.S. and B.S.",
-  "Deep Learning Specialization (5 courses) — DeepLearning.AI, 2025. CS50 Web Programming — Harvard/edX. CIW JavaScript Specialist.",
+  "M.S., Power Generation / Alternative Energy (GPA 3.96/4.0) and B.S., Electrical Engineering - Chernivtsi National University, Ukraine. Evaluated as equivalent to U.S. M.S. and B.S.",
+  "Deep Learning Specialization (5 courses) - DeepLearning.AI, 2025. CS50 Web Programming - Harvard/edX. CIW JavaScript Specialist.",
 ];
 ---
 
 <Layout
   title="About"
-  description="Sviatoslav Barbutsa — 13+ years building web platforms. Lead engineer on an AI-powered SaaS over 15 Cloudflare Workers microservices. Lighthouse 100 sites, production RAG, 14 engineers mentored."
+  description="Sviatoslav Barbutsa - 13+ years in frontend architecture, shared UI, Cloudflare and Node/Python integrations, real-time systems, applied AI, and technical leadership."
 >
   <div class="wrap page-head stack">
     <p class="kick">
-      <span class="idx">CONF</span> About — operator configuration
+      <span class="idx">CONF</span> About - operator configuration
     </p>
     <h1 class="page-title" data-measure="compact">Senior engineering for products that need to keep evolving.</h1>
   </div>
@@ -49,18 +51,22 @@ const education = [
     <div class="sidebar" style="--sidebar-width: 24rem;">
       <div class="about-copy stack" style="--flow: var(--space-m);">
         <p>
-          Thirteen years building web platforms from the ground up. Currently lead software engineer on an AI-powered
-          collaborative SaaS: multiple React/Next.js applications and a shared component library in one monorepo, on top
-          of fifteen Cloudflare Workers microservices.
+          Thirteen years creating web platforms from scratch. Currently lead software engineer on an AI-powered
+          collaborative SaaS, leading end-to-end frontend architecture across multiple React/Next.js applications in a
+          monorepo. I created the shared UI library and Storybook foundation, with state stores, repositories, API
+          adapters, dependency injection, and utility services separating the product layers.
         </p>
         <p class="text-dim">
-          The work spans frontend architecture, design systems, and performance — Lighthouse 100 sites, 2.5–3× page-load
-          improvements on production apps — plus production AI features: RAG and vector search, LLM routing, AI chat. I
-          write about local-first AI for freeCodeCamp, Medium, and dev.to.
+          My work is frontend-first and extends through backend implementation and integration: Cloudflare Workers and
+          Durable Objects, Node.js, Python, FastAPI, Django/DRF, and REST APIs. I have shipped real-time collaboration
+          over WebSockets and applied-AI systems including RAG and vector search, LLM routing, agentic workflows, and
+          local models.
         </p>
         <p class="text-dim">
-          Took four products from empty repository to production launch. Led teams of two to seven, mentored fourteen
-          engineers, and currently coach company leadership on AI engineering and system design. The doctrine has not
+          I have taken four products from empty repositories to production launch. Performance work includes Lighthouse
+          100 sites and 2.5–3× page-load improvements on production apps. I led frontend architecture and delivery
+          across product teams of up to seven, coordinating frontend engineers, backend contributors, and design. Across
+          my career, I mentored 14 engineers and owned production quality for the systems I led. The doctrine has not
           changed in a decade: boring tools where they matter, ambitious pieces isolated enough to be reliable.
         </p>
       </div>

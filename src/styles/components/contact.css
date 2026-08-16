@@ -1,4 +1,4 @@
-/* proto-card — the home contact card. Reuses .atlas-frame (border,
+/* proto-card - the home contact card. Reuses .atlas-frame (border,
    corner ticks, tinted surface) and .atlas-meta (bar + pulsing dot)
    from the hero instead of inventing a new frame. Motion is just the
    OPEN dot and the prompt caret - no ambient background here, one
@@ -48,7 +48,7 @@
     }
   }
 
-  /* the prompt line doubles as the card's mailto — a door, not decor */
+  /* the prompt line doubles as the card's mailto - a door, not decor */
   & .proto-foot {
     display: flex;
     align-items: center;
@@ -87,7 +87,7 @@
   }
 }
 
-/* conf — the "$ cat something.conf" key/value list (About's
+/* conf - the "$ cat something.conf" key/value list (About's
    operator.conf). Promoted here from About's scoped styles. */
 .conf {
   display: grid;

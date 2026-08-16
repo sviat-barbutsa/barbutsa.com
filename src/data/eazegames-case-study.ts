@@ -14,7 +14,7 @@ export const eazeFacts = [
 ] as const;
 
 export const eazeProofs = [
-  "Frontend created from the ground up",
+  "Frontend created from scratch",
   "Real-time WebSocket product flows",
   "Reusable component and utility foundation",
   "Production delivery from a two-person starting team",

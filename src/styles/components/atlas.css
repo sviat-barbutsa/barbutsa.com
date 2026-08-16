@@ -1,4 +1,4 @@
-/* atlas hero — the instrument (ported from the Edge Atlas concept,
+/* atlas hero - the instrument (ported from the Edge Atlas concept,
    colors mapped to intent tokens so both themes just work) */
 .atlas-shell {
   position: relative;
@@ -11,7 +11,11 @@
   margin: 0;
   border: var(--hairline);
   background:
-    radial-gradient(120% 90% at 70% 20%, color-mix(in srgb, var(--color-signal) 4%, transparent), transparent 60%),
+    radial-gradient(
+      120% 90% at 70% 20%,
+      color-mix(in srgb, var(--color-signal) 4%, transparent),
+      transparent 60%
+    ),
     var(--color-surface);
 }
 
@@ -22,10 +26,14 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(var(--color-signal), var(--color-signal)) top left / 12px 1px,
-    linear-gradient(var(--color-signal), var(--color-signal)) top left / 1px 12px,
-    linear-gradient(var(--color-signal), var(--color-signal)) bottom right / 12px 1px,
-    linear-gradient(var(--color-signal), var(--color-signal)) bottom right / 1px 12px;
+    linear-gradient(var(--color-signal), var(--color-signal)) top left / 12px
+      1px,
+    linear-gradient(var(--color-signal), var(--color-signal)) top left / 1px
+      12px,
+    linear-gradient(var(--color-signal), var(--color-signal)) bottom right /
+      12px 1px,
+    linear-gradient(var(--color-signal), var(--color-signal)) bottom right / 1px
+      12px;
   background-repeat: no-repeat;
   opacity: 0.9;
 }
@@ -65,7 +73,9 @@
     stroke: var(--color-signal);
     stroke-width: 1.4;
     fill: none;
-    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--color-signal) 45%, transparent));
+    filter: drop-shadow(
+      0 0 3px color-mix(in srgb, var(--color-signal) 45%, transparent)
+    );
     opacity: 0;
     transition: opacity 0.5s ease;
   }
@@ -132,7 +142,9 @@
   & .node.tip-pinned circle.core,
   & .node.hot circle.core {
     fill: var(--color-signal);
-    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-signal) 70%, transparent));
+    filter: drop-shadow(
+      0 0 5px color-mix(in srgb, var(--color-signal) 70%, transparent)
+    );
   }
 
   & .node:hover circle.halo,

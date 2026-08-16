@@ -29,7 +29,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
       </p>
       <div class="cluster">
         <a class="btn" href="/work">Selected work →</a>
-        <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a>
+       <!-- <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a> -->
       </div>
       <Doctrine />
     </div>
@@ -46,12 +46,13 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
     <h2 id="h-tools" class="section-title">Software you can use</h2>
     <p class="text-dim measure">
-      Focused browser tools for image editing, QR creation, generative graphics, and semantic HTML — each independently
+      Focused browser tools for image editing, QR creation, generative graphics, and semantic HTML - each independently
       deployed and available to use.
     </p>
     <WorkIndex variant="home" />
   </section>
 
+{/*
   <!-- 03 · ARCHITECTURE -->
   <section class="wrap region stack" aria-labelledby="h-arch" data-home-section="architecture">
     <p class="kick"><span class="idx">03</span> Patterns & trade-offs</p>
@@ -64,7 +65,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
         caseStudies.slice(0, 4).map((cs) => (
           <a class="panel stack case-card" style="--flow: var(--space-xs);" href="/architecture">
             <span class="label" data-tone="signal">
-              ROUTE ○ {cs.route.join(" — ")}
+              ROUTE ○ {cs.route.join(" - ")}
             </span>
             <h3 class="panel-title">{cs.title}</h3>
             <p class="panel-summary text-dim">{cs.summary}</p>
@@ -73,13 +74,14 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
       }
     </div>
   </section>
+*/}
 
-  <!-- 04 · WRITING -->
+  <!-- 03 · WRITING -->
   <section class="wrap region" aria-labelledby="h-writing" data-home-section="writing">
     <div class="writing-grid">
       <div class="stack">
         <div class="repel">
-          <p class="kick"><span class="idx">04</span> Writing</p>
+          <p class="kick"><span class="idx">03</span> Writing</p>
           <a class="label" data-tone="signal" href="/articles">ALL ARTICLES →</a>
         </div>
         <h2 id="h-writing" class="section-title" data-measure="narrow">Notes from production.</h2>
@@ -103,12 +105,12 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
   </section>
 
-  <!-- 05 · CONTACT — card on the right is contact.protocol; the Sable
+  <!-- 04 · CONTACT - card on the right is contact.protocol; the Sable
        assistant's entry line goes there later. -->
   <section class="wrap region" aria-labelledby="h-contact" data-home-section="contact">
     <div class="sidebar" style="--sidebar-width: 22rem;">
       <div class="stack" style="--flow: var(--space-m);">
-        <p class="kick"><span class="idx">05</span> Contact</p>
+        <p class="kick"><span class="idx">04</span> Contact</p>
         {
           /* clamp so "understandable?" (15 glyphs) doesn't break mid-word
             on narrow viewports, same as the hero title */
@@ -140,7 +142,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
           </div>
           <div class="proto-row">
             <dt>response</dt>
-            <dd>within 24 hours — honest either way</dd>
+            <dd>within 24 hours - honest either way</dd>
           </div>
           <div class="proto-row">
             <dt>elsewhere</dt>

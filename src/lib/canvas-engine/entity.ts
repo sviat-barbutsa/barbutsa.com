@@ -1,5 +1,5 @@
 /**
- * canvas-engine/entity — component model for canvas scenes.
+ * canvas-engine/entity - component model for canvas scenes.
  *
  * An Entity is a small unit with a uniform lifecycle, basically a UI
  * component for the canvas. Scenes are built by adding entities to an
@@ -7,7 +7,7 @@
  */
 
 export interface FrameInfo {
-  /** Seconds since last frame (clamped — see engine). */
+  /** Seconds since last frame (clamped - see engine). */
   dt: number;
   /** Seconds since the engine started. */
   elapsed: number;
@@ -16,7 +16,7 @@ export interface FrameInfo {
   height: number;
   /** Resolved theme tokens for this frame. */
   tokens: Record<string, string>;
-  /** True when prefers-reduced-motion — draw a static frame. */
+  /** True when prefers-reduced-motion - draw a static frame. */
   reducedMotion: boolean;
 }
 

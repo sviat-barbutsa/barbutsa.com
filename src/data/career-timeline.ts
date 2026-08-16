@@ -110,7 +110,7 @@ export const careerTimeline = validateCareerTimeline([
     client: "Piggy.eu",
     location: "Chernivtsi, Ukraine",
     summary:
-      "Led frontend architecture from the ground up for the Piggy.eu loyalty and discount platform. Started as the sole frontend engineer, created the shared React and TypeScript UI foundation and Jenkins CI workflow, and supported the team as it expanded after the MVP launch.",
+      "Defined and led the frontend architecture from scratch for the Piggy.eu loyalty and discount platform. Started as the sole frontend engineer, created the shared React and TypeScript UI foundation and Jenkins CI workflow, and supported the team as it expanded after the MVP launch.",
   },
   {
     id: "softserve-2017-2018",
@@ -134,7 +134,7 @@ export const careerTimeline = validateCareerTimeline([
     location: "Chernivtsi, Ukraine",
     projectSlug: "/work/eazegames-original-web-platform",
     summary:
-      "Designed the frontend architecture and implemented the original real-time HTML5 skill-gaming web application from the ground up, including WebSocket product flows, competitions, payment UI, roles, webshop, internationalization, reusable UI foundations, and frontend CI.",
+      "Designed the frontend architecture and implemented the original real-time HTML5 skill-gaming web application from scratch, including WebSocket product flows, competitions, payment UI, roles, webshop, internationalization, reusable UI foundations, and frontend CI.",
   },
   {
     id: "softserve-2016",
@@ -156,7 +156,7 @@ export const careerTimeline = validateCareerTimeline([
     employer: "Softimus",
     location: "Chernivtsi, Ukraine",
     summary:
-      "Moved into specialized frontend engineering on a corporate medical-equipment platform, building and modernizing client-side applications, email interfaces, and SEO and UI foundations with TypeScript, Gulp, and Stylus.",
+      "Moved into specialized frontend engineering on a corporate medical-equipment platform, developing and modernizing client-side applications, email interfaces, and SEO and UI foundations with TypeScript, Gulp, and Stylus.",
   },
   {
     id: "trilobite-web-studio-2013-2014",
@@ -167,6 +167,6 @@ export const careerTimeline = validateCareerTimeline([
     employer: "Trilobite Web Studio",
     location: "Chernivtsi, Ukraine",
     summary:
-      "Built websites with a partner for private clients using JavaScript, HTML, CSS, and CMS platforms including WordPress, Joomla, OpenCart, MODX, and UMI.CMS.",
+      "Created websites with a partner for private clients using JavaScript, HTML, CSS, and CMS platforms including WordPress, Joomla, OpenCart, MODX, and UMI.CMS.",
   },
 ] satisfies readonly CareerEntry[]);

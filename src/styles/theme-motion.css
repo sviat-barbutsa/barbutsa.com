@@ -1,5 +1,5 @@
 /* ============================================================
-   LAYER: base (imported into it) — theme-switch motion shell
+   LAYER: base (imported into it) - theme-switch motion shell
    ------------------------------------------------------------
    View Transition snapshot rules for the ANIMATED THEME SWITCH
    (fluid / radial strategies). See:
@@ -45,7 +45,7 @@ html[data-theme-motion]::view-transition-new(root) {
 }
 
 /* Suppress competing color transitions while the snapshot reveal
-   runs — the reveal IS the interpolation. (Plan §28.) */
+   runs - the reveal IS the interpolation. (Plan §28.) */
 html[data-theme-motion] a,
 html[data-theme-motion] .btn,
 html[data-theme-motion] .index-row {

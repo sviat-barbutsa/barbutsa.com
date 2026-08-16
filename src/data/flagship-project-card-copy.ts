@@ -21,21 +21,21 @@ export const flagshipProjectCardCopy = {
     status: "PRIVATE RELEASE CANDIDATE",
     summary:
       "A private speaking coach that turns speech into corrections, explanations, and repeat practice on-device.",
-    ownership: "Designed and built end-to-end",
+    ownership: "Designed and implemented end-to-end",
     technologies: ["Flutter", "whisper.cpp", "On-device AI"],
   },
   llamail: {
     tier: "featured",
     meta: "INDEPENDENT SYSTEM · LOCAL-FIRST AI",
     summary: "A private email agent with deterministic routing, hybrid retrieval, cited answers, and reviewed actions.",
-    ownership: "Built end-to-end: architecture, retrieval, agents, and operator workflow",
+    ownership: "Implemented architecture, retrieval, agents, and operator workflow",
     technologies: ["Python", "FastAPI", "llama.cpp"],
   },
   zharwingMemory: {
     tier: "supporting",
     meta: "OPEN SOURCE · LOCAL-FIRST · DEVELOPER PREVIEW",
     summary: "Durable, project-scoped context across AI coding tools.",
-    ownership: "Designed and built end-to-end",
+    ownership: "Designed and implemented end-to-end",
     technologies: ["TypeScript", "Tauri", "MCP"],
   },
 } as const satisfies Record<string, FlagshipProjectCard>;

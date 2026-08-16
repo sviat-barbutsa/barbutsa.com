@@ -1,4 +1,4 @@
-/* page intro — shared page-top block */
+/* page intro - shared page-top block */
 .page-head {
   padding-block: var(--space-xl) 0;
 }
@@ -32,7 +32,7 @@
   margin-top: var(--space-xl);
 }
 
-/* article page — the report is a centred reading column, not a measure-wide
+/* article page - the report is a centred reading column, not a measure-wide
    block pinned to the left edge of the 97.5rem site grid. Running text stays
    at --measure; figures, code and tables break out to wider bands around the
    same centre line. */
@@ -57,7 +57,7 @@
   font-size: var(--step-1);
 }
 
-/* article prose — long-form reading on the token system */
+/* article prose - long-form reading on the token system */
 .prose {
   max-width: var(--measure);
   margin-inline: auto;
@@ -96,7 +96,7 @@
   }
 
   & li::before {
-    content: "— ";
+    content: "- ";
     color: var(--color-signal);
   }
 
@@ -109,7 +109,7 @@
     border-bottom: 1px solid currentcolor;
   }
 
-  /* WIDE BANDS — blocks that read badly at prose measure break out of the
+  /* WIDE BANDS - blocks that read badly at prose measure break out of the
      reading column and stay centred on it. 100cqw is the article column
      (the .article-report content box), 100% is the reading column, so the
      negative side margins are exactly half the difference. On narrow
@@ -118,7 +118,7 @@
     --band: min(100cqw, 54rem);
   }
 
-  /* figures — screenshots and diagrams take the whole column.
+  /* figures - screenshots and diagrams take the whole column.
      Markdown emits them as `<p><img><em>caption</em></p>`. */
   & > p:has(> img) {
     --band: 100cqw;
@@ -144,7 +144,7 @@
   }
 }
 
-/* pagination — mono instrument controls */
+/* pagination - mono instrument controls */
 .pager {
   display: flex;
   align-items: baseline;

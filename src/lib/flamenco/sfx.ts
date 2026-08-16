@@ -1,7 +1,7 @@
 /**
- * flamenco/sfx — tiny WebAudio synth for the packet runner. No audio
+ * flamenco/sfx - tiny WebAudio synth for the packet runner. No audio
  * files: every sound is an oscillator with a gain envelope, ~free.
- * The AudioContext is created lazily on first play — always after a
+ * The AudioContext is created lazily on first play - always after a
  * user gesture (the game itself opens via a typed command), so
  * autoplay policies are never an issue.
  */
@@ -67,16 +67,16 @@ export const sfx = {
   jump(): void {
     note(300, 0.09, { slideTo: 520, gain: 0.045 });
   },
-  /** an obstacle cleared — cache HIT tick */
+  /** an obstacle cleared - cache HIT tick */
   clear(): void {
     note(880, 0.05, { type: "sine", gain: 0.035 });
   },
-  /** collision — dry descending sting */
+  /** collision - dry descending sting */
   die(): void {
     note(220, 0.16, { type: "sawtooth", slideTo: 82, gain: 0.05 });
     note(110, 0.22, { type: "sawtooth", slideTo: 55, gain: 0.04, delay: 0.12 });
   },
-  /** every 1000ms-saved milestone — three rising notes, a little olé */
+  /** every 1000ms-saved milestone - three rising notes, a little olé */
   milestone(): void {
     note(660, 0.07, { type: "square", gain: 0.03 });
     note(880, 0.07, { type: "square", gain: 0.03, delay: 0.08 });

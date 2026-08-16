@@ -18,7 +18,7 @@
   }
 }
 
-/* site header — fixed instrument bar */
+/* site header - fixed instrument bar */
 .site-head {
   position: sticky;
   top: 0;
@@ -74,7 +74,7 @@
     display: none;
   }
 
-  /* the sliding hairline — driven by --line-x/--line-w (lib/nav-line).
+  /* the sliding hairline - driven by --line-x/--line-w (lib/nav-line).
      Lives inside the scrolling ul so it tracks links when the nav is
      scrolled. Transitions only once JS says ready (no fly-in on load). */
   &::after {

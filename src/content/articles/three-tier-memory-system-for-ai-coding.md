@@ -3,7 +3,7 @@ title: "The 3-Tier Memory System That Cut My AI Coding Context by 96%"
 date: 2026-04-17
 category: "AI Engineering"
 readTime: "9 min"
-summary: "Agents fail at onboarding, not code generation. A map first, a subsystem second, raw source last — and the context cost of a large codebase drops sharply."
+summary: "Agents fail at onboarding, not code generation. A map first, a subsystem second, raw source last - and the context cost of a large codebase drops sharply."
 draft: false
 ---
 
@@ -11,7 +11,7 @@ draft: false
 
 ![The 3-Tier Memory for AI Coding Agents](./three-tier-memory-system-for-ai-coding/image-01.png)
 
-I’ve been using AI for coding for a while, and the project I’m working on is large enough that the real bottleneck is not code generation but onboarding. Before an agent can fix a bug or build a feature, it has to understand the system design, the architecture, and the relationships between services.
+I’ve been using AI for coding for a while, and the project I’m working on is large enough that the real bottleneck is not code generation but onboarding. Before an agent can fix a bug or implement a feature, it has to understand the system design, the architecture, and the relationships between services.
 
 The naive solution is to let the agent scan the whole codebase. That works, but on a big system it is expensive and wasteful. You burn context just to re-establish orientation, and then you often have to do it again in later sessions. A single giant README.md, CLAUDE.md or AGENTS.md does not fully solve that either, because most tasks do not require the entire system at full detail. On my project, that would mean loading context for 16 backend microservices and 6 frontend projects even when the task only touches one small area.
 
@@ -21,7 +21,7 @@ This is the real failure mode.
 
 > _AI coding agents usually do not fail because they cannot write code; they fail because we introduce them to the codebase badly._
 
-I realized this while watching an agent burn through thousands of tokens opening irrelevant files. It was doing the AI version of wandering a building without a floor plan. By the time it finally explored its way to the right file, it had already exhausted its attention on the wrong things.
+I realized this while watching an agent burn through thousands of tokens opening irrelevant files. It was doing the AI version of wandering through a maze without a map. By the time it finally explored its way to the right file, it had already exhausted its attention on the wrong things.
 
 On a real codebase, that default workflow gets wasteful fast. The agent starts scanning, tries to orient itself from raw source, and still misses the things that matter most:
 
@@ -43,7 +43,7 @@ Only after those layers does the agent open raw code.
 
 That one change was enough to cut the initial context load by about **96%**.
 
-I also built [a tiny demo repo for this pattern](https://github.com/sviat-barbutsa/ai-memory-tiers-demo) so the idea is easier to inspect in a small, public-friendly shape. The demo is intentionally simple: a tiny backend, a tiny frontend, and the same memory hierarchy described here.
+I also created [a tiny demo repo for this pattern](https://github.com/sviat-barbutsa/ai-memory-tiers-demo) so the idea is easier to inspect in a small, public-friendly shape. The demo is intentionally simple: a tiny backend, a tiny frontend, and the same memory hierarchy described here.
 
 ```
 ai-memory-tiers-demo/

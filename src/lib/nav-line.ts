@@ -1,5 +1,5 @@
 /**
- * nav-line — the sliding hairline under the site nav. One ::after on
+ * nav-line - the sliding hairline under the site nav. One ::after on
  * the .site-nav ul, positioned by two custom properties; this module
  * only measures links and updates the props, the motion itself stays
  * in CSS (where reduced-motion can disable it).
@@ -23,7 +23,7 @@ export function initNavLine(): () => void {
 
   const place = (el: HTMLAnchorElement | null): void => {
     if (!el) {
-      /* no active link on this page (404 etc.) — line stays collapsed */
+      /* no active link on this page (404 etc.) - line stays collapsed */
       nav.style.setProperty("--line-w", "0px");
       return;
     }

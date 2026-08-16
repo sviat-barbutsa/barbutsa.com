@@ -9,7 +9,7 @@ draft: false
 
 <!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/how-search-and-ask-work-local-hybrid-rag-with-chromadb-sqlite-fts5-226c -->
 
-_This is the second article in a five-part series about building Llamail, a private local AI email agent._
+_This is the second article in a five-part series about creating Llamail, a private local AI email agent._
 
 In the first article, I showed the whole system behind it: Gmail, Telegram, n8n, FastAPI, llama.cpp, SQLite, and ChromaDB. From the user's side it looked simple: type `/search`, get useful hits; ask a follow-up question in plain English, get an answer back; do it all from a phone. Quite convenient actually.
 
@@ -22,7 +22,7 @@ Pure keyword search has the opposite problem. It is strong on exact terms, sende
 So I do both like this: every query goes into ChromaDB semantic retrieval and SQLite FTS5 keyword search, then the results are merged with a tiny weighted scoring function. The idea is related to rank-fusion techniques like RRF - Reciprocal Rank Fusion, which I will cover in separate article as it's quite useful, but this implementation is simpler: it merges normalized scores instead of reciprocal ranks. On my `18,000+` email mailbox, that gets me roughly `~3 seconds` for search and `~7 seconds` for full RAG Q&A, all on my average consumer laptop.
 
 If you missed part 1, start there first:
-[From Inbox to Character: Building a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
+[From Inbox to Character: Creating a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
 
 ---
 
@@ -63,7 +63,7 @@ That is one of the reasons the Telegram experience in article 1 feels so lightwe
 
 The vector side of the system is intentionally small. Instead of embedding raw emails blindly I implemented a curated representation first and then send that to the embedding model.
 
-This is the shared parent-email embedding text builder:
+This is the shared parent-email embedding text formatter:
 
 ```python
 # webservice/src/email_service/services/email_processor.py
@@ -147,7 +147,7 @@ def rebuild_fts():
 
 Why FTS5 is the right level of boring here:
 
-- Zero infrastructure because it's built into SQLite.
+- Zero infrastructure because it is included with SQLite.
 - There is no additional network calls, or extra service handling, or any additional deploy.
 - WAL mode gives concurrent reads and writes.
 - For a mailbox this size, the exact-match lookup itself is cheap. The slower part of overall `/search` is usually local embedding inference and, for `/ask`, the final answer generation.

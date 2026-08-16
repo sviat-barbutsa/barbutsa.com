@@ -23,7 +23,7 @@
   {
     "slug": "agentic-workflow-system-design",
     "title": "Agentic Workflow System Design",
-    "summary": "Agents as narrow tools with contracts. Tool boundaries, checkpoints, human gates — autonomy budgeted as a governed resource.",
+    "summary": "Agents as narrow tools with contracts. Tool boundaries, checkpoints, human gates - autonomy budgeted as a governed resource.",
     "route": ["PLAN", "TOOL", "VERIFY"],
     "stack": ["LLMs", "Agents", "Python", "PostgreSQL"]
   },

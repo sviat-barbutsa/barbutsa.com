@@ -63,7 +63,7 @@ export function initShell(root: HTMLElement, config: ShellConfig): ShellHandle {
     }
     const action = config.commands[cmd];
     if (!action) {
-      answer(`command not found: ${cmd} — try help`);
+      answer(`command not found: ${cmd} - try help`);
       return;
     }
     if (action.type === "go") {

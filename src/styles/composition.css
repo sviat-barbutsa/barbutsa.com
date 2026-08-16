@@ -13,7 +13,7 @@
    inline or by a component:  <div class="stack" style="--flow:var(--space-l)">
    ============================================================ */
 
-/* vertical rhythm between siblings — the workhorse */
+/* vertical rhythm between siblings - the workhorse */
 .stack > * + * {
   margin-block-start: var(--flow, var(--space-m));
 }
@@ -55,7 +55,10 @@
 .grid {
   display: grid;
   gap: var(--grid-gap, var(--space-m));
-  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 18rem), 100%), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--grid-min, 18rem), 100%), 1fr)
+  );
 }
 
 /* two ends of one line: section headers, footer rows, list rows */
@@ -73,7 +76,7 @@
   margin-inline-start: calc(50% - 50vw);
 }
 
-/* vertical page section — owns ALL space between sections.
+/* vertical page section - owns ALL space between sections.
    Components never set their own top/bottom section margins. */
 .region {
   padding-block: var(--region-space, var(--space-2xl));

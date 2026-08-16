@@ -14,9 +14,9 @@ const description =
   eyebrow="Independent local-first email agent · 2026"
   status="SELF-HOSTED · NO PUBLIC DEMO"
   lead="A private email system designed to let a small local model search, explain, draft, and route useful actions without treating the model as unrestricted application logic."
-  ownership="Designed and built end to end: system architecture, FastAPI services, routing, retrieval, local-model integration, storage, Telegram workflow, and operator experience."
+  ownership="Designed and implemented end to end: system architecture, FastAPI services, routing, retrieval, local-model integration, storage, Telegram workflow, and operator experience."
   primaryAction={{
-    label: "Read the build series →",
+    label: "Read the implementation series →",
     href: "/articles/private-local-ai-email-agent",
     external: false,
   }}
@@ -25,7 +25,7 @@ const description =
   evidenceIntro="The Telegram capture is sanitized portfolio evidence. The architecture diagram shows which work stays local and where external services remain part of the route."
   boundaryTitle="Local-first does not mean every dependency is local."
   facts={[
-    { label: "Role", value: "Independent system · built end to end" },
+    { label: "Role", value: "Independent system · implemented end to end" },
     { label: "Runtime", value: "FastAPI · llama.cpp · local GPU" },
     { label: "Retrieval", value: "ChromaDB + SQLite FTS5" },
     { label: "Interface", value: "Telegram via n8n" },
@@ -58,7 +58,7 @@ const description =
   ]}
   relatedArticles={[
     {
-      title: "From Inbox to Character: Building a Private, Local AI Email Agent",
+      title: "From Inbox to Character: Creating a Private, Local AI Email Agent",
       summary: "The complete system, local-model runtime, Telegram interface, storage, and operating boundary.",
       href: "/articles/private-local-ai-email-agent",
     },
@@ -73,7 +73,7 @@ const description =
       href: "/articles/llm-as-router-intent-classification",
     },
     {
-      title: "Behind the Build: Hidden Headaches of a Local Gmail AI Agent",
+      title: "Implementation Lessons: Hidden Headaches of a Local Gmail AI Agent",
       summary: "Gmail synchronization, labels, threads, identifiers, and the failure modes that shaped the design.",
       href: "/articles/hidden-headaches-local-gmail-ai-agent",
     },

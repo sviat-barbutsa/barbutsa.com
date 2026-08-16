@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Personal site of Sviatoslav Barbutsa — Edge Atlas. Static Astro on Cloudflare Workers static assets.",
+  "description": "Personal site of Sviatoslav Barbutsa - Edge Atlas. Static Astro on Cloudflare Workers static assets.",
   "packageManager": "pnpm@10.13.1",
   "engines": {
     "node": ">=24 <25",
@@ -31,10 +31,10 @@
     "release": "pnpm verify && wrangler deploy"
   },
   "dependencies": {
-    "astro": "5.18.2"
+    "astro": "7.2.2"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.9",
+    "@astrojs/check": "0.9.10",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
     "@axe-core/playwright": "4.12.1",

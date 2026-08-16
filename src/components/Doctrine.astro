@@ -1,6 +1,6 @@
 ---
 /**
- * The doctrine line — the hero <Typewriter> upgraded to a working
+ * The doctrine line - the hero <Typewriter> upgraded to a working
  * shell: click or focus+Enter, then `help`. Commands either act
  * (navigate, toggle theme/xray) or answer by typing into the same
  * line. Stays one line in every state thanks to the ghost-cell sizing.
@@ -38,7 +38,7 @@ import doctrine from "@/data/doctrine.json";
       },
       whoami: {
         type: "say",
-        text: `${site.name} — ${site.role.toLowerCase()}`,
+        text: `${site.name} - ${site.role.toLowerCase()}`,
       },
       ls: {
         type: "say",
@@ -64,7 +64,7 @@ import doctrine from "@/data/doctrine.json";
       packages: nav("/packages"),
       writing: nav("/articles"),
       articles: nav("/articles"),
-      architecture: nav("/architecture"),
+      // architecture: nav("/architecture"),
       about: nav("/about"),
       cv: nav("/about"),
       contact: nav("/contact"),
@@ -78,7 +78,7 @@ import doctrine from "@/data/doctrine.json";
       },
       xray: {
         type: "run",
-        fn: () => (toggleXray() ? "x-ray: on — the page is annotating itself" : "x-ray: off"),
+        fn: () => (toggleXray() ? "x-ray: on - the page is annotating itself" : "x-ray: off"),
       },
       clear: { type: "run", fn: () => {} },
     };
@@ -91,7 +91,7 @@ import doctrine from "@/data/doctrine.json";
        so the game chunk only loads when actually opened. */
     const launchFlamenco = (): string | void => {
       if (prefersReducedMotion()) {
-        return "this easter egg requires motion — respecting your settings";
+        return "this easter egg requires motion - respecting your settings";
       }
       void import("@/lib/flamenco").then((module) => module.openFlamenco(root));
     };

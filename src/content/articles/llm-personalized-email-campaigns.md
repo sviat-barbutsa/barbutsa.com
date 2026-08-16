@@ -15,13 +15,13 @@ This is the final major module in my local email agent series: a campaign engine
 
 If you missed the earlier articles:
 
-[Part 1: From Inbox to Character: Building a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
+[Part 1: From Inbox to Character: Creating a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
 
 [Part 2: How `/search` and `/ask` Work: Local Hybrid RAG with ChromaDB + SQLite FTS5](/articles/local-hybrid-rag-chromadb-sqlite-fts5)
 
 [Part 3: LLM as Router: Intent Classification for a Local Telegram Email Agent](/articles/llm-as-router-intent-classification)
 
-[Part 4: Behind the Build: Hidden Headaches of a Local Gmail AI Agent](/articles/hidden-headaches-local-gmail-ai-agent)
+[Part 4: Implementation Lessons: Hidden Headaches of a Local Gmail AI Agent](/articles/hidden-headaches-local-gmail-ai-agent)
 
 In this article, I will walk through the campaign system in the codebase:
 
@@ -611,7 +611,7 @@ The campaign status view is compact in general:
 
 ```python
 lines.append(
-    f"  {c.name} [{c.status}] — "
+    f"  {c.name} [{c.status}] - "
     f"{c.sent_count}/{c.total_recipients} sent, "
     f"{c.reply_count} replies, "
     f"{c.interview_count} interviews"
@@ -642,7 +642,7 @@ replied = (
 )
 
 for r in replied:
-    lines.append(f"  {r.company_name} — {r.reply_classification}")
+    lines.append(f"  {r.company_name} - {r.reply_classification}")
 ```
 
 This is enough for the Telegram agent. If I later add a dashboard, this same data can drive charts.

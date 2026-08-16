@@ -1,5 +1,5 @@
 {
-  // Personal Atlas — static assets on Cloudflare Workers (no worker script).
+  // Personal Atlas - static assets on Cloudflare Workers (no worker script).
   // Requests are served directly from the edge; no invocation, no cold start.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "personal-atlas",

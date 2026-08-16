@@ -1,5 +1,5 @@
 /**
- * canvas-engine/engine — lifecycle for Canvas2D scenes. ~2KB, zero deps.
+ * canvas-engine/engine - lifecycle for Canvas2D scenes. ~2KB, zero deps.
  *
  * Owns everything a scene should never re-implement:
  *  - RAF loop with clamped delta time
@@ -22,7 +22,7 @@ import { registerPausable } from "../runtime/pause-registry";
 export interface EngineOptions {
   /** CSS custom property names the scene consumes. */
   tokens: readonly string[];
-  /** Cap for delta time in seconds (default 1/20 — tab-switch safety). */
+  /** Cap for delta time in seconds (default 1/20 - tab-switch safety). */
   maxDt?: number;
 }
 

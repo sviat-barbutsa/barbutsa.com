@@ -1,4 +1,4 @@
-/* compact primary navigation — a menu button instead of a horizontally
+/* compact primary navigation - a menu button instead of a horizontally
    scrolling strip on viewports where the routes don't fit the bar */
 .site-menu-toggle {
   display: none;

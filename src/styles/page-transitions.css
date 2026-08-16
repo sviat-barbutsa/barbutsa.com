@@ -1,21 +1,21 @@
 /* ============================================================
-   LAYER: base (imported into it) — cross-document page transitions
+   LAYER: base (imported into it) - cross-document page transitions
    ------------------------------------------------------------
    MPA View Transitions, re-enabled after the 2026-07-13 white-blink
    bisect (see docs: features/PAGE_TRANSITIONS_PLAN.md). Three
    defenses make a white frame structurally impossible:
 
-   1. The transition overlay itself is painted page-background —
+   1. The transition overlay itself is painted page-background -
       a compositor gap shows dark, never white.
    2. The old snapshot is HELD at full opacity while the new page
       fades in on top (180ms): every frame is a fully painted page.
-      (The UA default crossfades both snapshots at once — mid-fade
+      (The UA default crossfades both snapshots at once - mid-fade
       the backdrop can show through if a snapshot is late. That was
       the blink.)
    3. The site chrome (header, status bar) is pinned in its own
-      zero-duration groups — instruments hold still, content swaps.
+      zero-duration groups - instruments hold still, content swaps.
 
-   SCOPING: everything here is :not([data-theme-motion]) — the
+   SCOPING: everything here is :not([data-theme-motion]) - the
    theme switch owns its snapshots exclusively (theme-motion.css);
    these two features must never touch the same pseudo-elements.
 
@@ -23,19 +23,19 @@
    Navigation is prerendered and sub-100ms; the fade is a luxury.
    ============================================================ */
 
-/* opt in — but never for reduced-motion users (instant swap) */
+/* opt in - but never for reduced-motion users (instant swap) */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
   }
 }
 
-/* DEFENSE 1 — the overlay is never transparent-over-white */
+/* DEFENSE 1 - the overlay is never transparent-over-white */
 ::view-transition {
   background-color: var(--color-bg);
 }
 
-/* DEFENSE 2 — hold the old frame; fade only the new one in */
+/* DEFENSE 2 - hold the old frame; fade only the new one in */
 html:not([data-theme-motion])::view-transition-old(root) {
   animation: none;
 }
@@ -49,7 +49,7 @@ html:not([data-theme-motion])::view-transition-new(root) {
   to   { opacity: 1; }
 }
 
-/* DEFENSE 3 / POLISH — pinned chrome: header and status bar stay
+/* DEFENSE 3 / POLISH - pinned chrome: header and status bar stay
    motionless while the page content transitions beneath them */
 .site-head  { view-transition-name: site-head; }
 .status-bar { view-transition-name: status-bar; }

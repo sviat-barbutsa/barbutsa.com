@@ -9,17 +9,17 @@ draft: false
 
 <!-- Originally published on Medium: https://medium.com/@sviatoslavbarbutsa/how-i-nearly-doubled-my-premium-model-capacity-without-paying-more-360da7494e29 -->
 
-### Treat your most expensive model as an R&D department instead of trying to make it a coder: Fable plans and orchestrates, GPT-5.5 Pro attacks the plans, and Opus and Codex execute — on their own token budgets.
+### Treat your most expensive model as an R&D department instead of trying to make it a coder: Fable plans and orchestrates, GPT-5.5 Pro attacks the plans, and Opus and Codex execute - on their own token budgets.
 
 ![Figure](./doubling-premium-model-capacity/image-01.png)
 
 This workflow was born from scarcity.
 
-I got access to Fable for a limited time — and I wanted to use it for the many major, complicated ideas I had lined up. The math was brutal: if I routed everything to the best model and let it handle the entire task — I would have burned through the usage allowance after completing perhaps a third of that list.
+I got access to Fable for a limited time - and I wanted to use it for the many major, complicated ideas I had lined up. The math was brutal: if I routed everything to the best model and let it handle the entire task - I would have burned through the usage allowance after completing perhaps a third of that list.
 
-So I started running my models the way a company runs itself: an R&D department that is expensive, scarce, and reserved for decisions — and a production layer that is lower-cost, more abundant, and responsible for most of the implementation work. Fable made the plans, challenged assumptions, split the work into tasks, determined the sequencing, reviewed risky outputs, and coordinated the others. GPT-5.5 Pro played the independent critic: it reviewed each of Fable’s plans, surfaced real issues, suggested improvements, and sent the refined plan back to Fable for a final verdict before any code was written. Then, the lower-cost agents did the bounded implementation work — code changes, test runs, type checks, commits, pull requests, rebases, conflict resolution, and progress reporting.
+So I started running my models the way a company runs itself: an R&D department that is expensive, scarce, and reserved for decisions - and a production layer that is lower-cost, more abundant, and responsible for most of the implementation work. Fable made the plans, challenged assumptions, split the work into tasks, determined the sequencing, reviewed risky outputs, and coordinated the others. GPT-5.5 Pro played the independent critic: it reviewed each of Fable’s plans, surfaced real issues, suggested improvements, and sent the refined plan back to Fable for a final verdict before any code was written. Then, the lower-cost agents did the bounded implementation work - code changes, test runs, type checks, commits, pull requests, rebases, conflict resolution, and progress reporting.
 
-Two intense working days later, the ideas I was ready to sacrifice were planned, reviewed, implemented, tested, and merged. And the part that makes this worth writing down is measurable: roughly three out of every five tokens in the measured Claude orchestration session were processed by the lower-cost execution tier, while the premium weekly budget remained at or below 75%. The full ledger is in the middle of this article — because it is the article.
+Two intense working days later, the ideas I was ready to sacrifice were planned, reviewed, implemented, tested, and merged. And the part that makes this worth writing down is measurable: roughly three out of every five tokens in the measured Claude orchestration session were processed by the lower-cost execution tier, while the premium weekly budget remained at or below 75%. The full ledger is in the middle of this article - because it is the article.
 
 > **Disclosure:**the real product behind these numbers is private. I am keeping the model and tool names where they matter, but the product, repository, prompts, diagrams, and feature descriptions are fictional or generalized analogues. I am publishing aggregate metrics and sanitized screenshots without any private code, private plans, raw repo names, customer data, or unreleased architecture.
 
@@ -29,7 +29,7 @@ Two intense working days later, the ideas I was ready to sacrifice were planned,
 
 My rule was simple:
 
-> **_The premium model is R&D: it makes the expensive decisions. The lower-cost models are execution: they build within the resulting constraints. Don’t spend premium reasoning on work that has already been made finite._**
+> **_The premium model is R&D: it makes the expensive decisions. The lower-cost models are execution: they implement within the resulting constraints. Don’t spend premium reasoning on work that has already been made finite._**
 
 In practice, that meant:
 
@@ -40,7 +40,7 @@ In practice, that meant:
 
 Fable was the lead engineer for this entire workflow.
 
-And the subagents never got a vague “go build the thing” prompt. Each one received a bounded task, relevant evidence, constraints, validation gates, and a required progress protocol. Looking back, that distinction mattered more than any of the model names.
+And the subagents never got a vague “just implement it” prompt. Each one received a bounded task, relevant evidence, constraints, validation gates, and a required progress protocol. Looking back, that distinction mattered more than any of the model names.
 
 **Why Planning Came First**
 
@@ -69,7 +69,7 @@ The review prompt itself gave the critic a boundary and a job description. A san
 > Return: a verdict (approve / approve with changes / reject), blocking issues, non-blocking improvements, and revised acceptance gates.
 ```
 
-That one instruction — _do not invent, flag gaps instead_ — saved a lot of cleanup.
+That one instruction - *do not invent, flag gaps instead* - saved a lot of cleanup.
 
 **The Review Loop**
 
@@ -99,7 +99,7 @@ Once the plans were ready, I turned them into a backlog. Each task had a status,
 | TRIAGE-S5-PERSISTENCE | Human decision | Blocked | TBD             | Requires a real schema decision    |
 ```
 
-This was necessary because multiple agents were working at once. Without a shared backlog, agentic work gets foggy very quickly — you lose track of what is done, what is blocked, what is stacked on what, what needs a human decision, and which worktree owns which branch.
+This was necessary because multiple agents were working at once. Without a shared backlog, agentic work gets foggy very quickly - you lose track of what is done, what is blocked, what is stacked on what, what needs a human decision, and which worktree owns which branch.
 
 With a backlog, the system becomes legible. One plan, one task, one owner lane.
 
@@ -115,7 +115,7 @@ The document ended with explicit resume instructions, along the lines of:
 
 > **_Resume notes_.** _If context is compacted, read these files in order: the problem statement, the plan, the final verdict, the task backlog, and this progress document._
 
-> _The next reasonable slice is a small UI that renders the output of_createExecutionPlan_._
+> _The next reasonable slice is a small UI that renders the output of_createExecutionPlan_.\_
 
 That acted like durable memory. If the model compacted context, crashed, or had to resume in a new session, the next model could reload the actual state instead of relying on a lossy summary.
 
@@ -196,9 +196,9 @@ The models did not remove the need for architecture. They made architecture more
 
 **The Token Ledger: How Tiering Preserved the Premium Budget**
 
-Everything above sounds like philosophy until you look at where the tokens actually went — because the real money we pay for them matters, doesn’t it? This section is the exact reason I wrote this article.
+Everything above sounds like philosophy until you look at where the tokens actually went - because the real money we pay for them matters, doesn’t it? This section is the exact reason I wrote this article.
 
-Here is a sanitized breakdown from one orchestration session on the Claude side — Fable as the lead, Opus subagents doing the bounded execution. (Codex ran in its own lane on a separate provider, so it can’t appear in this meter — its ledger comes right after.)
+Here is a sanitized breakdown from one orchestration session on the Claude side - Fable as the lead, Opus subagents doing the bounded execution. (Codex ran in its own lane on a separate provider, so it can’t appear in this meter - its ledger comes right after.)
 
 ```
 | One orchestration session    | Fable 5 (R&D lead) | Opus 4.8 (executors) |
@@ -214,9 +214,9 @@ Here is a sanitized breakdown from one orchestration session on the Claude side�
 
 Two things in that table carry the whole argument.
 
-**The executors moved most of the tokens.** As the numbers show, including cache traffic, the Opus subagents processed roughly 230 million token-equivalents of context, compared with roughly 144 million on the Fable side — about three-fifths of the measured context volume was handled by the lower-cost execution tier. Execution is token-hungry in a very specific way: an implementing agent constantly re-reads code, test output, plans, and progress documents, which is why cache reads dominate the table (the session’s cache hit rate was 99%). That is exactly the kind of bulk volume you never want landing on your premium budget. Here, it didn’t.
+**The executors moved most of the tokens.** As the numbers show, including cache traffic, the Opus subagents processed roughly 230 million token-equivalents of context, compared with roughly 144 million on the Fable side - about three-fifths of the measured context volume was handled by the lower-cost execution tier. Execution is token-hungry in a very specific way: an implementing agent constantly re-reads code, test output, plans, and progress documents, which is why cache reads dominate the table (the session’s cache hit rate was 99%). That is exactly the kind of bulk volume you never want landing on your premium budget. Here, it didn’t.
 
-**The output columns are nearly identical — 5.1k vs 5.0k.** The cheap tier _wrote_ just as much as the lead. The difference is what the writing was: Fable’s output was plans, task briefs, and verdicts; Opus’s output was the actual diffs, commits, and PR descriptions. Nearly the same output volume, but a very different use of premium reasoning. If Fable had typed those diffs itself, I would have paid R&D rates for assembly-line work.
+**The output columns are nearly identical - 5.1k vs 5.0k.** The cheap tier _wrote_ just as much as the lead. The difference is what the writing was: Fable’s output was plans, task briefs, and verdicts; Opus’s output was the actual diffs, commits, and PR descriptions. Nearly the same output volume, but a very different use of premium reasoning. If Fable had typed those diffs itself, I would have paid R&D rates for assembly-line work.
 
 Now zoom out to the weekly budgets, which is where the savings become visible as a number:
 
@@ -234,18 +234,18 @@ I pulled the exact numbers from Codex’s local session logs for those two days 
 | Codex (OpenAI side) | Friday | Monday | Total |
 | ------------------- | -----: | -----: | ----: |
 | Input tokens        |  1.35M |  39.0M | 40.4M |
-| — served from cache |  1.08M |  36.6M | 37.7M |
+| - served from cache |  1.08M |  36.6M | 37.7M |
 | Output tokens       |  15.6k |  20.1k | 35.6k |
 | Total tokens        |  1.37M |  39.0M | 40.4M |
 ```
 
 That is another 40 million tokens of execution that never touched the premium budget. Because roughly 93% of the recorded input was served from cache, even Monday’s large context volume consumed only a single-digit percentage of the separate Codex weekly allowance.
 
-The output column tells a similar story. Across the two measured days, Codex produced roughly seven times as many output tokens as Fable produced in the referenced orchestration session — exactly the distribution I wanted between implementation and orchestration.
+The output column tells a similar story. Across the two measured days, Codex produced roughly seven times as many output tokens as Fable produced in the referenced orchestration session - exactly the distribution I wanted between implementation and orchestration.
 
 For scale, the account overview for the two active days showed **6.9M total tokens** and **5,453 messages**, with Fable as the favorite model.
 
-I wouldn’t turn any of this into a universal pricing benchmark — these are usage-limit signals from one run. But the operational lesson generalizes: scarce premium reasoning should be budgeted like senior engineering attention, because that is what it is.
+I wouldn’t turn any of this into a universal pricing benchmark - these are usage-limit signals from one run. But the operational lesson generalizes: scarce premium reasoning should be budgeted like senior engineering attention, because that is what it is.
 
 The spend pattern:
 
@@ -254,7 +254,7 @@ The spend pattern:
 - spend Opus or Codex on scoped execution so that most implementation traffic lands on allowances with more headroom or on a separate provider budget
 - spend human attention on owner decisions, risky judgment calls, and final taste.
 
-Same throughput, roughly double the effective premium capacity. That’s the saved-money value, and it required no discount, no negotiation, and no new tooling — just routing.
+Same throughput, roughly double the effective premium capacity. That’s the saved-money value, and it required no discount, no negotiation, and no new tooling - just routing.
 
 **What I Would Improve Next Time**
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   PERSONAL ATLAS — styling entry point
+   PERSONAL ATLAS - styling entry point
    ------------------------------------------------------------
    This file only does two things:
    1. Declares the layer order (later layers win, regardless of
@@ -30,7 +30,8 @@
 @import url("components/home.css") layer(components);
 @import url("components/flagship-cards.css") layer(components);
 @import url("components/eazegames-case-study.css") layer(components);
-@import url("components/eazegames-case-study-architecture.css") layer(components);
+@import url("components/eazegames-case-study-architecture.css")
+layer(components);
 @import url("components/about.css") layer(components);
 @import url("components/styleguide.css") layer(components);
 @import url("components/terminal.css") layer(components);

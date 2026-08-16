@@ -49,7 +49,7 @@ test("flagship work publishes only cleared evidence and leads into live software
   await expect(selected.getByRole("link", { name: /live demo|telegram|github|source/i })).toHaveCount(0);
 
   const voiceCoach = selected.locator('[data-flagship-card="english-voice-coach"]');
-  await expect(voiceCoach.getByText("Designed and built end-to-end", { exact: true })).toBeVisible();
+  await expect(voiceCoach.getByText("Designed and implemented end-to-end", { exact: true })).toBeVisible();
   await expect(voiceCoach.locator(".flagship-tech")).toHaveText("Flutter · whisper.cpp · On-device AI");
   await expect(voiceCoach.locator('[data-card-action="primary"]')).toHaveAttribute("href", "/work/english-voice-coach");
   await expect(voiceCoach.locator('[data-card-action="media"]')).toHaveAttribute("href", "/work/english-voice-coach");
@@ -61,7 +61,7 @@ test("flagship work publishes only cleared evidence and leads into live software
 
   const memory = selected.locator('[data-flagship-card="zharwing-memory"]');
   await expect(memory).toHaveAttribute("data-tier", "supporting");
-  await expect(memory.getByText("Designed and built end-to-end", { exact: true })).toBeVisible();
+  await expect(memory.getByText("Designed and implemented end-to-end", { exact: true })).toBeVisible();
   await expect(memory.locator(".flagship-tech")).toHaveText("TypeScript · Tauri · MCP");
   await expect(memory.locator('figure[data-media="product"]')).toBeVisible();
   await expect(memory.locator("img")).toHaveAttribute("src", "/work/zharwing-memory/zharwing-memory-dashboard.png");

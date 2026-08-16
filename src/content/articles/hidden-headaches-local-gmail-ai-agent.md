@@ -1,5 +1,5 @@
 ---
-title: "Behind the Build: Hidden Headaches of a Local Gmail AI Agent"
+title: "Implementation Lessons: Hidden Headaches of a Local Gmail AI Agent"
 date: 2026-07-21
 category: "AI Integration"
 readTime: "9 min"
@@ -19,7 +19,7 @@ This article is about the Gmail API details that quietly shaped the whole projec
 
 If you missed the previous articles:
 
-[Part 1: From Inbox to Character: Building a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
+[Part 1: From Inbox to Character: Creating a Private, Local AI Email Agent](/articles/private-local-ai-email-agent)
 
 [Part 2: How `/search` and `/ask` Work: Local Hybrid RAG with ChromaDB + SQLite FTS5](/articles/local-hybrid-rag-chromadb-sqlite-fts5)
 
@@ -168,7 +168,7 @@ One more Windows-specific annoyance: common local ports are often already occupi
 ## Gmail API IDs Are Not Gmail Web Links
 
 ![Gmail message ID link strategy](./hidden-headaches-local-gmail-ai-agent/image-03.png)
-_The Gmail API ID is good for API calls. For a user-facing Gmail link, the project builds a search URL from the RFC822 `Message-ID` header._
+_The Gmail API ID is good for API calls. For a user-facing Gmail link, the project generates a search URL from the RFC822 `Message-ID` header._
 
 The Gmail API returns message IDs like this:
 
@@ -205,7 +205,7 @@ return {
 }
 ```
 
-Then the email processor builds a Gmail search link:
+Then the email processor generates a Gmail search link:
 
 ```python
 def _build_gmail_link(rfc822_message_id: str | None) -> str | None:
@@ -293,7 +293,7 @@ return [
 ];
 ```
 
-The full version also builds attachment metadata (filename, MIME type, size) from the trigger's binary data, because the trigger runs with "Download Attachments" enabled.
+The full version also assembles attachment metadata (filename, MIME type, size) from the trigger's binary data, because the trigger runs with "Download Attachments" enabled.
 
 The exact field names can shift between n8n versions, but the important point is the contract: send the fields the Python model expects. If `rfc822_message_id` is missing, the email can still be processed, but the Gmail search link will be `None`. If `thread_id` is missing, campaign reply tracking and reply threading become weaker.
 
@@ -381,7 +381,7 @@ The system stores attachment names because they are useful for search and summar
 
 Sending is another place where Gmail's API is simple but strict.
 
-The project builds a MIME message, URL-safe-base64 encodes the bytes, and sends that as the `raw` field:
+The project constructs a MIME message, URL-safe-base64 encodes the bytes, and sends that as the `raw` field:
 
 ```python
 message = MIMEText(body)
@@ -428,7 +428,7 @@ gmail_client.send_email(
 
 Without that, a reply could become a fresh email instead of staying in the original Gmail conversation.
 
-The same send function also supports attachments. If `attachment_path` is present, it builds a `MIMEMultipart` message:
+The same send function also supports attachments. If `attachment_path` is present, it constructs a `MIMEMultipart` message:
 
 ```python
 message = MIMEMultipart()
@@ -587,7 +587,7 @@ session.query(EmailChunk).filter(EmailChunk.email_id == email_id).delete()
 session.query(Email).filter(Email.id == email_id).delete()
 ```
 
-This sequence is intentional. If Gmail trashing fails, execution halts to protect local data. Conversely, if ChromaDB cleanup fails, a warning is logged while SQLite deletion proceeds. For a personal assistant, this is a pragmatic trade-off: Gmail represents the source of truth, whereas local vector indexes can always be rebuilt or retried.
+This sequence is intentional. If Gmail trashing fails, execution halts to protect local data. Conversely, if ChromaDB cleanup fails, a warning is logged while SQLite deletion proceeds. For a personal assistant, this is a pragmatic trade-off: Gmail represents the source of truth, whereas local vector indexes can always be regenerated or retried.
 
 ---
 
@@ -597,7 +597,7 @@ The Gmail API layer works best when each operation has a clear boundary:
 
 ```text
 OAuth:
-    build Gmail service
+    initialize Gmail service
 
 Import:
     list IDs -> fetch full messages -> normalize into ProcessEmailRequest

@@ -109,7 +109,7 @@ a {
   }
 }
 
-/* themed scrollbars, page-wide — thumb follows the theme */
+/* themed scrollbars, page-wide - thumb follows the theme */
 html {
   scrollbar-color: var(--color-faint) var(--color-bg);
 }

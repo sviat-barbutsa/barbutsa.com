@@ -9,7 +9,7 @@ export const zharwingMemoryProject = {
   statusLabel: "LOCAL SOFTWARE · DEVELOPER PREVIEW",
   summary:
     "A project-scoped memory layer for AI-assisted coding workflows, with sessions, decisions, diagrams, search, graph relationships, and intentional context handoffs.",
-  ownership: "Independent product · Designed and built end-to-end",
+  ownership: "Independent product · Designed and implemented end-to-end",
   technologies: ["TypeScript", "Tauri", "React", "MCP", "Markdown"],
   availability:
     "Open-source developer preview that runs locally from source. The public website documents the product; it is not a hosted memory service.",

@@ -1,4 +1,4 @@
-/* theme toggle — a real button, 44px+ hit area, state via
+/* theme toggle - a real button, 44px+ hit area, state via
    aria-pressed (true = dark active). The controller locks it with
    data-busy while a transition runs. */
 .theme-toggle {

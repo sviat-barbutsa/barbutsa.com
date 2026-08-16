@@ -1,5 +1,5 @@
 /* ============================================================
-   LAYER: tokens — EDGE ATLAS design language (dark default,
+   LAYER: tokens - EDGE ATLAS design language (dark default,
    light companion)
    ------------------------------------------------------------
    Shared raw values (colors, dimensions, font names) live here.
@@ -28,9 +28,9 @@
    - Warm charcoal / warm paper. Nothing blue-tinted.
 
    Contrast, measured (WCAG):
-     DARK  — paper on ink 15.2:1 AAA · dim on ink 6.2:1 AA ·
+     DARK  - paper on ink 15.2:1 AAA · dim on ink 6.2:1 AA ·
              chartreuse on ink 14.7:1 AAA · faint 2.5:1 DECOR ONLY
-     LIGHT — text on bg 14.4:1 AAA · dim on bg 5.9:1 AA ·
+     LIGHT - text on bg 14.4:1 AAA · dim on bg 5.9:1 AA ·
              olive on bg 6.1:1 AA · ink on chartreuse fill 14.7:1
              AAA · faint 2.2:1 DECOR ONLY
    New color tokens get their measured ratio added here.
@@ -65,13 +65,19 @@
   --color-surface: light-dark(var(--l-surface), var(--ink-2));
   --color-text: light-dark(var(--l-text), var(--paper));
   --color-text-2: light-dark(var(--l-dim), var(--d-dim));
-  --color-faint: light-dark(var(--l-faint), var(--d-faint)); /* decorative ONLY */
+  --color-faint: light-dark(
+    var(--l-faint),
+    var(--d-faint)
+  ); /* decorative ONLY */
   --color-border: light-dark(var(--l-line), var(--d-line));
-  --color-signal: light-dark(var(--olive), var(--chartreuse)); /* text, lines, focus */
+  --color-signal: light-dark(
+    var(--olive),
+    var(--chartreuse)
+  ); /* text, lines, focus */
   --color-signal-fill: var(--chartreuse); /* fills, both themes */
   --color-on-fill: var(--ink); /* text on signal fills */
 
-  /* theme-INVARIANT instrument surfaces — render canvases and preview
+  /* theme-INVARIANT instrument surfaces - render canvases and preview
      wells stay dark in both themes. Scope `color-scheme: dark` on such
      a surface so nested light-dark() tokens resolve to the dark ramp
      (see .work-preview). d-dim on well: 6.4:1 AA. */
@@ -82,7 +88,7 @@
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
 
-  /* fluid type scale — minor-third-ish, clamped 360px→1560px */
+  /* fluid type scale - minor-third-ish, clamped 360px→1560px */
   --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.88rem); /* small print */
   --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.13rem); /* body */
   --step-1: clamp(1.19rem, 1.13rem + 0.28vw, 1.4rem); /* lede */
@@ -93,7 +99,7 @@
     2.6rem,
     1.7rem + 4.8vw,
     6.6rem
-  ); /* hero display — min sized so "understandable." fits a 360px viewport unbroken */
+  ); /* hero display - min sized so "understandable." fits a 360px viewport unbroken */
 
   /* mono UI text is root-relative but not viewport-fluid:
      instrument labels follow user font preferences without

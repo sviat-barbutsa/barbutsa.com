@@ -6,7 +6,7 @@
    index split and preview panel live in work-index.css.
    ============================================================ */
 
-/* numbered index row — the Edge Atlas list unit (projects, articles).
+/* numbered index row - the Edge Atlas list unit (projects, articles).
    Horizontal padding + equal negative margins: text stays aligned with
    the page grid, but the hover background gets breathing room instead
    of touching the content at its edges. */

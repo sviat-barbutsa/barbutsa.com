@@ -27,7 +27,7 @@ test("North Peak publishes a public-safe responsive client-delivery case study",
   await expect(page.getByText("LIVE CLIENT WEBSITE", { exact: true })).toBeVisible();
   await expect(page.getByRole("region", { name: "Project facts" })).toContainText("Commissioned client delivery");
   await expect(
-    page.getByRole("heading", { name: "A service journey built around the next useful action." }),
+    page.getByRole("heading", { name: "A service journey designed around the next useful action." }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Responsive pages from the live client website." })).toBeVisible();
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /commissioned WordPress delivery/i);

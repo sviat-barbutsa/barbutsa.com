@@ -15,7 +15,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 const { page } = Astro.props;
 
-// /articles/page/1 duplicates /articles — canonicalize by redirect.
+// /articles/page/1 duplicates /articles - canonicalize by redirect.
 if (page.currentPage === 1) {
   return Astro.redirect("/articles", 301);
 }
@@ -25,12 +25,12 @@ const nextUrl = page.currentPage < page.lastPage ? `/articles/page/${page.curren
 ---
 
 <Layout
-  title={`Articles — sheet ${page.currentPage}`}
+  title={`Articles - sheet ${page.currentPage}`}
   description="Field reports on frontend architecture, AI integration, and systems that stay understandable."
 >
   <div class="wrap page-head stack">
     <p class="kick">
-      <span class="idx">LOG</span> Writing — sheet {page.currentPage} of {page.lastPage}
+      <span class="idx">LOG</span> Writing - sheet {page.currentPage} of {page.lastPage}
     </p>
     <h1 class="page-title" data-measure="narrow">Notes from production.</h1>
   </div>

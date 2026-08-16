@@ -55,7 +55,7 @@ Put article images in the co-located folder and reference them relatively:
 
 Relative references are processed by Astro at build time: raster images are optimized and hashed with
 width/height emitted (no layout shift); SVGs pass through untouched. `public/` is served verbatim and is only for
-fixed-URL assets (favicons, the default OG image) — never article images.
+fixed-URL assets (favicons, the default OG image) - never article images.
 
 An optional `cover` frontmatter field (validated `image()`) sets the article's social-share image
 (`og:image`/`twitter:image`); without it the site default is used. Source covers should be 1200x630.

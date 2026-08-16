@@ -18,7 +18,7 @@
    delete what you don't use, grow the file as the site grows.
    ============================================================ */
 
-/* mono kicker with accent tick — section label */
+/* mono kicker with accent tick - section label */
 .kick {
   font-family: var(--font-mono);
   font-size: var(--mono-xs);
@@ -40,7 +40,7 @@
   }
 }
 
-/* instrument label — small mono text used for meta/data lines */
+/* instrument label - small mono text used for meta/data lines */
 .label {
   font-family: var(--font-mono);
   font-size: var(--mono-s);
@@ -51,7 +51,7 @@
   }
 }
 
-/* status pin — dot + word, the site's status grammar ("observing",
+/* status pin - dot + word, the site's status grammar ("observing",
    "OPEN", "LIVE"). The word stays quiet; the dot carries the signal. */
 .status-pin {
   display: inline-flex;
@@ -68,7 +68,7 @@
   }
 }
 
-/* button — signal FILL (bright chartreuse in both themes, with
+/* button - signal FILL (bright chartreuse in both themes, with
    near-black text); ghost variant is quieter */
 .btn {
   display: inline-flex;
@@ -104,7 +104,7 @@
   }
 }
 
-/* raised panel — the only "card" allowed, used sparingly */
+/* raised panel - the only "card" allowed, used sparingly */
 .panel {
   background: var(--color-surface);
   border: var(--hairline);

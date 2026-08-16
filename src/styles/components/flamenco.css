@@ -1,5 +1,5 @@
 /* ============================================================
-   FLAMENCO — the easter egg overlay (lazy-loaded, only when
+   FLAMENCO - the easter egg overlay (lazy-loaded, only when
    opened from the shell). Same frame styling as the atlas.
    ============================================================ */
 .flamenco-overlay {
@@ -50,7 +50,7 @@
   }
 }
 
-/* flamenco pause veil — covers the stage while focus is elsewhere */
+/* flamenco pause veil - covers the stage while focus is elsewhere */
 .flamenco-panel .fl-stage {
   position: relative;
   height: min(20rem, 52vh);
@@ -87,10 +87,10 @@
 }
 
 /* console-style selection cursor: a ▸ on exactly one menu button while
-   paused — driven by state (data-fl-selected), NOT :focus, because a
+   paused - driven by state (data-fl-selected), NOT :focus, because a
    blur-pause leaves focus outside the menu and the cursor must still
    show. Signal color = the panel's border color. The 1ch slot is always
-   reserved — the cursor never shifts layout. */
+   reserved - the cursor never shifts layout. */
 .flamenco-panel :is(.fl-menu-btn, [data-fl-sound])::before {
   content: "▸";
   display: inline-block;

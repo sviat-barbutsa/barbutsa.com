@@ -1,5 +1,5 @@
 /* ============================================================
-   X-RAY MODE — outlines only, never borders: outlines don't
+   X-RAY MODE - outlines only, never borders: outlines don't
    affect layout, so toggling causes no shift. No pseudo-element
    labels: a ::before inside a flex/grid container becomes an
    item and breaks the very layout it's supposed to show.
@@ -97,7 +97,8 @@ html[data-xray] :is(.grid, .sidebar) {
   }
 
   & .xl-grid {
-    border-top: 1px dashed color-mix(in srgb, var(--color-signal) 55%, transparent);
+    border-top: 1px dashed
+      color-mix(in srgb, var(--color-signal) 55%, transparent);
   }
 
   & .xl-chip {

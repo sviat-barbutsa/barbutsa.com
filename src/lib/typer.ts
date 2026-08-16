@@ -1,5 +1,5 @@
 /**
- * typer — terminal-style typewriter for the hero doctrine line.
+ * typer - terminal-style typewriter for the hero doctrine line.
  *
  * Types a phrase with slight human jitter, holds, erases faster,
  * blinks idle, moves to the next. Same rules as every animation on
@@ -44,7 +44,7 @@ export interface TyperHandle {
   destroy(): void;
 }
 
-/** Ambient rotation controls per element — lets features like the
+/** Ambient rotation controls per element - lets features like the
  *  shell suspend the doctrine rotation and restart it later without
  *  knowing phrases/options (Typewriter.astro registers them). */
 export const ambientControls = new WeakMap<HTMLElement, { stop(): void; start(): void }>();

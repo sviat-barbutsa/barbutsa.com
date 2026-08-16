@@ -1,5 +1,5 @@
 /**
- * xray — overlay mode where the page shows its own layout structure.
+ * xray - overlay mode where the page shows its own layout structure.
  * One attribute (html[data-xray]) toggles it; CSS draws the overlay
  * (outlines only, they don't affect layout). Session-scoped so the
  * diagnostic mode doesn't survive to the next visit.
