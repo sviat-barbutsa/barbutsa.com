@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l);
-  align-items: start;
+  align-items: stretch; /* one row, one height; .flagship-actions pins the CTA */
 }
 
 .flagship-card {
@@ -123,6 +123,7 @@
 }
 
 .flagship-body {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -185,6 +186,7 @@
   --cluster-align: center;
 
   width: 100%;
+  margin-top: auto;
 
   & .btn {
     justify-content: center;
@@ -193,10 +195,21 @@
   }
 }
 
-.flagship-related-link {
+/* related-link row of supporting cards; without a link it is reserved only in
+   the multi-column layout (media query below) so the CTA baseline lines up */
+.flagship-related {
+  width: 100%;
   font-family: var(--font-mono);
-  color: var(--color-text-2);
   font-size: var(--mono-xs);
+  line-height: 1.4;
+
+  &[data-related="none"] {
+    display: none;
+  }
+}
+
+.flagship-related-link {
+  color: var(--color-text-2);
 }
 
 .flagship-related-link:hover {
@@ -214,6 +227,11 @@
 
   .flagship-card[data-tier="supporting"] {
     grid-column: span 2;
+  }
+
+  .flagship-related[data-related="none"] {
+    display: block;
+    min-height: 1.4em;
   }
 
   .flagship-card[data-supporting-tail="1"] {

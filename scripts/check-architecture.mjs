@@ -45,6 +45,7 @@ const PURE_MODULES = [
   "src/lib/flamenco/menu-selection.ts",
   "src/lib/flamenco/runner-renderer.ts",
   "src/lib/runtime/pause-registry.ts",
+  "src/lib/shell/commands.ts",
   "src/lib/shell/types.ts",
   "src/theme/animations/",
   "src/theme/palette.ts",

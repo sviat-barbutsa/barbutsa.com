@@ -131,9 +131,26 @@
 
 /* site footer */
 .site-foot {
-  border-top: var(--hairline);
-  padding-block: var(--space-l);
   margin-top: var(--space-2xl);
+}
+
+.site-foot-nda {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.3fr) minmax(0, 1fr);
+  gap: var(--space-m) var(--space-l);
+  align-items: start;
+  padding-block: var(--space-m);
+  border-block: var(--hairline);
+}
+
+.site-foot-note {
+  max-width: 68ch;
+  color: var(--color-text);
+  font-size: var(--step-0);
+}
+
+.site-foot-final {
+  padding-block: clamp(2.5rem, 3.5vw, 3.5rem);
 }
 
 .site-foot-brand {
@@ -146,6 +163,13 @@
 
   &:hover {
     color: var(--color-signal);
+  }
+}
+
+@media (max-width: 42em) {
+  .site-foot-nda {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
   }
 }
 

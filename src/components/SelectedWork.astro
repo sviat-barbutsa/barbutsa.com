@@ -40,7 +40,8 @@ const cardProjects = publishedFlagshipProjects.map((project) => {
   </div>
   <h2 id={headingId} class="section-title">{home ? "Selected Product Work" : "Published project overviews"}</h2>
   <p class="text-dim measure">
-    Delivered products backed by real interfaces, clear architecture breakdowns, and direct code/system evidence.
+    A selection of featured projects bridging product design, system architecture, and production code. Additional work
+    and case studies available upon request.
   </p>
 
   <div class="flagship-grid">
@@ -126,18 +127,26 @@ const cardProjects = publishedFlagshipProjects.map((project) => {
               >
                 {project.primaryAction.label}
               </a>
-              {project.card.tier === "supporting" && project.secondaryAction && (
-                <a
-                  class="flagship-related-link"
-                  data-card-action="related"
-                  href={project.secondaryAction.href}
-                  target={project.secondaryAction.external ? "_blank" : undefined}
-                  rel={project.secondaryAction.external ? "noopener noreferrer" : undefined}
-                >
-                  {project.secondaryAction.label}
-                </a>
-              )}
             </div>
+            {
+              /* supporting cards reserve this row even without a link so the
+                 primary actions of one row sit on the same baseline */
+              project.card.tier === "supporting" && (
+                <p class="flagship-related" data-related={project.secondaryAction ? "link" : "none"}>
+                  {project.secondaryAction && (
+                    <a
+                      class="flagship-related-link"
+                      data-card-action="related"
+                      href={project.secondaryAction.href}
+                      target={project.secondaryAction.external ? "_blank" : undefined}
+                      rel={project.secondaryAction.external ? "noopener noreferrer" : undefined}
+                    >
+                      {project.secondaryAction.label}
+                    </a>
+                  )}
+                </p>
+              )
+            }
           </div>
         </article>
       ))

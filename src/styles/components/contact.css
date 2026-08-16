@@ -136,6 +136,12 @@
   font-size: var(--step-1);
 }
 
+/* The footer already owns the final page gap. Removing this section's
+   bottom region prevents two large spacing tokens from stacking. */
+.contact-main {
+  padding-block-end: 0;
+}
+
 .contact-panel-title {
   margin-bottom: var(--space-s);
 }

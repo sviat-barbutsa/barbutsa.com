@@ -24,6 +24,7 @@ export default defineConfig({
         "src/lib/runtime/{activity-gate,pause-registry}.ts",
         "src/lib/telemetry-core.ts",
         "src/lib/flamenco/{collision,score-storage}.ts",
+        "src/lib/shell/commands.ts",
       ],
       thresholds: {
         perFile: true,

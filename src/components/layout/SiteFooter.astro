@@ -3,39 +3,48 @@ import { site } from "@/data/site";
 ---
 
 <footer class="site-foot">
-  <div class="wrap repel" style="--repel-align: center;">
-    <div>
-      <p class="site-foot-brand mono">
-        {site.name}
+  <div class="wrap">
+    <aside class="site-foot-nda" aria-labelledby="site-foot-nda-title">
+      <p id="site-foot-nda-title" class="label" data-tone="signal">ABOUT MY WORK</p>
+      <p class="site-foot-note">
+        Much of my commercial work is protected by NDAs. I’m happy to discuss the architecture, trade-offs, and
+        high-level decisions behind it.
       </p>
-      <p class="label">{site.role}</p>
+    </aside>
+    <div class="site-foot-final repel" style="--repel-align: center;">
+      <div>
+        <p class="site-foot-brand mono">
+          {site.name}
+        </p>
+        <p class="label">{site.role}</p>
+      </div>
+      <ul class="cluster list-plain">
+        {
+          site.social.map((social) => (
+            <li>
+              <a
+                class="label foot-link"
+                href={social.href}
+                rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                target={social.href.startsWith("http") ? "_blank" : undefined}
+              >
+                {social.label.toUpperCase()}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <button
+            type="button"
+            class="label foot-btn"
+            data-xray-toggle
+            aria-pressed="false"
+            title="Annotate the page with its own architecture"
+          >
+            XRAY
+          </button>
+        </li>
+      </ul>
     </div>
-    <ul class="cluster list-plain">
-      {
-        site.social.map((social) => (
-          <li>
-            <a
-              class="label foot-link"
-              href={social.href}
-              rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              target={social.href.startsWith("http") ? "_blank" : undefined}
-            >
-              {social.label.toUpperCase()}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <button
-          type="button"
-          class="label foot-btn"
-          data-xray-toggle
-          aria-pressed="false"
-          title="Annotate the page with its own architecture"
-        >
-          XRAY
-        </button>
-      </li>
-    </ul>
   </div>
 </footer>

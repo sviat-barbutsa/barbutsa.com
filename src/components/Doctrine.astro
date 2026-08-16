@@ -87,12 +87,16 @@ import doctrine from "@/data/doctrine.json";
     }
 
     /* easter egg - not listed in help, found via `ls -a`. Dynamic import
-       so the game chunk only loads when actually opened. */
-    const launchFlamenco = (): string | void => {
+       so the game chunk only loads when actually opened. The promise is
+       returned so the shell answers if the chunk cannot load (offline,
+       stale build) instead of failing silently. */
+    const launchFlamenco = (): string | void | Promise<string | void> => {
       if (prefersReducedMotion()) {
         return "this easter egg requires motion - respecting your settings";
       }
-      void import("@/lib/flamenco").then((module) => module.openFlamenco(root));
+      return import("@/lib/flamenco").then((module) => {
+        module.openFlamenco(root);
+      });
     };
     commands["flamenco"] = { type: "run", fn: launchFlamenco };
     commands[".flamenco"] = { type: "run", fn: launchFlamenco };

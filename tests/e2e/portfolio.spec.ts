@@ -94,14 +94,20 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   expect(first!.width).toBeGreaterThanOrEqual(500);
   expect(first!.width).toBeLessThanOrEqual(580);
   expect(first!.height).toBeLessThanOrEqual(600);
-  expect(second!.height).toBeLessThanOrEqual(600);
+  /* cards in one row share a height (grid stretch) and their primary actions
+     sit on one baseline (actions pinned to the card bottom) */
+  expect(Math.abs(first!.height - second!.height)).toBeLessThan(1);
   expect(archive!.width).toBeGreaterThanOrEqual(320);
   expect(archive!.width).toBeLessThanOrEqual(380);
-  expect(archive!.height).toBeLessThanOrEqual(510);
+  expect(archive!.height).toBeLessThanOrEqual(560);
   expect(memory!.width).toBe(archive!.width);
-  expect(memory!.height).toBeLessThanOrEqual(510);
+  expect(Math.abs(memory!.height - archive!.height)).toBeLessThan(1);
   expect(northPeak!.width).toBe(archive!.width);
-  expect(northPeak!.height).toBeLessThanOrEqual(540);
+  expect(Math.abs(northPeak!.height - archive!.height)).toBeLessThan(1);
+  const supportingActionTops = await supporting
+    .locator('[data-card-action="primary"]')
+    .evaluateAll((buttons) => buttons.map((button) => Math.round(button.getBoundingClientRect().top)));
+  expect(new Set(supportingActionTops).size).toBe(1);
   expect(Math.abs(archive!.y - memory!.y)).toBeLessThan(1);
   expect(Math.abs(archive!.y - northPeak!.y)).toBeLessThan(1);
   expect(archive!.y).toBeGreaterThan(first!.y + Math.max(first!.height, second!.height));
