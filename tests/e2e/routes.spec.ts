@@ -77,7 +77,7 @@ test.describe("production routes", () => {
     const inventory = await loadSitemapInventory(page, request);
     for (const route of inventory.routes) {
       await test.step(route, async () => {
-        const response = await page.goto(route, { waitUntil: "networkidle" });
+        const response = await page.goto(route, { waitUntil: "load" });
         expect(response, `${route} should produce a navigation response`).not.toBeNull();
         expect(response?.status(), `${route} should return HTTP 200`).toBe(200);
         const pageInventory = await assertDocument(page, route);
@@ -113,7 +113,7 @@ test.describe("production routes", () => {
     expect(runtimeErrors).toEqual([]);
 
     const missingPath = "/__route-that-does-not-exist__";
-    const missing = await page.goto(missingPath, { waitUntil: "networkidle" });
+    const missing = await page.goto(missingPath, { waitUntil: "load" });
     expect(missing?.status()).toBe(404);
     await expect(page).toHaveTitle(/404/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("This path is outside the current map.");
@@ -139,7 +139,7 @@ test.describe("production routes", () => {
       await page.setViewportSize({ width: mode.width, height: 900 });
       for (const route of routes) {
         await test.step(`${mode.name}: ${route}`, async () => {
-          await page.goto(route, { waitUntil: "networkidle" });
+          await page.goto(route, { waitUntil: "load" });
           if (mode.rootFontSize) {
             await page.addStyleTag({ content: `html { font-size: ${mode.rootFontSize} !important; }` });
           }

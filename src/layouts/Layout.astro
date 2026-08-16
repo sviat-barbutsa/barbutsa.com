@@ -55,7 +55,8 @@ const {
   structuredData,
 } = Astro.props;
 const pageTitle = documentTitle ?? (title ? `${title} - ${site.name}` : `${site.name} - ${site.role}`);
-const path = Astro.url.pathname.replace(/\.html$/, "");
+const outputPath = Astro.url.pathname.replace(/\.html$/, "");
+const path = outputPath === "/index" ? "/" : outputPath;
 const canonicalUrl = new URL(path === "/" ? "/" : path, site.url);
 const defaultOgImage = new URL("/og-image.png", site.url);
 const coverSrc = typeof cover === "string" ? cover : cover?.src;

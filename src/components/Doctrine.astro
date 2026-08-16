@@ -26,7 +26,7 @@ import doctrine from "@/data/doctrine.json";
     const ambient = ambientControls.get(root);
     const status = document.getElementById("theme-status");
     const liveLabs = labs.filter((lab) => lab.status === "live");
-    const routeCommands = ["home", "work", "writing", "tools", "architecture", "about", "contact", "packages"];
+    const routeCommands = ["home", "work", "writing", "tools", "about", "contact", "packages"];
     const liveToolCommands = liveLabs.map((lab) => lab.slug);
 
     const nav = (href: string): ShellAction => ({ type: "go", href });
@@ -34,7 +34,7 @@ import doctrine from "@/data/doctrine.json";
     const commands: Record<string, ShellAction> = {
       help: {
         type: "say",
-        text: "try: ls · ls tools · work · writing · tools · architecture · about · contact · theme · xray",
+        text: "try: ls · ls tools · work · writing · tools · about · contact · theme · xray",
       },
       whoami: {
         type: "say",
@@ -64,7 +64,6 @@ import doctrine from "@/data/doctrine.json";
       packages: nav("/packages"),
       writing: nav("/articles"),
       articles: nav("/articles"),
-      // architecture: nav("/architecture"),
       about: nav("/about"),
       cv: nav("/about"),
       contact: nav("/contact"),

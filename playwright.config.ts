@@ -12,7 +12,9 @@ export default defineConfig({
     },
   },
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // Keep local release runs below Windows' localhost socket-pressure ceiling.
+  // The route and accessibility suites crawl the full static site in parallel.
+  workers: process.env.CI ? 1 : 8,
   reporter: [["line"], ["html", { open: "never" }]],
   snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
   use: {

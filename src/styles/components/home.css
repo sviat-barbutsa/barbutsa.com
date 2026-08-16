@@ -15,23 +15,11 @@
   }
 }
 
-.publication-gate {
-  border-style: dashed;
-}
-
 .writing-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l) var(--space-xl);
   align-items: start;
-}
-
-.case-card {
-  transition: border-color var(--dur-fast) var(--ease-out);
-
-  &:hover {
-    border-color: var(--color-signal);
-  }
 }
 
 .home-contact-title {

@@ -97,8 +97,7 @@ html[data-xray] :is(.grid, .sidebar) {
   }
 
   & .xl-grid {
-    border-top: 1px dashed
-      color-mix(in srgb, var(--color-signal) 55%, transparent);
+    border-top: 1px dashed color-mix(in srgb, var(--color-signal) 55%, transparent);
   }
 
   & .xl-chip {

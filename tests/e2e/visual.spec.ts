@@ -46,22 +46,20 @@ test.describe("visual regression", () => {
     requireProject(testInfo, "chromium-desktop");
     await prepare(page, "/", "dark");
     await prepareHomepageMedia(page);
-    const screenshot = await page.screenshot({
+    await expect(page).toHaveScreenshot("home-desktop-dark.png", {
       ...screenshotOptions,
       mask: [page.locator(".status-bar"), page.locator("[data-doctrine]"), page.locator(".readout")],
     });
-    expect(screenshot).toMatchSnapshot("home-desktop-dark.png");
   });
 
   test("homepage mobile explicit light", async ({ page }, testInfo) => {
     requireProject(testInfo, "chromium-mobile");
     await prepare(page, "/", "light");
     await prepareHomepageMedia(page);
-    const screenshot = await page.screenshot({
+    await expect(page).toHaveScreenshot("home-mobile-light.png", {
       ...screenshotOptions,
       mask: [page.locator("[data-doctrine]"), page.locator(".readout")],
     });
-    expect(screenshot).toMatchSnapshot("home-mobile-light.png");
   });
 
   test("article archive desktop", async ({ page }, testInfo) => {

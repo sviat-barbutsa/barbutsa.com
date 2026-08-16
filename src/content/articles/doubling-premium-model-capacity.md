@@ -69,7 +69,7 @@ The review prompt itself gave the critic a boundary and a job description. A san
 > Return: a verdict (approve / approve with changes / reject), blocking issues, non-blocking improvements, and revised acceptance gates.
 ```
 
-That one instruction - *do not invent, flag gaps instead* - saved a lot of cleanup.
+That one instruction - _do not invent, flag gaps instead_ - saved a lot of cleanup.
 
 **The Review Loop**
 

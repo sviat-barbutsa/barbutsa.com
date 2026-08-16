@@ -30,8 +30,7 @@
 @import url("components/home.css") layer(components);
 @import url("components/flagship-cards.css") layer(components);
 @import url("components/eazegames-case-study.css") layer(components);
-@import url("components/eazegames-case-study-architecture.css")
-layer(components);
+@import url("components/eazegames-case-study-architecture.css") layer(components);
 @import url("components/about.css") layer(components);
 @import url("components/styleguide.css") layer(components);
 @import url("components/terminal.css") layer(components);

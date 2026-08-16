@@ -1,28 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-test("architecture is presented as notes without unsupported scale claims", async ({ page }) => {
-  await page.goto("/architecture");
-
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Architecture notes, drawn as routes.");
-  await expect(page.getByRole("region", { name: "Architecture notes" })).toBeVisible();
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /^Architecture notes on /);
-
-  const main = page.locator("main");
-  await expect(main).not.toContainText(/case studies|postmortems|runbooks/i);
-  await expect(main).not.toContainText(/10,?000|ten thousand/i);
-
-  const collaboration = page.locator("#real-time-collaboration-platform");
-  await expect(collaboration).toContainText("high-concurrency collaboration pattern");
-  await expect(collaboration).toContainText("explicit backpressure, state ownership, and degradation boundaries");
-});
-
 test("flagship work publishes only cleared evidence and leads into live software", async ({ page }) => {
   await page.goto("/");
 
   const sectionOrder = await page
     .locator("main > [data-home-section]")
     .evaluateAll((sections) => sections.map((section) => section.getAttribute("data-home-section")));
-  expect(sectionOrder).toEqual(["hero", "selected-work", "tools", "architecture", "writing", "contact"]);
+  expect(sectionOrder).toEqual(["hero", "selected-work", "tools", "writing", "contact"]);
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
@@ -193,7 +177,7 @@ test("supporting rows remain balanced as future cards are added", async ({ page,
   expect(Math.abs((five[3].x + five[4].x + five[4].width) / 2 - (gridBox!.x + gridBox!.width / 2))).toBeLessThan(1);
 });
 
-test("work index exposes real anchors and separates publication gates", async ({ page }) => {
+test("work index exposes real anchors without publishing gated projects", async ({ page }) => {
   await page.goto("/work#english-voice-coach");
 
   await expect(page.locator("#english-voice-coach")).toBeVisible();
@@ -204,12 +188,10 @@ test("work index exposes real anchors and separates publication gates", async ({
   await expect(published.getByRole("heading", { name: "EazeGames", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "Zharwing Memory", exact: true })).toBeVisible();
 
-  const gates = page.getByRole("region", { name: "Not published as product work yet.", exact: true });
-  await expect(gates.getByRole("heading", { name: "North Peak Appliance Repair", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Not published as product work yet.", exact: true })).toHaveCount(0);
   await expect(
-    gates.getByRole("heading", { name: "Real-Time Collaborative SaaS Architecture", exact: true }),
-  ).toBeVisible();
-  await expect(gates.getByRole("link")).toHaveCount(0);
+    page.getByRole("heading", { name: "Real-Time Collaborative SaaS Architecture", exact: true }),
+  ).toHaveCount(0);
 });
 
 test("flagship cards reflow after a compact interactive mobile atlas", async ({ page }) => {

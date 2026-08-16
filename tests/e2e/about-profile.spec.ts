@@ -1,7 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const expectedUpworkHref = "https://www.upwork.com/freelancers/~013ff3b6a6623f2810";
-
 function configRow(page: Page, key: string) {
   return page.locator(".conf-row").filter({ has: page.locator("dt", { hasText: new RegExp(`^${key}$`) }) });
 }
@@ -39,7 +37,7 @@ test("About presents resume-aligned scope without overstating team leadership", 
   const proof = configRow(page, "proof").locator("dd");
   await expect(proof).toHaveText("Stack Overflow 5,000+ reputation");
   await expect(page.getByText(/upwork 100% job success/i)).toHaveCount(0);
-  await expect(page.getByRole("link", { name: "UPWORK", exact: true })).toHaveAttribute("href", expectedUpworkHref);
+  await expect(page.getByRole("link", { name: "UPWORK", exact: true })).toHaveCount(0);
 
   await expect(page.locator('[data-career-id="fearless-little-2020-present"] .index-title')).toHaveText(
     "Lead Front-End Developer → Lead Software Engineer responsibilities",

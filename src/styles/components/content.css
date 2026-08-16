@@ -27,11 +27,6 @@
   margin-top: var(--space-m);
 }
 
-.section-closing {
-  max-width: var(--measure);
-  margin-top: var(--space-xl);
-}
-
 /* article page - the report is a centred reading column, not a measure-wide
    block pinned to the left edge of the 97.5rem site grid. Running text stays
    at --measure; figures, code and tables break out to wider bands around the

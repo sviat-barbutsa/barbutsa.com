@@ -69,7 +69,7 @@ test("mobile primary menu exposes every route and closes predictably", async ({ 
     await expect(menu).toHaveAttribute("aria-label", "Close main menu");
     await expect(nav).toBeVisible();
 
-    for (const label of ["Home", "Work", "Architecture", "Writing", "Tools", "About", "Contact"]) {
+    for (const label of ["Home", "Work", "Writing", "Tools", "About", "Contact"]) {
       const link = nav.getByRole("link", { name: label, exact: true });
       await expect(link).toBeVisible();
       const box = await link.boundingBox();

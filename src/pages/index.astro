@@ -5,7 +5,6 @@ import Doctrine from "@/components/Doctrine.astro";
 import SelectedWork from "@/components/SelectedWork.astro";
 import WorkIndex from "@/components/WorkIndex.astro";
 import { site } from "@/data/site";
-import caseStudies from "@/data/case-studies.json";
 import { getRecentArticles } from "@/lib/content/articles";
 
 const articles = await getRecentArticles(5);
@@ -29,7 +28,6 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
       </p>
       <div class="cluster">
         <a class="btn" href="/work">Selected work →</a>
-       <!-- <a class="btn" data-kind="ghost" href="/architecture">How I think about systems</a> -->
       </div>
       <Doctrine />
     </div>
@@ -46,35 +44,11 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
     <h2 id="h-tools" class="section-title">Software you can use</h2>
     <p class="text-dim measure">
-      Focused browser tools for image editing, QR creation, generative graphics, and semantic HTML - each independently
+      Focused browser tools for image editing, QR creation, generative graphics, and semantic HTML — each independently
       deployed and available to use.
     </p>
     <WorkIndex variant="home" />
   </section>
-
-{/*
-  <!-- 03 · ARCHITECTURE -->
-  <section class="wrap region stack" aria-labelledby="h-arch" data-home-section="architecture">
-    <p class="kick"><span class="idx">03</span> Patterns & trade-offs</p>
-    <h2 id="h-arch" class="section-title">Architecture Notes</h2>
-    <p class="text-dim measure">
-      Concise design explorations covering system boundaries, trade-offs, and how each request path is expected to fail.
-    </p>
-    <div class="grid" style="--grid-min: 20rem;">
-      {
-        caseStudies.slice(0, 4).map((cs) => (
-          <a class="panel stack case-card" style="--flow: var(--space-xs);" href="/architecture">
-            <span class="label" data-tone="signal">
-              ROUTE ○ {cs.route.join(" - ")}
-            </span>
-            <h3 class="panel-title">{cs.title}</h3>
-            <p class="panel-summary text-dim">{cs.summary}</p>
-          </a>
-        ))
-      }
-    </div>
-  </section>
-*/}
 
   <!-- 03 · WRITING -->
   <section class="wrap region" aria-labelledby="h-writing" data-home-section="writing">
@@ -105,7 +79,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
     </div>
   </section>
 
-  <!-- 04 · CONTACT - card on the right is contact.protocol; the Sable
+  <!-- 04 · CONTACT — card on the right is contact.protocol; the Sable
        assistant's entry line goes there later. -->
   <section class="wrap region" aria-labelledby="h-contact" data-home-section="contact">
     <div class="sidebar" style="--sidebar-width: 22rem;">
@@ -142,7 +116,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", year: "
           </div>
           <div class="proto-row">
             <dt>response</dt>
-            <dd>within 24 hours - honest either way</dd>
+            <dd>within 24 hours — honest either way</dd>
           </div>
           <div class="proto-row">
             <dt>elsewhere</dt>

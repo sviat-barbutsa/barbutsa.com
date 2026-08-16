@@ -33,9 +33,7 @@ function run(command, args) {
     child.stdout.on("data", (chunk) => (output += chunk));
     child.stderr.on("data", (chunk) => (output += chunk));
     child.once("error", reject);
-    child.once("exit", (code) =>
-      code === 0 ? resolve(output) : reject(new Error(output)),
-    );
+    child.once("exit", (code) => (code === 0 ? resolve(output) : reject(new Error(output))));
   });
 }
 
@@ -49,19 +47,13 @@ function statusOf(response) {
 }
 
 function headerOf(response, name) {
-  return (
-    response.match(new RegExp(`^${name}:\\s*([^\\r\\n]+)`, "im"))?.[1] ?? ""
-  );
+  return response.match(new RegExp(`^${name}:\\s*([^\\r\\n]+)`, "im"))?.[1] ?? "";
 }
 
 function startWrangler() {
-  const server = spawn(
-    "cmd.exe",
-    ["/c", `pnpm exec wrangler dev --local --port ${port}`],
-    {
-      stdio: ["ignore", "pipe", "pipe"],
-    },
-  );
+  const server = spawn("cmd.exe", ["/c", `pnpm exec wrangler dev --local --port ${port}`], {
+    stdio: ["ignore", "pipe", "pipe"],
+  });
 
   let startup = "";
 
@@ -92,25 +84,19 @@ function startWrangler() {
 function assertHeaders(document, asset, assetPath) {
   for (const [name, expected] of requiredDocumentHeaders) {
     if (!expected.test(headerOf(document, name))) {
-      throw new Error(
-        `The document is missing ${name}. dist/_headers did not apply.`,
-      );
+      throw new Error(`The document is missing ${name}. dist/_headers did not apply.`);
     }
   }
 
   const policy = headerOf(document, "content-security-policy");
   const hashes = policy.match(/'sha256-[^']+'/g) ?? [];
   if (hashes.length === 0) {
-    throw new Error(
-      "The CSP carries no inline-script hashes; the pre-paint theme script would be blocked.",
-    );
+    throw new Error("The CSP carries no inline-script hashes; the pre-paint theme script would be blocked.");
   }
 
   const assetCaching = headerOf(asset, "cache-control");
   if (!/immutable/.test(assetCaching)) {
-    throw new Error(
-      `Hashed asset ${assetPath} is not immutable: ${assetCaching || "(no cache-control)"}`,
-    );
+    throw new Error(`Hashed asset ${assetPath} is not immutable: ${assetCaching || "(no cache-control)"}`);
   }
 
   if (/immutable/.test(headerOf(document, "cache-control"))) {
@@ -128,25 +114,16 @@ try {
   const root = await curl("/");
   const assetPath = root.match(/\/_astro\/[A-Za-z0-9.\-_]+\.js/)?.[0];
   if (!assetPath) {
-    throw new Error(
-      "Could not find a hashed asset in the document to check caching against.",
-    );
+    throw new Error("Could not find a hashed asset in the document to check caching against.");
   }
 
-  const [missing, asset] = await Promise.all([
-    curl("/no-such-page"),
-    curl(assetPath),
-  ]);
+  const [missing, asset] = await Promise.all([curl("/no-such-page"), curl(assetPath)]);
 
   if (statusOf(root) !== "200" || !/<html/i.test(root)) {
-    throw new Error(
-      `The root did not serve the page (status ${statusOf(root)}).`,
-    );
+    throw new Error(`The root did not serve the page (status ${statusOf(root)}).`);
   }
   if (statusOf(missing) !== "404") {
-    throw new Error(
-      `A missing path returned ${statusOf(missing)}, expected the 404 page.`,
-    );
+    throw new Error(`A missing path returned ${statusOf(missing)}, expected the 404 page.`);
   }
 
   const hashCount = assertHeaders(root, asset, assetPath);

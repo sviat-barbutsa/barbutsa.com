@@ -49,10 +49,7 @@
     left: 50%;
     width: auto;
     max-width: calc(100% - var(--preview-inset) - var(--preview-inset));
-    height: calc(
-      100% - var(--preview-caption-height) - var(--preview-inset) -
-        var(--preview-inset)
-    );
+    height: calc(100% - var(--preview-caption-height) - var(--preview-inset) - var(--preview-inset));
     aspect-ratio: 1;
     object-fit: cover;
     padding: var(--preview-image-inset);
@@ -60,8 +57,7 @@
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out);
     filter: contrast(1.12) brightness(1.12);
-    box-shadow: 0 0 0 1px
-      color-mix(in srgb, var(--color-signal) 22%, var(--color-well-border));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-signal) 22%, var(--color-well-border));
     transform: translateX(-50%);
   }
 
@@ -127,11 +123,7 @@
      wash, typography, the VIEWING pointer, and the caption together. */
   .index-row[data-previewed] {
     border-inline-start-color: var(--color-signal);
-    background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--color-signal) 5%, transparent),
-      transparent 72%
-    );
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-signal) 5%, transparent), transparent 72%);
 
     & .index-title {
       color: var(--color-text);
