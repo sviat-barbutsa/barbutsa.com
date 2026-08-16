@@ -41,9 +41,15 @@ Rules:
 - `core.css` - kick, label, button, panel.
 - `index-row.css` - numbered index rows and their layout variants.
 - `work-index.css` - the shared lab index: work split, previewed-row state, preview panel (WorkIndex.astro).
+- `flagship-cards.css` - the two-tier project card grid on the home and work pages (SelectedWork.astro).
+- `case-study.css` - project case-study pages: hero, sections, evidence blocks; imports `case-study-media.css`.
+- `case-study-media.css` - case-study hero media and gallery figures.
+- `eazegames-case-study.css` - the EazeGames case study, which has its own long-form layout.
+- `eazegames-case-study-architecture.css` - the architecture-and-ownership section of that case study.
 - `contact.css` - protocol/contact card and shared conf rows.
 - `theme-toggle.css` - theme switch control.
 - `site-chrome.css` - skip link, header, brand/nav, footer, footer controls.
+- `site-menu.css` - compact primary navigation (menu button) where the routes do not fit the header bar.
 - `atlas.css` - SVG Atlas frame, nodes, route, readout, tooltip.
 - `content.css` - page heads, prose, pager.
 - `home.css` - homepage hero, writing split, case-card state, and contact copy.
@@ -53,6 +59,8 @@ Rules:
 - `xray.css` - X-ray outlines and legend.
 - `status-bar.css` - editor-style status bar.
 - `flamenco.css` - lazy-loaded game overlay.
+
+This list is the only copy; the README links here instead of repeating it.
 
 ## Motion
 
