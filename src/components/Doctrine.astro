@@ -92,7 +92,7 @@ import doctrine from "@/data/doctrine.json";
        stale build) instead of failing silently. */
     const launchFlamenco = (): string | void | Promise<string | void> => {
       if (prefersReducedMotion()) {
-        return "this easter egg requires motion - respecting your settings";
+        return "this easter egg requires motion and reaction - your reduce-motion setting says no";
       }
       return import("@/lib/flamenco").then((module) => {
         module.openFlamenco(root);
