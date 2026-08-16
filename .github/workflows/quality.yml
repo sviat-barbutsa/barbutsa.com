@@ -1,3 +1,6 @@
+# One gate, same as locally: `pnpm verify` (format, lint, types, unit + coverage,
+# build, generated headers, Playwright, then the built site on a local Workers
+# static-asset server). See README "Quality gate".
 name: Quality
 
 on:
