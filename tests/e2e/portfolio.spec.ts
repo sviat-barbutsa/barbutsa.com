@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForFonts } from "./site";
 
 test("flagship work publishes only cleared evidence and leads into live software", async ({ page }) => {
   await page.goto("/");
@@ -73,6 +74,7 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   test.skip(Boolean(isMobile), "Desktop grid geometry is covered by the desktop project");
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto("/");
+  await waitForFonts(page);
 
   const grid = page.locator('[data-home-section="selected-work"] .flagship-grid');
   const featured = grid.locator('[data-tier="featured"]');

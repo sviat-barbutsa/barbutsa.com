@@ -16,7 +16,10 @@ export default defineConfig({
   // The route and accessibility suites crawl the full static site in parallel.
   workers: process.env.CI ? 1 : 8,
   reporter: [["line"], ["html", { open: "never" }]],
-  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
+  // Text rendering differs between operating systems, so visual baselines are
+  // kept per platform: -win32 (authored locally) and -linux (rendered by the
+  // "Snapshots" workflow and committed after review).
+  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}-{platform}{ext}",
   use: {
     baseURL,
     trace: "retain-on-failure",

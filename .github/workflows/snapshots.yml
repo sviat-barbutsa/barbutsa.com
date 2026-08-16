@@ -1,0 +1,50 @@
+# Renders the Linux visual-regression baselines on the same runner image the
+# Quality workflow uses, and uploads them as an artifact. Nothing is committed
+# from CI: download the artifact, look at the images, and commit them yourself.
+# Run it after an intentional visual change (or when a new page gets a snapshot).
+name: Snapshots
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: Render Linux baselines
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build
+        run: pnpm build
+
+      - name: Render baselines
+        run: pnpm exec playwright test tests/e2e/visual.spec.ts --update-snapshots
+
+      - name: Upload baselines
+        uses: actions/upload-artifact@v5
+        with:
+          name: visual-baselines-linux
+          path: tests/e2e/visual.spec.ts-snapshots/*-linux.png
+          if-no-files-found: error
