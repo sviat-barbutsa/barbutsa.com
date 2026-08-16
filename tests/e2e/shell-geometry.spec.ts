@@ -18,8 +18,9 @@ test("mobile shell input stays on the prompt's first line", async ({ page }) => 
     const geometry = await page.evaluate(() => {
       const prompt = document.querySelector<HTMLElement>("[data-doctrine] .prompt");
       const line = document.querySelector<HTMLElement>("[data-doctrine] .line");
+      const ghost = document.querySelector<HTMLElement>("[data-doctrine] .ghost");
       const input = document.querySelector<HTMLInputElement>("[data-doctrine] .shell-input");
-      if (!prompt || !line || !input) throw new Error("Shell geometry is unavailable.");
+      if (!prompt || !line || !ghost || !input) throw new Error("Shell geometry is unavailable.");
       const promptBox = prompt.getBoundingClientRect();
       const lineBox = line.getBoundingClientRect();
       const inputBox = input.getBoundingClientRect();
@@ -27,13 +28,22 @@ test("mobile shell input stays on the prompt's first line", async ({ page }) => 
         promptTop: promptBox.top,
         promptHeight: promptBox.height,
         lineBoxHeight: lineBox.height,
+        ghostHeight: ghost.getBoundingClientRect().height,
         inputTop: inputBox.top,
         inputHeight: inputBox.height,
       };
     });
 
+    /* the line box is exactly the in-flow ghost (the longest phrase), in whole
+       20px lines. Two lines on most engines; text metrics differ slightly per
+       platform (FreeType vs DirectWrite), so the longest phrase may take three
+       at the narrowest widths - the reservation still holds, the input still
+       sits on the first line. */
     expect(geometry.promptHeight).toBe(20);
-    expect(geometry.lineBoxHeight).toBe(40);
+    expect(geometry.lineBoxHeight).toBe(geometry.ghostHeight);
+    expect(geometry.lineBoxHeight % 20).toBe(0);
+    expect(geometry.lineBoxHeight).toBeGreaterThanOrEqual(40);
+    expect(geometry.lineBoxHeight).toBeLessThanOrEqual(60);
     expect(Math.abs(geometry.inputTop - geometry.promptTop)).toBeLessThan(1);
     expect(geometry.inputHeight).toBe(20);
     await input.press("Escape");
@@ -41,11 +51,13 @@ test("mobile shell input stays on the prompt's first line", async ({ page }) => 
 });
 
 test("terminal output caret aligns with the prompt glyph across mobile and desktop", async ({ page }) => {
-  for (const { width, height, reservedHeight } of [
-    { width: 375, height: 667, reservedHeight: 40 },
-    { width: 390, height: 844, reservedHeight: 40 },
-    { width: 320, height: 844, reservedHeight: 40 },
-    { width: 1440, height: 1000, reservedHeight: 20 },
+  /* reserved height = whole lines of the longest phrase; mobile widths allow
+     one line of platform text-metric variance (see the test above) */
+  for (const { width, height, reservedLines } of [
+    { width: 375, height: 667, reservedLines: [2, 3] },
+    { width: 390, height: 844, reservedLines: [2, 3] },
+    { width: 320, height: 844, reservedLines: [2, 3] },
+    { width: 1440, height: 1000, reservedLines: [1] },
   ]) {
     await page.setViewportSize({ width, height });
     await page.goto("/");
@@ -111,8 +123,8 @@ test("terminal output caret aligns with the prompt glyph across mobile and deskt
     const geometry = await readGeometry();
 
     expect(geometry.lineHeight).toBe(20);
-    expect(geometry.rootHeight).toBe(reservedHeight);
-    expect(geometry.lineBoxHeight).toBe(reservedHeight);
+    expect(reservedLines.map((lines) => lines * 20)).toContain(geometry.lineBoxHeight);
+    expect(geometry.rootHeight).toBe(geometry.lineBoxHeight);
     expect(geometry.textCenterDelta).not.toBeNull();
     expect(geometry.textBottomDelta).not.toBeNull();
     expect(Math.abs(geometry.textCenterDelta!)).toBeLessThanOrEqual(1.25);

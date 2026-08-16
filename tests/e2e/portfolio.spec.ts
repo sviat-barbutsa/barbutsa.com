@@ -95,7 +95,9 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   expect(Math.abs(first!.y - second!.y)).toBeLessThan(1);
   expect(first!.width).toBeGreaterThanOrEqual(500);
   expect(first!.width).toBeLessThanOrEqual(580);
-  expect(first!.height).toBeLessThanOrEqual(600);
+  /* text metrics differ slightly per platform, so the summary can wrap one line
+     taller on Linux/Android than on Windows; the bound leaves room for that */
+  expect(first!.height).toBeLessThanOrEqual(640);
   /* cards in one row share a height (grid stretch) and their primary actions
      sit on one baseline (actions pinned to the card bottom) */
   expect(Math.abs(first!.height - second!.height)).toBeLessThan(1);
