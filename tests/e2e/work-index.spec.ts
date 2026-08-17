@@ -9,7 +9,6 @@ const liveTools = [
 const unfinishedTools = [
   { title: "Hand Detection", kind: "TECHNICAL DEMO" },
   { title: "Typing Lab", kind: "PRODUCT TOOL" },
-  { title: "AI Memory Playground", kind: "DEVELOPER WORKBENCH" },
   { title: "Local LLM Workbench", kind: "DEVELOPER WORKBENCH" },
 ];
 

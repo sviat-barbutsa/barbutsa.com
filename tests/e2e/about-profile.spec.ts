@@ -11,16 +11,15 @@ test("About presents resume-aligned scope without overstating team leadership", 
 
   await expect(introduction).toContainText("shared UI library and Storybook foundation");
   await expect(introduction).toContainText(
-    "Cloudflare Workers and Durable Objects, Node.js, Python, FastAPI, Django/DRF, and REST APIs",
+    "from Cloudflare Workers and Node.js to Python services built with FastAPI and Django",
   );
-  await expect(introduction).toContainText("real-time collaboration over WebSockets");
-  await expect(introduction).toContainText("RAG and vector search, LLM routing, agentic workflows, and local models");
+  await expect(introduction).toContainText("four products from empty repos all the way to production");
+  await expect(introduction).toContainText("real-time WebSocket collaboration tools");
+  await expect(introduction).toContainText("RAG, LLM routing, and agentic workflows using local models");
   await expect(introduction).toContainText(
-    "I led frontend architecture and delivery across product teams of up to seven, coordinating frontend engineers, backend contributors, and design",
+    "led frontend architecture across teams of up to seven engineers, coordinating closely with backend leads and designers",
   );
-  await expect(introduction).toContainText(
-    "Across my career, I mentored 14 engineers and owned production quality for the systems I led",
-  );
+  await expect(introduction).toContainText("mentoring 14 engineers along the way");
   await expect(introduction).not.toContainText(/led teams of (?:two|2) to (?:seven|7)/i);
 
   await expect(configRow(page, "frontend").locator("dd")).toContainText("shared ui · storybook · design systems");

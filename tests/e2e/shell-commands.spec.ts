@@ -8,7 +8,7 @@ const liveTools = [
   ["background-removal", "https://bg-removal.barbutsa.com/"],
 ] as const;
 
-const unavailableTools = ["typing-lab", "hand-detection", "ai-memory-playground", "local-llm-workbench"] as const;
+const unavailableTools = ["typing-lab", "hand-detection", "local-llm-workbench"] as const;
 
 test("shell lists only tools that are currently live", async ({ page }) => {
   await page.goto("/");

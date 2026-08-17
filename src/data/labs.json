@@ -54,15 +54,6 @@
     "status": "live"
   },
   {
-    "slug": "ai-memory-playground",
-    "title": "AI Memory Playground",
-    "kind": "developer-workbench",
-    "oneLiner": "RAG and semantic memory with retrieval and evaluation loops. Measured, not vibes.",
-    "stack": ["React", "Vector DB", "LLMs", "Workers"],
-    "url": "https://memory.barbutsa.com",
-    "status": "porting"
-  },
-  {
     "slug": "local-llm-workbench",
     "title": "Local LLM Workbench",
     "kind": "developer-workbench",
