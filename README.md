@@ -4,7 +4,7 @@ Source of [barbutsa.com](https://barbutsa.com) - my personal site: writing, sele
 interactive parts (the SVG atlas in the hero, the theme switch, the command line, the status bar) are small
 hand-written TypeScript modules with the same rules applied to each of them.
 
-[![Quality](https://github.com/sviat-barbutsa/personal-atlas/actions/workflows/quality.yml/badge.svg)](https://github.com/sviat-barbutsa/personal-atlas/actions/workflows/quality.yml)
+[![Quality](https://github.com/sviat-barbutsa/barbutsa.com/actions/workflows/quality.yml/badge.svg)](https://github.com/sviat-barbutsa/barbutsa.com/actions/workflows/quality.yml)
 
 ## If you are here to read the code
 
@@ -72,8 +72,7 @@ captures a mid-frame; motion never owns the state change (the theme is committed
 animation runs, is rejected or fails, and a failed animation downgrades the strategy for the rest of the
 session).
 
-**Theme.** Dark is the default and the OS preference is deliberately ignored - only the visitor's own toggle
-changes it, and that choice is stored. The stored choice is applied by an inline script before first paint, and
+**Theme.** Dark is the default theme-inspired by classic terminal aesthetics when designing this site. (Though a light theme is available, too!). The stored choice is applied by an inline script before first paint, and
 a small inline `<style>` sets the canvas colour even before the stylesheet arrives, so there is no flash between
 documents. Other tabs follow through the `storage` event.
 
@@ -112,9 +111,6 @@ deploy.
 Unit tests live in `tests/unit` and cover pure logic only. Everything that depends on the browser - focus,
 dialogs, storage, `matchMedia`, portals, the real 404 - is tested in `tests/e2e`. There is no property-based or
 model-checking lane; the decision surfaces here are small enough to enumerate by hand.
-
-Honest limits of the evidence: the browser tests run on Chromium only (desktop and mobile emulation); there is
-no branded-browser, real-device or screen-reader run.
 
 Lighthouse's performance score is a measurement, and the gate holds structural
 things instead (static output, hashed immutable assets, self-hosted preloaded fonts, no client framework, images
