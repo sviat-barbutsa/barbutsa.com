@@ -8,29 +8,26 @@ import {
 
 <section id="architecture-and-ownership" class="wrap region stack" aria-labelledby="ownership-title">
   <p class="kick"><span class="idx">03</span> Architecture & ownership</p>
-  <h2 id="ownership-title" class="section-title">
-    Frontend responsibility, with integration boundaries made explicit.
-  </h2>
+  <h2 id="ownership-title" class="section-title">My frontend scope.</h2>
   <p class="eaze-ownership-statement">
-    I joined the initial two-person team, helped take the original frontend from an empty repository to production, and
-    created the reusable component and utility foundation used as the frontend team expanded to six.
+    I joined the initial two-person team and worked on the frontend from an empty repository through production. I also
+    created the shared component and utility library used as the frontend team grew to six.
   </p>
 
   <div class="eaze-ownership-grid">
     <div class="panel stack">
-      <h3 class="panel-title">My frontend scope</h3>
+      <h3 class="panel-title">Frontend architecture and delivery</h3>
       <ul class="eaze-list">
         {ownership.map((item) => <li>{item}</li>)}
       </ul>
     </div>
     <div class="panel stack">
-      <h3 class="panel-title">Not claimed as my implementation</h3>
+      <h3 class="panel-title">Connected systems</h3>
       <ul class="eaze-list">
-        <li>Backend services and WebSocket servers</li>
-        <li>Game-engine or game-provider implementation</li>
-        <li>Pay.nl or payment-provider infrastructure</li>
-        <li>Legal, compliance, fraud, or regulatory systems</li>
-        <li>The current interface or later product versions</li>
+        <li>Backend and WebSocket services</li>
+        <li>HTML5 game providers</li>
+        <li>Pay.nl payment services</li>
+        <li>Compliance and regulatory workflows</li>
       </ul>
     </div>
   </div>
@@ -59,20 +56,19 @@ import {
       </div>
     </div>
     <figcaption id="eaze-architecture-caption">
-      A newly drawn frontend map. Backend services, WebSocket servers, Pay.nl, and game providers are shown only as
-      integration boundaries.
+      Architecture map reconstructed for this case study from my original frontend scope.
     </figcaption>
   </figure>
   <p id="eaze-architecture-text" class="eaze-boundary-text">
-    Text equivalent: the browser SPA owned shared UI, authentication and RBAC surfaces, competition/catalog state,
-    WebSocket-driven presentation, payment and wallet UI, internationalization, and frontend delivery. Backend,
-    payment-provider, game-provider, and WebSocket server implementations remained external boundaries.
+    Text equivalent: the React and Redux browser application contained the shared UI, account and role screens,
+    competition and game catalog, WebSocket-driven updates, wallet and payment UI, internationalization, and frontend
+    delivery setup. It integrated with backend APIs, WebSocket services, game providers, and Pay.nl.
   </p>
 </section>
 
 <section class="wrap region stack" aria-labelledby="journey-title">
   <p class="kick"><span class="idx">04</span> Original user journey</p>
-  <h2 id="journey-title" class="section-title">One product shell across acquisition, play, and account state.</h2>
+  <h2 id="journey-title" class="section-title">From the landing page to a live competition.</h2>
   <ol class="eaze-journey">
     {
       journey.map((step, index) => (

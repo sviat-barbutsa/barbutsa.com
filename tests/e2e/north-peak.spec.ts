@@ -26,10 +26,10 @@ test("North Peak publishes a public-safe responsive client-delivery case study",
   await expect(page.getByRole("heading", { level: 1, name: "North Peak Appliance Repair" })).toBeVisible();
   await expect(page.getByText("LIVE CLIENT WEBSITE", { exact: true })).toBeVisible();
   await expect(page.getByRole("region", { name: "Project facts" })).toContainText("Commissioned client delivery");
+  await expect(page.getByRole("heading", { name: "How the booking site works." })).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "A service journey designed around the next useful action." }),
+    page.getByRole("heading", { name: "Homepage, service guides, coverage, and mobile booking." }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Responsive pages from the live client website." })).toBeVisible();
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /commissioned WordPress delivery/i);
 
   const images = page.locator('[data-case-study="north-peak-appliance-repair"] img');
@@ -43,10 +43,8 @@ test("North Peak publishes a public-safe responsive client-delivery case study",
   await expect(publicPreview).toHaveAttribute("href", "https://northpeakfastrepair.com/");
   await expect(publicPreview).toHaveAttribute("target", "_blank");
   await expect(publicPreview).toHaveAttribute("rel", "noopener noreferrer");
-  await expect(page.getByRole("link", { name: "northpeakfastrepair.com ↗" })).toHaveAttribute(
-    "href",
-    "https://northpeakfastrepair.com/",
-  );
+  await expect(page.locator(".case-study-live-url")).toHaveCount(0);
+  await expect(page.locator(".case-study-boundary .idx")).toHaveText("03");
   await expect(page.locator("main")).not.toContainText(
     /conversion rate|increased traffic|generated \d+ leads|\$\d+.*revenue/i,
   );

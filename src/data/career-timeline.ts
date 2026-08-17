@@ -70,21 +70,20 @@ export function validateCareerTimeline(entries: readonly CareerEntry[]): readonl
     previousStart = start;
   }
 
-  if (currentEntries !== 1) throw new Error(`Expected one current career entry, received ${currentEntries}`);
+  if (currentEntries > 1) throw new Error(`Expected at most one current career entry, received ${currentEntries}`);
   return entries;
 }
 
 export const careerTimeline = validateCareerTimeline([
   {
-    id: "fearless-little-2020-present",
+    id: "fearless-little-2020-2026",
     start: { year: 2020, month: 4 },
-    end: null,
-    displayDates: "Apr 2020 - Present",
+    end: { year: 2026, month: 8 },
+    displayDates: "Apr 2020 - Aug 2026",
     formalTitle: "Lead Front-End Developer",
     publicTitle: "Lead Front-End Developer → Lead Software Engineer responsibilities",
     employer: "Fearless Little",
     location: "USA",
-    current: true,
     summary:
       "Initially led frontend development of a cross-platform product spanning web, mobile, and desktop from one React, Next.js, and React Native codebase. Subsequently expanded into Lead Software Engineer responsibilities for an AI-powered collaborative SaaS, including frontend and Cloudflare platform architecture, real-time systems, applied AI features, and team leadership.",
   },
@@ -109,6 +108,7 @@ export const careerTimeline = validateCareerTimeline([
     employer: "SharpMinds",
     client: "Piggy.eu",
     location: "Chernivtsi, Ukraine",
+    projectSlug: "/work/piggy-original-loyalty-frontend",
     summary:
       "Defined and led the frontend architecture from scratch for the Piggy.eu loyalty and discount platform. Started as the sole frontend engineer, created the shared React and TypeScript UI foundation and Jenkins CI workflow, and supported the team as it expanded after the MVP launch.",
   },

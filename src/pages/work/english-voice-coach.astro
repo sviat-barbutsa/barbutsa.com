@@ -13,8 +13,8 @@ const description =
   kickerLabel="PRODUCT"
   eyebrow="Independent Android product · 2026"
   status="GOOGLE PLAY CLOSED TEST · IN REVIEW"
-  lead="A private Android speaking coach that turns voice, typed sentences, and photographed text into corrections, explanations, natural alternatives, listening, and repeat practice."
-  ownership="Designed and implemented end to end: Flutter product architecture, Android/JNI integration, native inference boundaries, local storage, model setup, testing, release preparation, and the complete practice experience."
+  lead="I created a private Android speaking coach that accepts voice, typed sentences, and photographed text, then provides corrections, explanations, natural alternatives, playback, and repeat practice."
+  ownership="I designed and implemented the Flutter app, Android/JNI integration, local inference, storage, model setup, test coverage, release preparation, and practice experience."
   primaryAction={{
     label: "Watch the four demo videos ↗",
     href: "https://www.youtube.com/playlist?list=PLSFpAE7CkhDg",
@@ -22,8 +22,8 @@ const description =
   }}
   overviewTitle="One practice loop across voice, text, and real-world English."
   evidenceTitle="Current Android release-candidate interface."
-  evidenceIntro="Earlier prototype captures used the working name English Practice. This case study intentionally uses current English Voice Coach captures from the release-candidate interface."
-  boundaryTitle="What local-first and the repeat percentage mean."
+  evidenceIntro="The product began under the working name English Practice. The screenshots below show the current English Voice Coach release-candidate interface."
+  boundaryTitle="Setup, privacy, and release status."
   galleryLayout="mobile-grid"
   facts={[
     { label: "Role", value: "Independent product · implemented end to end" },
@@ -33,28 +33,28 @@ const description =
   ]}
   overview={[
     "Voice practice records a short phrase and transcribes it with native whisper.cpp. Text practice sends typed English directly to the correction boundary, while photo practice uses Android image selection and ML Kit OCR before entering the same correction flow. Gemma through LiteRT-LM returns a correction, a natural alternative, an explanation, and structured issue details.",
-    "Flutter owns the product interface and state. Android platform channels own recording, local model files, native inference, OCR, and speech playback. Completed attempts are organized into topic-based review, while corrected or natural phrases can be played and repeated without sending practice content to a hosted model.",
+    "Flutter owns the product interface and state. Android platform channels own recording, local model files, native inference, OCR, and speech playback. Completed attempts are organized into topic-based review. Corrected or natural phrases can be played and repeated locally, and practice content stays on the device during normal use.",
   ]}
   highlights={[
     {
       title: "Three useful input paths",
       description:
-        "Speak, type, or photograph English text. Each input path converges on the same correction and review experience instead of becoming a separate feature silo.",
+        "Speak, type, or photograph English text. Every input goes through the same correction, practice-history, and review flow.",
     },
     {
-      title: "Local inference with explicit fallbacks",
+      title: "On-device inference and fallbacks",
       description:
-        "Whisper transcription and Gemma correction run through native Android boundaries. A successful transcript remains visible if correction fails, and Android TextToSpeech remains available when the optional local neural voice is unavailable.",
+        "Whisper transcription and Gemma correction run through Android platform channels. When correction fails after a successful transcription, the transcript stays available. Android TextToSpeech handles playback when the optional neural voice is unavailable.",
     },
     {
-      title: "Repeat matching, not pronunciation grading",
+      title: "Word-level repeat matching",
       description:
-        "The displayed percentage compares the target phrase with the locally transcribed repeat at word level. It helps users retry the sentence; it does not measure accent or pronunciation accuracy.",
+        "The percentage compares the target phrase with the locally transcribed repeat at word level. It shows how closely the words match; pronunciation, accent, and fluency are outside this measurement.",
     },
     {
       title: "Tested on a physical Android device",
       description:
-        "The implemented flows were exercised on a Samsung SM-S938U1. The project records 150 passing Flutter tests plus analyzer, APK, App Bundle, signing, and Play-upload evidence without claiming universal device performance.",
+        "I tested the implemented flows on a Samsung SM-S938U1. The release record includes 150 passing Flutter tests, analyzer checks, APK and App Bundle generation, signing, and Play upload.",
     },
   ]}
   evidence={[
@@ -87,7 +87,7 @@ const description =
       alt: "English Voice Coach repeat-practice screen showing a 76 percent word-level phrase match and the transcribed repeat",
       width: 1080,
       height: 2160,
-      caption: "Repeat practice · phrase-to-transcript word matching, not pronunciation scoring",
+      caption: "Repeat practice · word-level target-to-transcript comparison",
       format: "mobile",
     },
     {
@@ -100,9 +100,7 @@ const description =
     },
   ]}
   boundaries={[
-    "After setup, speech transcription, correction, phrase matching, practice history, and supported voice playback run on the Android device. This is local-first, not a claim that every operation is permanently offline.",
-    "First-run setup downloads validated local AI files over HTTPS and needs substantial device storage. Optional generated-feedback reports leave the device only after the user reviews the report and explicitly taps Send.",
-    "The 76% shown in the evidence is the local word-level similarity between a target sentence and Whisper’s transcript of the repeat. It is not pronunciation, accent, or fluency accuracy.",
-    "Current device evidence is centered on a Samsung SM-S938U1. The app is an Android closed-test release under review, not a public Google Play release or a claim of broad device qualification.",
+    "After setup, transcription, correction, phrase matching, practice history, and supported voice playback run on the Android device. First-run setup downloads validated model files over HTTPS and needs substantial storage; a feedback report containing generated output leaves the device only after the user reviews it and taps Send.",
+    "The current Android release is in Google Play closed-test review and is unavailable for public installation.",
   ]}
 />

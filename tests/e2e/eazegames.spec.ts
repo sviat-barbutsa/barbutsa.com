@@ -2,16 +2,17 @@ import { expect, test } from "@playwright/test";
 
 const route = "/work/eazegames-original-web-platform";
 
-test("EazeGames is a compact archive card with historical and current-product boundaries", async ({ page }) => {
+test("EazeGames is a compact archive card with an active-product link", async ({ page }) => {
   await page.goto("/");
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
-  await expect(cards).toHaveCount(5);
+  await expect(cards).toHaveCount(6);
   await expect(cards.locator("h3")).toHaveText([
     "English Voice Coach",
     "Llamail",
     "EazeGames",
+    "Piggy.eu",
     "Zharwing Memory",
     "North Peak Appliance Repair",
   ]);
@@ -31,7 +32,7 @@ test("EazeGames is a compact archive card with historical and current-product bo
   await expect(eaze.locator("img")).toHaveAttribute("loading", "eager");
   await expect(eaze.getByRole("link", { name: "View project →" })).toHaveAttribute("href", route);
 
-  const currentProduct = eaze.getByRole("link", { name: "Current product by EazeGames ↗" });
+  const currentProduct = eaze.getByRole("link", { name: "Visit EazeGames today ↗" });
   await expect(currentProduct).toHaveAttribute("href", "https://eazegames.com/");
   await expect(currentProduct).toHaveAttribute("target", "_blank");
   await expect(currentProduct).toHaveAttribute("rel", "noopener noreferrer");
@@ -55,7 +56,7 @@ test("historical case study exposes exact metadata, attribution, evidence, and a
   await expect(page).toHaveTitle("EazeGames Original Web Platform | Sviatoslav Barbutsa");
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     "content",
-    "Historical case study of the original EazeGames web frontend: a real-time React platform with competitions, payments UI, roles, internationalization, and shared UI foundations.",
+    "Case study of the original EazeGames frontend: React, Redux, WebSockets, payments, role-based access, internationalization, and a shared UI library.",
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -80,16 +81,25 @@ test("historical case study exposes exact metadata, attribution, evidence, and a
   expect(graph["@graph"].some((node: { "@type"?: string }) => node["@type"] === "SoftwareApplication")).toBe(false);
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("EazeGames - Original Web Platform");
-  await expect(page.locator("[data-eaze-disclaimer]")).toContainText(
-    "The archival screenshots below document the Version 1 interface I worked on",
+  await expect(page.locator("[data-eaze-disclaimer]")).toHaveText(
+    "The screenshots below show the Version 1 frontend from my 2016–2017 engagement.",
   );
   await expect(page.getByText("SharpMinds", { exact: true })).toBeVisible();
-  await expect(page.getByText("Six people after prototype success", { exact: true })).toBeVisible();
-  await expect(page.getByText("Production launch in approximately 1.5 years", { exact: true })).toBeVisible();
+  await expect(page.getByText("Six frontend contributors after the prototype phase", { exact: true })).toBeVisible();
+  await expect(
+    page
+      .getByRole("region", { name: "Engagement facts" })
+      .getByText("Original frontend launched during the engagement", { exact: true }),
+  ).toBeVisible();
 
   const architecture = page.getByRole("img", { name: /Frontend architecture map/ });
   await expect(architecture).toBeVisible();
-  await expect(page.locator("#eaze-architecture-text")).toContainText("remained external boundaries");
+  await expect(page.getByRole("heading", { name: "Frontend architecture and delivery" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Connected systems" })).toBeVisible();
+  await expect(page.locator("#eaze-architecture-text")).toContainText(
+    "It integrated with backend APIs, WebSocket services, game providers, and Pay.nl",
+  );
+  await expect(page.getByText("Not claimed as my implementation", { exact: true })).toHaveCount(0);
   await expect(page.getByText(/Pay\.nl service boundary/)).toBeVisible();
 
   const figures = page.locator("main .eaze-figure");
@@ -104,12 +114,20 @@ test("historical case study exposes exact metadata, attribution, evidence, and a
   }
   await expect(page.locator('img[src*="7_signup"], img[src*="8_email"], img[src$=".jpg"]')).toHaveCount(0);
 
-  const currentProduct = page.getByRole("link", { name: "Current product, maintained by EazeGames ↗" });
+  const currentProduct = page.getByRole("link", { name: "Visit EazeGames today ↗" });
   await expect(currentProduct).toHaveCount(1);
   await expect(currentProduct).toHaveAttribute("target", "_blank");
   await expect(currentProduct).toHaveAttribute("rel", "noopener noreferrer");
 
   const mainText = await page.locator("main").innerText();
+  await expect(page.locator(".eaze-reading .eaze-list li")).toHaveCount(3);
+  await expect(page.locator(".eaze-retrospective .panel .eaze-list li")).toHaveCount(3);
+  expect(mainText).not.toMatch(
+    /not presented as my work|linked only for current product context|borrowing today’s metrics/i,
+  );
+  expect(mainText).not.toMatch(
+    /not merely fast|product journey|product continuity|intentionally excluded|design system.*default label/i,
+  );
   expect(mainText).not.toMatch(/current (revenue|prize|traffic|user)|sole developer|built the entire platform/i);
 });
 

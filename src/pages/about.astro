@@ -5,7 +5,7 @@ import { site } from "@/data/site";
 
 const config = [
   ["role", site.role],
-  ["current", "lead software engineer · ai-powered collaborative saas"],
+  ["recent", "frontend architecture · ai-powered collaborative saas · 2020-2026"],
   ["experience", "13+ years implementing high-impact web platforms"],
   ["frontend", "shared ui · storybook · design systems"],
   ["architecture", "state stores · repositories · api adapters · dependency injection"],
@@ -22,7 +22,7 @@ const config = [
 const independent = [
   {
     title: "Local-first AI assistant",
-    note: "Private, fully local agent (Telegram + email) with LLM-as-router intent classification and hybrid RAG on ChromaDB + SQLite FTS5. No cloud dependency.",
+    note: "Private agent with local model inference and data, LLM-as-router intent classification, and hybrid RAG on ChromaDB + SQLite FTS5. Integrates with Gmail and Telegram without a paid model API.",
   },
   {
     title: "Offline Android AI English-practice app",
@@ -30,9 +30,31 @@ const independent = [
   },
 ];
 
-const education = [
-  "M.S., Power Generation / Alternative Energy (GPA 3.96/4.0) and B.S., Electrical Engineering - Chernivtsi National University, Ukraine. Evaluated as equivalent to U.S. M.S. and B.S.",
-  "Deep Learning Specialization (5 courses) - DeepLearning.AI, 2025. CS50 Web Programming - Harvard/edX. CIW JavaScript Specialist.",
+const education =
+  "M.S., Power Generation / Alternative Energy (GPA 3.96/4.0) and B.S., Electrical Engineering - Chernivtsi National University, Ukraine. Evaluated as equivalent to U.S. M.S. and B.S.";
+
+const selectedCredentials = [
+  {
+    title: "Deep Learning Specialization",
+    issuer: "DeepLearning.AI · Coursera",
+    year: "2025",
+    href: "https://coursera.org/verify/specialization/EFQV27OD8RPL",
+    action: "Verify credential",
+  },
+  {
+    title: "CS50's Web Programming with Python and JavaScript",
+    issuer: "Harvard University · CS50",
+    year: "2023",
+    href: "https://cs50.harvard.edu/certificates/b2e41973-76aa-4c88-a46a-5d3699d6ec0b",
+    action: "Verify credential",
+  },
+  {
+    title: "CIW JavaScript Specialist",
+    issuer: "CIW",
+    year: "2016",
+    href: "/certificates/ciw-javascript-specialist.png",
+    action: "View certificate",
+  },
 ];
 ---
 
@@ -51,25 +73,29 @@ const education = [
     <div class="sidebar" style="--sidebar-width: 24rem;">
       <div class="about-copy stack" style="--flow: var(--space-m);">
         <p>
-          13 years of implementing web platforms from scratch. Currently leading frontend architecture as a Lead
-          Software Engineer for an AI-powered collaborative SaaS, managing multiple React/Next.js applications within a
-          monorepo. I created our shared UI library and Storybook foundation from scratch, integrated product-facing AI
-          features, and implemented agentic workflows across the stack. To keep our systems decoupled and scalable, I
-          enforce clean architecture practices across all product layers-from state management and API adapters to
-          dependency injection.
+          Over more than 13 years, I've worked on large enterprise platforms, early-stage products, and smaller client
+          projects. I've created several web platforms from scratch, including products that remain commercially active
+          today. I've also joined mature codebases to modernize legacy code, improve performance, and keep delivery
+          moving.
         </p>
-        <p class="text-dim">
-          My focus is frontend-first, but my work naturally extends across the full stack-from Cloudflare Workers and
-          Node.js to Python services built with FastAPI and Django. Over the years, I've taken four products from empty
-          repos all the way to production, building everything from real-time WebSocket collaboration tools to
-          applied-AI systems like RAG, LLM routing, and agentic workflows using local models.
+        <p>
+          Most recently, I led frontend architecture for an AI-powered collaborative SaaS spanning multiple React and
+          Next.js applications in a monorepo. I designed its architecture around SOLID principles, clear module
+          boundaries, predictable state, and explicit dependencies. Although frontend architecture is my strongest area,
+          I have also delivered Cloudflare Workers, Node.js services, and Python services, along with product-facing AI
+          integrations involving RAG, LLM routing, and agentic workflows.
         </p>
-        <p class="text-dim">
+        <p>
+          I use AI coding tools to accelerate research, implementation, and verification. I review and test their
+          output, understand the code before accepting it, and remain responsible for the architecture, quality,
+          security, and production behavior.
+        </p>
+        <p>
           On the performance side, I've optimized production apps to hit Lighthouse 100s and cut page-load times by
-          2.5–3×. I've also led frontend architecture across teams of up to seven engineers, coordinating closely with
-          backend leads and designers, while mentoring 14 engineers along the way. My engineering philosophy hasn't
-          changed in a decade: use boring, proven tools where stability matters, and isolate the ambitious pieces so the
-          whole system stays reliable.
+          2.5–3×. I've also led frontend architecture and delivery across product teams of up to seven people,
+          coordinating frontend engineers, backend contributors, and design, and mentored 14 engineers across my career.
+          My engineering philosophy hasn't changed in a decade: use boring, proven tools where stability matters, and
+          isolate the ambitious pieces so the whole system stays reliable.
         </p>
       </div>
 
@@ -149,8 +175,38 @@ const education = [
     </div>
   </section>
 
+  <section class="wrap region stack about-education" aria-labelledby="h-credentials">
+    <p class="kick"><span class="idx">03</span> Education & selected certifications</p>
+    <h2 id="h-credentials" class="visually-hidden">Education and selected certifications</h2>
+    <p class="education-summary text-dim">{education}</p>
+    <div class="credential-list">
+      {
+        selectedCredentials.map((credential) => (
+          <article class="credential-row">
+            <div class="credential-copy">
+              <h3 class="credential-title">{credential.title}</h3>
+              <p class="credential-meta text-dim">
+                {credential.issuer} · <time datetime={credential.year}>{credential.year}</time>
+              </p>
+            </div>
+            <a
+              class="credential-link"
+              href={credential.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-no-prerender
+              aria-label={`${credential.action}: ${credential.title}`}
+            >
+              {credential.action} <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="wrap region stack" aria-labelledby="h-indep">
-    <p class="kick"><span class="idx">03</span> Independent AI projects</p>
+    <p class="kick"><span class="idx">04</span> Independent AI projects</p>
     <h2 id="h-indep" class="visually-hidden">Independent projects</h2>
     <div class="grid" style="--grid-min: 20rem;">
       {
@@ -163,9 +219,6 @@ const education = [
           </div>
         ))
       }
-    </div>
-    <div class="about-education stack" style="--flow: var(--space-2xs);">
-      {education.map((line) => <p class="text-dim">{line}</p>)}
     </div>
     <p class="label">
       {site.facts.proof.toUpperCase()} · {site.facts.location.toUpperCase()}

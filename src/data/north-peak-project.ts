@@ -17,7 +17,7 @@ export const northPeakProject = {
     tier: "supporting",
     meta: "CLIENT SITE · WORDPRESS · 2026",
     status: "LIVE CLIENT WEBSITE",
-    summary: "A responsive service website with booking, service guides, and ZIP-based coverage.",
+    summary: "Booking site with appliance guides and ZIP coverage.",
     ownership: "Architecture, implementation, and delivery",
     technologies: ["WordPress", "PHP", "JavaScript"],
   },

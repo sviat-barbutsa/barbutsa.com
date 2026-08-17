@@ -1,34 +1,32 @@
 export const eazeDescription =
-  "Historical case study of the original EazeGames web frontend: a real-time React platform with competitions, payments UI, roles, internationalization, and shared UI foundations.";
+  "Case study of the original EazeGames frontend: React, Redux, WebSockets, payments, role-based access, internationalization, and a shared UI library.";
 
 export const eazeFacts = [
   ["Role", "Senior Frontend Developer"],
   ["Employer", "SharpMinds"],
   ["Client", "EazeGames"],
-  ["Engagement", "2016-2017"],
+  ["Engagement", "2016–2017"],
   ["Scope", "Original web frontend"],
   ["Starting team", "Two people"],
-  ["Expanded team", "Six people after prototype success"],
-  ["Delivery", "Production launch in approximately 1.5 years"],
-  ["Current state", "Independently evolved product remains active"],
+  ["Expanded team", "Six frontend contributors after the prototype phase"],
+  ["Delivery", "Original frontend launched during the engagement"],
 ] as const;
 
 export const eazeProofs = [
   "Frontend created from scratch",
   "Real-time WebSocket product flows",
-  "Reusable component and utility foundation",
-  "Production delivery from a two-person starting team",
+  "Shared component and utility library",
+  "Production delivery from a two-person frontend starting team",
   "Frontend CI, candidate interviews, and junior mentoring",
-  "Product continuity years after the original launch",
 ] as const;
 
 export const eazeOwnership = [
   "Frontend architecture and application structure",
   "Core React and Redux implementation",
   "Shared UI component and utility library",
-  "WebSocket-driven product states",
+  "WebSocket updates for competitions, rankings, and account state",
   "HTML5 game integration inside the product shell",
-  "Frontend payment, role, webshop, onboarding, and localization surfaces",
+  "Payment, role-based, webshop, onboarding, and localized UI flows",
   "Frontend CI and delivery workflow",
   "Client meetings, estimation, code review, candidate interviews, and junior mentoring",
 ] as const;
@@ -79,21 +77,15 @@ export const eazeArchitecture = [
 ] as const;
 
 export const eazeRealTimeComplexity = [
-  "Multiple user and competition states had to remain understandable as live events arrived.",
-  "WebSocket updates affected activity, rankings, balances, and competition progress.",
-  "Money and practice currency required visibly distinct product states.",
-  "Authenticated navigation exposed role- and account-dependent surfaces.",
-  "Game integrations had to coexist inside one consistent product shell.",
-  "Errors and connection changes needed recoverable interface states.",
+  "WebSocket updates changed player activity, rankings, balances, and competition progress.",
+  "Money and practice currency, user roles, and account status each changed what the interface displayed and allowed.",
+  "Integrated HTML5 games and interrupted connections needed clear loading, error, and recovery states inside the same product flow.",
 ] as const;
 
 export const eazeModernApproach = [
-  "TypeScript-first contracts",
-  "Explicit state machines for money and competition workflows",
-  "Modern design tokens and documented component APIs",
-  "Contract and integration tests around real-time events",
-  "Observability for WebSocket and payment-boundary failures",
-  "Progressive delivery and visual-regression testing",
+  "Typed contracts for WebSocket and API events",
+  "State machines for competition, wallet, and verification flows",
+  "Integration tests and monitoring around WebSocket and Pay.nl failures",
 ] as const;
 
 export const eazeMediaBase = "/work/eazegames/";
@@ -104,16 +96,14 @@ export const eazeMedia = {
     width: 1820,
     height: 1112,
     alt: "Sanitized archival EazeGames Version 1 authenticated competition and game-discovery hub",
-    caption:
-      "Original Version 1 competition and game-discovery hub. Archival interface from the frontend I worked on during 2016-2017; account identity has been sanitized.",
+    caption: "Version 1 competition and game-discovery hub. Account details have been replaced with test data.",
   },
   landing: {
     name: "eazegames-v1-landing",
     width: 1821,
     height: 1110,
     alt: "Archival EazeGames Version 1 public landing experience",
-    caption:
-      "Original public landing experience connecting the web product with its mobile ecosystem and skill-game catalog.",
+    caption: "Version 1 landing page for the mobile apps and HTML5 game catalog.",
   },
   onboarding: {
     name: "eazegames-v1-onboarding",
@@ -128,8 +118,7 @@ export const eazeMedia = {
     width: 1839,
     height: 1120,
     alt: "Sanitized archival EazeGames authenticated navigation drawer",
-    caption:
-      "The authenticated navigation joined competitions, games, payments, verification, profile, and settings inside one product shell.",
+    caption: "The authenticated navigation covered competitions, games, payments, verification, profile, and settings.",
   },
   rankings: {
     name: "eazegames-v1-rankings",
@@ -145,14 +134,14 @@ export const eazeMedia = {
     height: 1103,
     alt: "Sanitized archival EazeGames live competition activity table with synthetic player identities",
     caption:
-      "Live competition activity presented as a structured, continuously changing data surface. Player identities are anonymized.",
+      "Live competition activity updated player results and rankings. Player identities have been replaced with test data.",
   },
   notifications: {
     name: "eazegames-v1-notifications",
     width: 553,
     height: 567,
     alt: "Sanitized archival EazeGames contextual notification center",
-    caption: "Contextual notifications connected game reminders, account actions, app downloads, and product guidance.",
+    caption: "Notifications covered game reminders, account actions, app downloads, and product guidance.",
   },
 } as const;
 
@@ -167,6 +156,6 @@ export const eazeStructuredData = {
   about: {
     "@type": "Thing",
     name: "EazeGames original web frontend (Version 1)",
-    description: "Historical case study of the original 2016-2017 frontend engagement.",
+    description: "Historical case study of the original 2016–2017 frontend engagement.",
   },
 } as const;

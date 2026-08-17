@@ -3,7 +3,7 @@ import CaseStudyPage from "@/components/CaseStudyPage.astro";
 import "@/styles/components/case-study.css";
 
 const description =
-  "Llamail is a self-hosted email agent with deterministic routing, local hybrid retrieval, cited answers, and human-reviewed actions through Telegram.";
+  "Llamail is a self-hosted email agent with validated command and intent routing, local hybrid retrieval, cited answers, and human-reviewed actions through Telegram.";
 ---
 
 <CaseStudyPage
@@ -13,17 +13,17 @@ const description =
   kickerLabel="SYSTEM"
   eyebrow="Independent local-first email agent · 2026"
   status="SELF-HOSTED · NO PUBLIC DEMO"
-  lead="A private email system designed to let a small local model search, explain, draft, and route useful actions without treating the model as unrestricted application logic."
-  ownership="Designed and implemented end to end: system architecture, FastAPI services, routing, retrieval, local-model integration, storage, Telegram workflow, and operator experience."
+  lead="I created a self-hosted email agent that combines hybrid retrieval with a small local model to search my mailbox, answer questions with citations, draft replies, and route actions through Telegram."
+  ownership="I designed and implemented the FastAPI services, routing, retrieval, local-model integration, storage, Telegram workflow, and operator interface."
   primaryAction={{
     label: "Read the implementation series →",
     href: "/articles/private-local-ai-email-agent",
     external: false,
   }}
-  overviewTitle="Deterministic application behavior, with the model used where language helps."
-  evidenceTitle="A real interface and the system behind it."
-  evidenceIntro="The Telegram capture is sanitized portfolio evidence. The architecture diagram shows which work stays local and where external services remain part of the route."
-  boundaryTitle="Local-first does not mean every dependency is local."
+  overviewTitle="How a request moves through Llamail."
+  evidenceTitle="Telegram interface and system architecture."
+  evidenceIntro="The sanitized Telegram capture shows cited answers and incoming-email analysis. The diagram maps Gmail and Telegram onto the local FastAPI, retrieval, storage, and model services."
+  boundaryTitle="Where Llamail runs."
   facts={[
     { label: "Role", value: "Independent system · implemented end to end" },
     { label: "Runtime", value: "FastAPI · llama.cpp · local GPU" },
@@ -31,29 +31,29 @@ const description =
     { label: "Interface", value: "Telegram via n8n" },
   ]}
   overview={[
-    "Llamail keeps predictable commands on explicit handlers. Slash commands and recognized compound commands route directly; free-form requests use the local model as a conservative intent classifier, then normal application code validates and executes the selected handler.",
-    "Sable is the Telegram interface and operator persona for Llamail, not a separate email platform. It presents cited answers, reports incoming-email analysis, and keeps consequential actions visible for human review instead of giving the model direct, unbounded control.",
+    "Slash commands and recognized compound commands go directly to application handlers. For free-form requests, the local model classifies the intent, then application code validates the result and calls the matching handler.",
+    "Sable is the Telegram interface and operator persona for Llamail. It presents cited answers, reports incoming-email analysis, and shows drafts or mailbox actions for review before execution.",
   ]}
   highlights={[
     {
-      title: "Deterministic routing first",
+      title: "Command routing",
       description:
-        "Known commands avoid model latency and ambiguity. Natural-language classification is a fallback that returns structured intent for validated application handlers.",
+        "Known slash and compound commands go straight to handlers. Free-form messages return a structured intent from the local classifier to the same validated application handlers.",
     },
     {
       title: "Hybrid retrieval with citations",
       description:
-        "Semantic search in ChromaDB and keyword search in SQLite FTS5 are combined before generation, so answers can point back to the retrieved email evidence.",
+        "The retriever combines semantic search in ChromaDB with keyword search in SQLite FTS5, and answers link back to the retrieved email evidence.",
     },
     {
       title: "Human-reviewed actions",
       description:
-        "Drafting and mailbox actions remain explicit operator workflows. The interface shows what the system understood before a consequential action is accepted.",
+        "The interface shows the interpreted request and proposed draft or mailbox action for operator review before execution.",
     },
     {
       title: "Measured on local hardware",
       description:
-        "Personal measurements on an RTX 4080 Mobile 12 GB system were about ~3 seconds for hybrid search, ~7 seconds for retrieval plus answer generation, and ~4 seconds for natural-language intent classification. These are hardware-specific observations, not a performance guarantee.",
+        "On my RTX 4080 Mobile 12 GB system, hybrid search took about 3 seconds, retrieval plus answer generation about 7 seconds, and natural-language intent classification about 4 seconds.",
     },
   ]}
   relatedArticles={[
@@ -101,9 +101,7 @@ const description =
     },
   ]}
   boundaries={[
-    "Local inference, embeddings, application services, SQLite FTS5, and ChromaDB run on the owner’s machine.",
-    "Gmail and Telegram remain external services. Gmail API access and Telegram messages cross those service boundaries, so this is not a zero-cloud claim.",
-    "Llamail is self-hosted software rather than a hosted product. There is no public live demo or public Telegram handle because operation requires user-owned integrations and local model hardware.",
-    "The measurements above came from personal hardware and real development use. They do not claim universal latency, adoption, or production-scale qualification.",
+    "Local inference, embeddings, FastAPI services, SQLite FTS5, and ChromaDB run on my machine. Gmail and Telegram provide the external mailbox and messaging connections through their APIs.",
+    "Running Llamail requires user-owned Gmail and Telegram integrations plus local model hardware, so this project page uses sanitized screenshots in place of a public demo.",
   ]}
 />

@@ -1,0 +1,61 @@
+---
+import CaseStudyPage from "@/components/CaseStudyPage.astro";
+import "@/styles/components/case-study.css";
+
+const description =
+  "Historical case study of Sviatoslav Barbutsa's 2018–2019 Piggy.eu contribution: the original React, TypeScript, and MobX web frontend and shared UI foundation.";
+---
+
+<CaseStudyPage
+  slug="piggy-original-loyalty-frontend"
+  title="Piggy.eu Original Loyalty Frontend"
+  description={description}
+  eyebrow="Piggy.eu via SharpMinds · 2018–2019"
+  status="ORIGINAL WEB FRONTEND"
+  lead="I was the sole frontend engineer when the project began. I created the web application from scratch and later led frontend delivery as the team grew after the MVP."
+  ownership="Senior Front-End Web Developer / Frontend Tech Lead at SharpMinds, working on Piggy.eu."
+  publicUrl="https://www.piggy.eu/"
+  publicActionLabel="View current Piggy.eu website ↗"
+  kickerLabel="ARCHIVE"
+  overviewTitle="How I structured the frontend as the team grew."
+  boundaryTitle="What I worked on"
+  facts={[
+    { label: "Role", value: "Senior Front-End Web Developer / Frontend Tech Lead" },
+    { label: "Employer", value: "SharpMinds" },
+    { label: "Client", value: "Piggy.eu" },
+    { label: "Period", value: "2018–2019" },
+  ]}
+  overview={[
+    "I defined the web application architecture and created a reusable component library alongside the main React application. The codebase used TypeScript, with MobX for application state.",
+    "I used Webpack for module bundling and production optimization, with Jenkins for CI. The project also included Sass/SMACSS, internationalization, and tests. After the MVP, more frontend engineers joined. I continued implementing features while reviewing code, mentoring engineers, coordinating delivery, and helping manage the backlog.",
+  ]}
+  highlights={[
+    {
+      title: "Application architecture",
+      description: "I created the React application and a separate reusable component library in TypeScript.",
+    },
+    {
+      title: "Bundling and delivery",
+      description:
+        "I used Webpack for module bundling and production optimization, with Jenkins for CI, Sass/SMACSS, internationalization, and tests.",
+    },
+    {
+      title: "Team growth",
+      description:
+        "When more frontend engineers joined after the MVP, I continued coding while reviewing their work, mentoring them, and helping manage the backlog.",
+    },
+  ]}
+  evidence={[
+    {
+      src: "/work/piggy/piggy-current-homepage.webp",
+      alt: "Piggy.eu homepage today",
+      width: 1248,
+      height: 702,
+      caption: "Piggy.eu today.",
+    },
+  ]}
+  boundaries={[
+    "Web frontend architecture, hands-on implementation, and the reusable component library.",
+    "Frontend delivery, code review, mentoring, and backlog guidance as the team grew.",
+  ]}
+/>

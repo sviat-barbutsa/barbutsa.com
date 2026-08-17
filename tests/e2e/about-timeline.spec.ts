@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const expectedDates = [
-  "Apr 2020 - Present",
+  "Apr 2020 - Aug 2026",
   "Nov 2019 - Apr 2020",
   "Feb 2018 - Oct 2019",
   "Oct 2017 - Jan 2018",
@@ -18,8 +18,9 @@ test("About publishes the complete evidence-backed employer chronology", async (
   const entries = timeline.locator('[data-layout="timeline"]');
   await expect(entries).toHaveCount(8);
   await expect(entries.locator(".career-dates")).toHaveText(expectedDates);
-  await expect(timeline.getByText("Current", { exact: true })).toHaveCount(1);
-  await expect(timeline.locator("time")).toHaveCount(15);
+  await expect(timeline.getByText("Current", { exact: true })).toHaveCount(0);
+  await expect(timeline.getByText("Present", { exact: true })).toHaveCount(0);
+  await expect(timeline.locator("time")).toHaveCount(16);
 
   const eazegames = timeline.locator('[data-career-id="sharpminds-eazegames-2016-2017"]');
   await expect(eazegames.locator(".career-employer")).toHaveText("SharpMinds");
@@ -33,6 +34,10 @@ test("About publishes the complete evidence-backed employer chronology", async (
   const piggy = timeline.locator('[data-career-id="sharpminds-piggy-2018-2019"]');
   await expect(piggy.locator(".career-employer")).toHaveText("SharpMinds");
   await expect(piggy.locator(".career-client")).toHaveText("client: Piggy.eu");
+  await expect(piggy.getByRole("link", { name: "View historical case study" })).toHaveAttribute(
+    "href",
+    "/work/piggy-original-loyalty-frontend",
+  );
 
   const smileDirectClub = timeline.locator('[data-career-id="uvik-smiledirectclub-2019-2020"]');
   await expect(smileDirectClub.locator(".career-employer")).toHaveText("Uvik Software");
@@ -51,7 +56,7 @@ test("exact career dates remain readable across the supported viewport set", asy
     await page.setViewportSize({ width, height: 900 });
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
-    const firstEntry = page.locator('[data-career-id="fearless-little-2020-present"]');
+    const firstEntry = page.locator('[data-career-id="fearless-little-2020-2026"]');
     await expect(firstEntry.locator(".career-dates")).toBeVisible();
     await expect(firstEntry.locator(".career-entry")).toBeVisible();
 
@@ -65,7 +70,9 @@ test("exact career dates remain readable across the supported viewport set", asy
     }
   }
 
-  const caseStudyLink = page.getByRole("link", { name: "View historical case study" });
+  const caseStudyLink = page
+    .locator('[data-career-id="sharpminds-piggy-2018-2019"]')
+    .getByRole("link", { name: "View historical case study" });
   await caseStudyLink.focus();
   await expect(caseStudyLink).toBeFocused();
 });

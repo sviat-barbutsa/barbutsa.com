@@ -82,6 +82,7 @@ const {
   boundaries,
 } = Astro.props;
 const hero = evidence[0];
+const supportingEvidence = evidence.slice(1);
 const publicHost = publicUrl ? new URL(publicUrl).hostname.replace(/^www\./, "") : null;
 const heroAction =
   primaryAction ??
@@ -130,7 +131,7 @@ const structuredData = {
             <a class="case-study-back" href="/work">All selected work →</a>
           </div>
           {
-            publicUrl && publicHost && (
+            publicUrl && publicHost && heroAction?.href !== publicUrl && (
               <p class="case-study-live-url">
                 <span class="label" data-tone="signal">
                   LIVE URL
@@ -205,32 +206,38 @@ const structuredData = {
       }
     </section>
 
-    <section class="wrap region stack" aria-labelledby="case-study-evidence">
-      <p class="kick"><span class="idx">02</span> Interface evidence</p>
-      <h2 id="case-study-evidence" class="section-title">{evidenceTitle}</h2>
-      {evidenceIntro && <p class="text-dim measure">{evidenceIntro}</p>}
-      <div class="case-study-gallery" data-layout={galleryLayout}>
-        {
-          evidence.slice(1).map((image) => (
-            <figure data-format={image.format ?? "wide"}>
-              <img
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>{image.caption}</figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
+    {
+      supportingEvidence.length > 0 && (
+        <section class="wrap region stack" aria-labelledby="case-study-evidence">
+          <p class="kick">
+            <span class="idx">02</span> Interface evidence
+          </p>
+          <h2 id="case-study-evidence" class="section-title">
+            {evidenceTitle}
+          </h2>
+          {evidenceIntro && <p class="text-dim measure">{evidenceIntro}</p>}
+          <div class="case-study-gallery" data-layout={galleryLayout}>
+            {supportingEvidence.map((image) => (
+              <figure data-format={image.format ?? "wide"}>
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>{image.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <section class="wrap region case-study-boundary" aria-labelledby="case-study-boundary">
       <div class="stack">
-        <p class="kick"><span class="idx">03</span> Delivery boundary</p>
+        <p class="kick"><span class="idx">{supportingEvidence.length > 0 ? "03" : "02"}</span> Delivery boundary</p>
         <h2 id="case-study-boundary" class="section-title">{boundaryTitle}</h2>
       </div>
       <ul>

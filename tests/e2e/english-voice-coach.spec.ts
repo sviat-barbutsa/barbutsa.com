@@ -10,9 +10,11 @@ test("English Voice Coach opens a real evidence page with verified demos", async
   await expect(page.getByRole("heading", { level: 1, name: "English Voice Coach" })).toBeVisible();
   await expect(page.getByText("GOOGLE PLAY CLOSED TEST · IN REVIEW", { exact: true })).toBeVisible();
   await expect(
-    page.getByText("Earlier prototype captures used the working name English Practice", { exact: false }),
+    page.getByText("The product began under the working name English Practice", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("It is not pronunciation, accent, or fluency accuracy", { exact: false })).toBeVisible();
+  await expect(
+    page.getByText("pronunciation, accent, and fluency are outside this measurement", { exact: false }),
+  ).toBeVisible();
   await expect(page.getByText("Samsung SM-S938U1", { exact: false }).first()).toBeVisible();
 
   const demos = page.getByRole("link", { name: "Watch the four demo videos ↗" });

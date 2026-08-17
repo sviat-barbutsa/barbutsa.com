@@ -15,6 +15,14 @@ export const flagshipProjectCardCopy = {
     ownership: "Original frontend architecture",
     technologies: ["React", "Redux", "WebSockets"],
   },
+  piggy: {
+    tier: "supporting",
+    meta: "ARCHIVE · LOYALTY PLATFORM · 2018–19",
+    status: "PIGGY.EU TODAY",
+    summary: "Original loyalty and discount web frontend.",
+    ownership: "Frontend architecture, shared UI, and technical leadership",
+    technologies: ["React", "TypeScript", "MobX"],
+  },
   voiceCoach: {
     tier: "featured",
     meta: "INDEPENDENT PRODUCT · ANDROID · 2026",
@@ -27,15 +35,15 @@ export const flagshipProjectCardCopy = {
   llamail: {
     tier: "featured",
     meta: "INDEPENDENT SYSTEM · LOCAL-FIRST AI",
-    summary: "A private email agent with deterministic routing, hybrid retrieval, cited answers, and reviewed actions.",
+    summary: "A private email agent with hybrid retrieval, cited answers, and human-reviewed actions.",
     ownership: "Implemented architecture, retrieval, agents, and operator workflow",
     technologies: ["Python", "FastAPI", "llama.cpp"],
   },
   zharwingMemory: {
     tier: "supporting",
     meta: "OPEN SOURCE · LOCAL-FIRST · DEVELOPER PREVIEW",
-    summary: "Durable, project-scoped context across AI coding tools.",
-    ownership: "Designed and implemented end-to-end",
+    summary: "Sessions, decisions, diagrams, and handoffs for AI coding tools.",
+    ownership: "Implemented the Tauri app, TypeScript core, and MCP server",
     technologies: ["TypeScript", "Tauri", "MCP"],
   },
 } as const satisfies Record<string, FlagshipProjectCard>;

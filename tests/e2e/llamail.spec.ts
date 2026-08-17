@@ -10,8 +10,8 @@ test("Llamail opens a real self-hosted project page instead of a same-page ancho
   await expect(page.getByRole("heading", { level: 1, name: "Llamail" })).toBeVisible();
   await expect(page.locator('[data-case-study="llamail"]')).toBeVisible();
   await expect(page.getByText("Sable is the Telegram interface and operator persona", { exact: false })).toBeVisible();
-  await expect(page.getByText("Gmail and Telegram remain external services", { exact: false })).toBeVisible();
-  await expect(page.getByText("~3 seconds", { exact: false })).toBeVisible();
+  await expect(page.getByText("Gmail and Telegram provide the external mailbox", { exact: false })).toBeVisible();
+  await expect(page.getByText("about 3 seconds", { exact: false })).toBeVisible();
   await expect(page.getByRole("link", { name: "Read the implementation series →" })).toHaveAttribute(
     "href",
     "/articles/private-local-ai-email-agent",

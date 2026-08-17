@@ -11,19 +11,25 @@ test("flagship work publishes only cleared evidence and leads into live software
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
-  await expect(cards).toHaveCount(5);
+  await expect(cards).toHaveCount(6);
   await expect(cards.locator("h3")).toHaveText([
     "English Voice Coach",
     "Llamail",
     "EazeGames",
+    "Piggy.eu",
     "Zharwing Memory",
     "North Peak Appliance Repair",
   ]);
   await expect(selected.locator('[data-flagship-card][data-tier="featured"]')).toHaveCount(2);
-  await expect(selected.locator('[data-flagship-card][data-tier="supporting"]')).toHaveCount(3);
-  await expect(cards.locator('[data-card-action="primary"]')).toHaveCount(5);
-  await expect(cards.locator('[data-card-action="primary"].btn')).toHaveCount(5);
-  await expect(cards.locator('[data-card-action="media"]')).toHaveCount(5);
+  await expect(selected.locator('[data-flagship-card][data-tier="supporting"]')).toHaveCount(4);
+  await expect(cards.locator('[data-card-action="primary"]')).toHaveCount(6);
+  await expect(cards.locator('[data-card-action="primary"].btn')).toHaveCount(6);
+  await expect(cards.locator('[data-card-action="media"]')).toHaveCount(6);
+  expect(
+    await cards
+      .locator(".flagship-summary")
+      .evaluateAll((items) => items.every((item) => item.scrollHeight <= item.clientHeight)),
+  ).toBe(true);
   await expect(selected.locator(".flagship-availability, .flagship-context, .flagship-media-caption")).toHaveCount(0);
   await expect(selected.getByText("INDEPENDENT PRODUCT · ANDROID · 2026", { exact: true })).toBeVisible();
   await expect(selected.getByText("PRIVATE RELEASE CANDIDATE", { exact: true })).toBeVisible();
@@ -46,7 +52,9 @@ test("flagship work publishes only cleared evidence and leads into live software
 
   const memory = selected.locator('[data-flagship-card="zharwing-memory"]');
   await expect(memory).toHaveAttribute("data-tier", "supporting");
-  await expect(memory.getByText("Designed and implemented end-to-end", { exact: true })).toBeVisible();
+  await expect(
+    memory.getByText("Implemented the Tauri app, TypeScript core, and MCP server", { exact: true }),
+  ).toBeVisible();
   await expect(memory.locator(".flagship-tech")).toHaveText("TypeScript · Tauri · MCP");
   await expect(memory.locator('figure[data-media="product"]')).toBeVisible();
   await expect(memory.locator("img")).toHaveAttribute("src", "/work/zharwing-memory/zharwing-memory-dashboard.png");
@@ -60,7 +68,7 @@ test("flagship work publishes only cleared evidence and leads into live software
   const objectFits = await selected
     .locator(".flagship-media img")
     .evaluateAll((images) => images.map((image) => getComputedStyle(image).objectFit));
-  expect(objectFits).toEqual(["contain", "contain", "cover", "cover", "cover", "cover"]);
+  expect(objectFits).toEqual(["contain", "contain", "cover", "cover", "cover", "cover", "cover"]);
   await expect(selected.locator(".flagship-route")).toContainText("TELEGRAM");
   await expect(selected.locator(".flagship-route")).toContainText("LOCAL LLM / HYBRID RAG");
 
@@ -83,12 +91,14 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   const first = await featured.nth(0).boundingBox();
   const second = await featured.nth(1).boundingBox();
   const archive = await supporting.nth(0).boundingBox();
-  const memory = await supporting.nth(1).boundingBox();
-  const northPeak = await supporting.nth(2).boundingBox();
+  const piggy = await supporting.nth(1).boundingBox();
+  const memory = await supporting.nth(2).boundingBox();
+  const northPeak = await supporting.nth(3).boundingBox();
   expect(gridBox).not.toBeNull();
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
   expect(archive).not.toBeNull();
+  expect(piggy).not.toBeNull();
   expect(memory).not.toBeNull();
   expect(northPeak).not.toBeNull();
 
@@ -104,22 +114,22 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   expect(archive!.width).toBeGreaterThanOrEqual(320);
   expect(archive!.width).toBeLessThanOrEqual(380);
   expect(archive!.height).toBeLessThanOrEqual(560);
+  expect(piggy!.width).toBe(archive!.width);
+  expect(Math.abs(piggy!.height - archive!.height)).toBeLessThan(1);
   expect(memory!.width).toBe(archive!.width);
   expect(Math.abs(memory!.height - archive!.height)).toBeLessThan(1);
   expect(northPeak!.width).toBe(archive!.width);
-  expect(Math.abs(northPeak!.height - archive!.height)).toBeLessThan(1);
   const supportingActionTops = await supporting
     .locator('[data-card-action="primary"]')
     .evaluateAll((buttons) => buttons.map((button) => Math.round(button.getBoundingClientRect().top)));
-  expect(new Set(supportingActionTops).size).toBe(1);
+  expect(new Set(supportingActionTops.slice(0, 3)).size).toBe(1);
+  expect(Math.abs(archive!.y - piggy!.y)).toBeLessThan(1);
   expect(Math.abs(archive!.y - memory!.y)).toBeLessThan(1);
-  expect(Math.abs(archive!.y - northPeak!.y)).toBeLessThan(1);
   expect(archive!.y).toBeGreaterThan(first!.y + Math.max(first!.height, second!.height));
   expect(Math.abs(archive!.x - gridBox!.x)).toBeLessThan(1);
-  expect(Math.abs(northPeak!.x + northPeak!.width - (gridBox!.x + gridBox!.width))).toBeLessThan(1);
-  expect(
-    await supporting.evaluateAll((cards) => cards.every((card) => !card.hasAttribute("data-supporting-tail"))),
-  ).toBe(true);
+  expect(northPeak!.y).toBeGreaterThan(archive!.y + archive!.height);
+  expect(Math.abs(northPeak!.x + northPeak!.width / 2 - (gridBox!.x + gridBox!.width / 2))).toBeLessThan(1);
+  await expect(supporting.nth(3)).toHaveAttribute("data-supporting-tail", "1");
 
   const presentation = await grid.evaluate((node) => ({
     columns: getComputedStyle(node).gridTemplateColumns.split(" ").length,
@@ -192,10 +202,11 @@ test("work index exposes real anchors without publishing gated projects", async 
 
   await expect(page.locator("#english-voice-coach")).toBeVisible();
   const published = page.getByRole("region", { name: "Published project overviews", exact: true });
-  await expect(published.locator("[data-flagship-card]")).toHaveCount(5);
+  await expect(published.locator("[data-flagship-card]")).toHaveCount(6);
   await expect(published.getByRole("heading", { name: "English Voice Coach", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "Llamail", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "EazeGames", exact: true })).toBeVisible();
+  await expect(published.getByRole("heading", { name: "Piggy.eu", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "Zharwing Memory", exact: true })).toBeVisible();
 
   await expect(page.getByRole("region", { name: "Not published as product work yet.", exact: true })).toHaveCount(0);
@@ -219,24 +230,18 @@ test("flagship cards reflow after a compact interactive mobile atlas", async ({ 
   expect(warsawBox).not.toBeNull();
 
   const cards = page.locator('[data-home-section="selected-work"] [data-flagship-card]');
-  const first = await cards.nth(0).boundingBox();
-  const second = await cards.nth(1).boundingBox();
-  const third = await cards.nth(2).boundingBox();
-  const fourth = await cards.nth(3).boundingBox();
-  const fifth = await cards.nth(4).boundingBox();
-  expect(first).not.toBeNull();
-  expect(second).not.toBeNull();
-  expect(third).not.toBeNull();
-  expect(fourth).not.toBeNull();
-  expect(fifth).not.toBeNull();
-  expect(first!.height).toBeLessThanOrEqual(560);
-  expect(second!.height).toBeLessThanOrEqual(560);
-  expect(third!.height).toBeLessThanOrEqual(500);
-  expect(fourth!.height).toBeLessThanOrEqual(500);
-  expect(fifth!.height).toBeLessThanOrEqual(500);
-  expect(second!.y).toBeGreaterThanOrEqual(first!.y + first!.height);
-  expect(third!.y).toBeGreaterThanOrEqual(second!.y + second!.height);
-  expect(fourth!.y).toBeGreaterThanOrEqual(third!.y + third!.height);
-  expect(fifth!.y).toBeGreaterThanOrEqual(fourth!.y + fourth!.height);
+  expect(
+    await cards
+      .locator(".flagship-summary")
+      .evaluateAll((items) => items.every((item) => item.scrollHeight <= item.clientHeight)),
+  ).toBe(true);
+  const boxes = await cards.evaluateAll((items) => items.map((item) => item.getBoundingClientRect().toJSON()));
+  expect(boxes).toHaveLength(6);
+  expect(boxes[0].height).toBeLessThanOrEqual(560);
+  expect(boxes[1].height).toBeLessThanOrEqual(560);
+  for (const box of boxes.slice(2)) expect(box.height).toBeLessThanOrEqual(510);
+  for (let index = 1; index < boxes.length; index += 1) {
+    expect(boxes[index].y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
+  }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(375);
 });

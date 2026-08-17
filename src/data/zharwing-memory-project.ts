@@ -8,11 +8,11 @@ export const zharwingMemoryProject = {
   status: "developer-preview",
   statusLabel: "LOCAL SOFTWARE · DEVELOPER PREVIEW",
   summary:
-    "A project-scoped memory layer for AI-assisted coding workflows, with sessions, decisions, diagrams, search, graph relationships, and intentional context handoffs.",
-  ownership: "Independent product · Designed and implemented end-to-end",
+    "A local project memory system that stores coding sessions, decisions, diagrams, and handoff notes. The desktop app shows their relationships, while MCP exposes session context and search to coding tools.",
+  ownership: "Independent product · Tauri desktop app, TypeScript core, React UI, and MCP server",
   technologies: ["TypeScript", "Tauri", "React", "MCP", "Markdown"],
   availability:
-    "Open-source developer preview that runs locally from source. The public website documents the product; it is not a hosted memory service.",
+    "Open-source developer preview that runs locally from source. The public website contains documentation and screenshots.",
   publicationState: "published",
   publicationGate: null,
   card: flagshipProjectCardCopy.zharwingMemory,

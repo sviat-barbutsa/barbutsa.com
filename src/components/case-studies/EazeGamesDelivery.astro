@@ -7,7 +7,7 @@ import {
 
 <section class="wrap region eaze-reading stack" aria-labelledby="realtime-title">
   <p class="kick"><span class="idx">05</span> Real-time product complexity</p>
-  <h2 id="realtime-title" class="section-title">Live state had to remain legible, not merely fast.</h2>
+  <h2 id="realtime-title" class="section-title">Keeping live competition state understandable.</h2>
   <ul class="eaze-list eaze-list-wide">
     {realTimeComplexity.map((item) => <li>{item}</li>)}
   </ul>
@@ -16,47 +16,51 @@ import {
 <section class="wrap region eaze-split" aria-label="Foundation and delivery">
   <div class="stack">
     <p class="kick"><span class="idx">06</span> Reusable foundation</p>
-    <h2 class="section-title">Shared conventions before “design system” became the default label.</h2>
+    <h2 class="section-title">A shared component and utility library.</h2>
     <p>
-      I created a reusable component and utility library that became the frontend foundation as the product and team
-      expanded. This reduced repeated implementation work and provided shared interaction and styling conventions across
-      authenticated flows.
+      I created the shared library as the product expanded. It gave the growing frontend team one place for reusable
+      components, utilities, and interaction conventions.
     </p>
   </div>
   <div class="stack">
     <p class="kick"><span class="idx">07</span> Delivery & team growth</p>
-    <h2 class="section-title">From two people to a six-person team and production delivery.</h2>
+    <h2 class="section-title">The frontend team grew from two to six.</h2>
     <p>
-      I joined the initial two-person team. After the prototype proved successful, the project budget and team expanded
-      to six. I set up frontend CI, participated in client planning and estimation, reviewed code, interviewed
-      candidates, and mentored junior developers through production delivery.
+      I joined a two-person frontend team. After the prototype phase, the client expanded it to six contributors. I set
+      up frontend CI, joined client planning and estimation, reviewed code, interviewed candidates, and mentored junior
+      developers through production delivery.
     </p>
   </div>
 </section>
 
 <section class="wrap region stack" aria-labelledby="outcome-title">
-  <p class="kick"><span class="idx">08</span> Outcome & durability</p>
-  <h2 id="outcome-title" class="section-title">Supported outcomes, without borrowing today’s metrics.</h2>
+  <p class="kick"><span class="idx">08</span> Delivery record</p>
+  <h2 id="outcome-title" class="section-title">What shipped during the engagement.</h2>
   <div class="eaze-outcomes">
-    <p><strong>~1.5 years</strong><span>Original frontend delivered to production</span></p>
-    <p><strong>2 → 6</strong><span>Team growth following prototype success</span></p>
-    <p><strong>Version 1</strong><span>Shared UI and utility foundation for the growing codebase</span></p>
-    <p><strong>Active today</strong><span>Independently evolved product, maintained by EazeGames</span></p>
+    <p><strong>Production</strong><span>Original frontend launched during the engagement</span></p>
+    <p><strong>2 → 6</strong><span>Frontend team expanded after the prototype phase</span></p>
+    <p><strong>Version 1</strong><span>Shared components and utilities for the growing frontend</span></p>
+    <p><strong>Frontend CI</strong><span>Automated frontend delivery workflow</span></p>
   </div>
 </section>
 
 <section class="wrap region eaze-retrospective" aria-labelledby="retrospective-title">
   <div class="stack">
     <p class="kick"><span class="idx">09</span> Historical retrospective</p>
-    <h2 id="retrospective-title" class="section-title">What the Webpack 2 era taught me.</h2>
+    <h2 id="retrospective-title" class="section-title">What I learned about live state and bundling.</h2>
     <p>
-      This project predates today’s mature React frameworks and typed full-stack contracts. It taught me how to
-      structure a large client application, isolate integration boundaries, create reusable UI foundations, and manage
-      real-time product state while a product and team were both growing.
+      WebSocket events changed competition progress, rankings, wallet balances, and account state as players used the
+      platform. Redux gave those updates a predictable data flow. I kept game, competition, wallet, and account state in
+      separate parts of the store so the team could add features within clear areas of the application.
+    </p>
+    <p>
+      Webpack bundled modules, split code into smaller chunks, processed images and other assets, and minified
+      production JavaScript and CSS. Code splitting reduced the initial download, while the asset pipeline kept the
+      growing frontend practical to load and ship.
     </p>
   </div>
   <div class="panel stack">
-    <h3 class="panel-title">How I would approach it today</h3>
+    <h3 class="panel-title">What I would change today</h3>
     <ul class="eaze-list">
       {modernApproach.map((item) => <li>{item}</li>)}
     </ul>
@@ -64,22 +68,12 @@ import {
 </section>
 
 <aside class="wrap region eaze-continuity stack" aria-labelledby="continuity-title">
-  <p class="kick"><span class="idx">LIVE</span> Product continuity</p>
-  <h2 id="continuity-title" class="section-title">Current product context, clearly separated from my work.</h2>
-  <p class="measure">
-    EazeGames remains active today. Its current team has substantially redesigned and further developed the product
-    since my engagement. Visit the current product for context; the live interface and current implementation are not
-    presented as my work.
-  </p>
+  <p class="kick"><span class="idx">TODAY</span> Current product</p>
+  <h2 id="continuity-title" class="section-title">EazeGames today.</h2>
+  <p class="measure">EazeGames is still active today.</p>
   <p>
     <a class="btn" data-kind="ghost" href="https://eazegames.com/" target="_blank" rel="noopener noreferrer">
-      Current product, maintained by EazeGames ↗
+      Visit EazeGames today ↗
     </a>
-  </p>
-  <p class="eaze-disclaimer">
-    I designed the frontend architecture and implemented the original web application during my 2016-2017 engagement.
-    EazeGames remains an active product and has since been redesigned and further developed by its current team. The
-    archival screenshots above document the Version 1 interface I worked on; the live site is linked only for current
-    product context.
   </p>
 </aside>
