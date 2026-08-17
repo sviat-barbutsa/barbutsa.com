@@ -2,6 +2,10 @@ import { expect, type APIRequestContext, type Page } from "@playwright/test";
 
 export const PRODUCTION_ORIGIN = "https://barbutsa.com";
 
+/* Public routes deliberately kept out of the sitemap (noindex) that the crawls
+   must still cover: they are real production pages. */
+export const UNLISTED_ROUTES = ["/styleguide"];
+
 export interface SitemapInventory {
   routes: string[];
   sitemapPaths: string[];
@@ -54,9 +58,13 @@ export async function loadSitemapInventory(page: Page, request: APIRequestContex
     routeLocations.push(...(await parseLocations(page, sitemapXml, "urlset")));
   }
 
-  const routes = routeLocations.map((location) => productionUrl(location).pathname);
-  expect(routes.length, "The sitemap should contain generated routes").toBeGreaterThan(0);
-  expect(new Set(routes).size, "The sitemap should not contain duplicate routes").toBe(routes.length);
+  const sitemapRoutes = routeLocations.map((location) => productionUrl(location).pathname);
+  expect(sitemapRoutes.length, "The sitemap should contain generated routes").toBeGreaterThan(0);
+  expect(new Set(sitemapRoutes).size, "The sitemap should not contain duplicate routes").toBe(sitemapRoutes.length);
+  for (const unlisted of UNLISTED_ROUTES) {
+    expect(sitemapRoutes, `${unlisted} is noindex and must stay out of the sitemap`).not.toContain(unlisted);
+  }
+  const routes = [...sitemapRoutes, ...UNLISTED_ROUTES];
 
   return { routes, sitemapPaths };
 }

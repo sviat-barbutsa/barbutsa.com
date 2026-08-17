@@ -11,7 +11,8 @@ export default defineConfig({
   trailingSlash: "never",
   integrations: [
     sitemap({
-      filter: (page) => new URL(page).pathname !== "/articles/page/1",
+      // /articles/page/1 duplicates /articles; /styleguide is a living reference, not content
+      filter: (page) => !["/articles/page/1", "/styleguide"].includes(new URL(page).pathname),
     }),
   ],
   markdown: {

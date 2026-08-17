@@ -42,6 +42,8 @@ interface Props {
   coverAlt?: string;
   /** where an article was first published; becomes BlogPosting.isBasedOn */
   originalUrl?: string;
+  /** keep the page out of search results (it stays linkable and crawlable) */
+  noindex?: boolean;
   structuredData?: Record<string, unknown> | readonly Record<string, unknown>[];
 }
 
@@ -55,6 +57,7 @@ const {
   cover,
   coverAlt,
   originalUrl,
+  noindex = false,
   structuredData,
 } = Astro.props;
 const pageTitle = documentTitle ?? (title ? `${title} - ${site.name}` : `${site.name} - ${site.role}`);
@@ -105,6 +108,14 @@ const jsonLd = {
     ...structuredNodes,
   ],
 };
+/* JSON placed inside a <script> data block: JSON.stringify does not escape "<",
+   so authored text containing "</script" would end the block early. Escape it
+   (and the two Unicode line separators that are not valid in JS source). */
+const jsonForScript = (value: unknown): string =>
+  JSON.stringify(value)
+    .replace(/</g, "\\u003c")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 const speculationRules = {
   prerender: [
     {
@@ -125,7 +136,7 @@ const speculationRules = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
     <meta name="theme-color" content={PALETTE.ink} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -152,7 +163,7 @@ const speculationRules = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" is:inline set:html={jsonForScript(jsonLd)} />
 
     <!-- theme bootstrap - runs before the stylesheet paints. Applies only
          a STORED choice (no stored choice → tokens.css defaults to dark,
@@ -187,7 +198,7 @@ const speculationRules = {
 
     <!-- speculation rules: prerender internal links on interaction intent.
          Unsupported browsers just ignore the script tag. -->
-    <script type="speculationrules" is:inline set:html={JSON.stringify(speculationRules)} />
+    <script type="speculationrules" is:inline set:html={jsonForScript(speculationRules)} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
