@@ -1,7 +1,6 @@
 # Writing and publishing articles
 
-_Operational how-to for the content pipeline. The README says what it is and why; this is the sequence when you
-actually write and publish._
+_Reminder for anyone (including future me) on how articles get written and shipped here._
 
 Articles are Markdown files in `src/content/articles/` with typed frontmatter (`src/content.config.ts`). The schema is
 the gate: a missing summary, malformed date, or broken cover image fails the build.

@@ -50,3 +50,18 @@ test("About consumes the shared recruiter identity without horizontal overflow",
   await expectWithinViewport(page, aboutIdentity);
   await expectWithinViewport(page, footerIdentity);
 });
+
+test("republished articles name where they first appeared, visibly and in JSON-LD", async ({ page }) => {
+  await page.goto("/articles/three-tier-memory-system-for-ai-coding");
+
+  const origin = page.locator(".article-origin a");
+  await expect(origin).toHaveText(/Medium/);
+  await expect(origin).toHaveAttribute("href", /^https:\/\/medium\.com\//);
+  await expect(origin).toHaveAttribute("rel", "noopener noreferrer");
+
+  const isBasedOn = await page.locator('script[type="application/ld+json"]').evaluate((node) => {
+    const graph = JSON.parse(node.textContent ?? "")["@graph"] as Array<Record<string, unknown>>;
+    return graph.find((entry) => entry["@type"] === "BlogPosting")?.isBasedOn;
+  });
+  expect(isBasedOn).toMatch(/^https:\/\/medium\.com\//);
+});

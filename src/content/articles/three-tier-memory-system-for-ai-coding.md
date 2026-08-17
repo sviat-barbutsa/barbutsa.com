@@ -5,9 +5,9 @@ category: "AI Engineering"
 readTime: "9 min"
 summary: "Agents fail at onboarding, not code generation. A map first, a subsystem second, raw source last - and the context cost of a large codebase drops sharply."
 draft: false
+originalPlatform: "Medium"
+originalUrl: "https://medium.com/@sviatoslavbarbutsa/the-3-tier-memory-system-that-cut-my-ai-coding-context-by-96-469165635deb"
 ---
-
-<!-- Originally published on Medium: https://medium.com/@sviatoslavbarbutsa/the-3-tier-memory-system-that-cut-my-ai-coding-context-by-96-469165635deb -->
 
 ![The 3-Tier Memory for AI Coding Agents](./three-tier-memory-system-for-ai-coding/image-01.png)
 

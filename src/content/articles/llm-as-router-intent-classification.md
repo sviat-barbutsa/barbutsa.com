@@ -5,9 +5,9 @@ category: "AI Engineering"
 readTime: "11 min"
 summary: "A local LLM routes Telegram messages to intent handlers: slash commands first, natural language as the fallback, and only when nothing cheaper parses."
 draft: false
+originalPlatform: "dev.to"
+originalUrl: "https://dev.to/sviat_barbutsa/llm-as-router-intent-classification-for-a-local-telegram-email-agent-23l6"
 ---
-
-<!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/llm-as-router-intent-classification-for-a-local-telegram-email-agent-23l6 -->
 
 In the first article, I showed the whole Llamail system: Gmail, Telegram, n8n, FastAPI, llama.cpp, SQLite, ChromaDB, and a local synthetic assistant named Sable.
 

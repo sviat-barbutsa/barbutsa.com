@@ -5,9 +5,9 @@ category: "AI Integration"
 readTime: "7 min"
 summary: "A local LLM turns CSV rows into individualized Gmail campaigns, with preview, throttled sending, thread-based reply tracking, and classification."
 draft: false
+originalPlatform: "dev.to"
+originalUrl: "https://dev.to/sviat_barbutsa/llm-personalized-email-campaigns-with-python-gmail-and-local-ai-3gde"
 ---
-
-<!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/llm-personalized-email-campaigns-with-python-gmail-and-local-ai-3gde -->
 
 While standard mail merge tools simply swap tags like {first_name} into a static template and call it personalization, small outreach campaigns need a far more authentic approach. By combining a company name, optional contact details, and specific company notes, a system powered by a local LLM can naturally rewrite the entire body of each email for every individual recipient - delivering truly custom outreach rather than just filled-in placeholders.
 

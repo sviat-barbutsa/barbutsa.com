@@ -5,9 +5,9 @@ category: "AI Engineering"
 readTime: "16 min"
 summary: "Treating the most expensive model as an R&D department instead of a coder: it plans, a critic reviews, cheaper agents execute. With the measured ledger."
 draft: false
+originalPlatform: "Medium"
+originalUrl: "https://medium.com/@sviatoslavbarbutsa/how-i-nearly-doubled-my-premium-model-capacity-without-paying-more-360da7494e29"
 ---
-
-<!-- Originally published on Medium: https://medium.com/@sviatoslavbarbutsa/how-i-nearly-doubled-my-premium-model-capacity-without-paying-more-360da7494e29 -->
 
 ### Treat your most expensive model as an R&D department instead of trying to make it a coder: Fable plans and orchestrates, GPT-5.5 Pro attacks the plans, and Opus and Codex execute - on their own token budgets.
 

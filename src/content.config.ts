@@ -18,6 +18,9 @@ const articles = defineCollection({
       draft: z.boolean().default(false),
       // Optional hero/OG image; a broken path fails the build like any other field.
       cover: image().optional(),
+      // where the piece was first published; rendered as a visible line on the page
+      originalPlatform: z.enum(["Medium", "dev.to", "freeCodeCamp"]).optional(),
+      originalUrl: z.string().url().optional(),
     }),
 });
 

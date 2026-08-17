@@ -40,6 +40,8 @@ interface Props {
   section?: string;
   cover?: ImageMetadata | string;
   coverAlt?: string;
+  /** where an article was first published; becomes BlogPosting.isBasedOn */
+  originalUrl?: string;
   structuredData?: Record<string, unknown> | readonly Record<string, unknown>[];
 }
 
@@ -52,6 +54,7 @@ const {
   section,
   cover,
   coverAlt,
+  originalUrl,
   structuredData,
 } = Astro.props;
 const pageTitle = documentTitle ?? (title ? `${title} - ${site.name}` : `${site.name} - ${site.role}`);
@@ -95,6 +98,7 @@ const jsonLd = {
             image: ogImage.href,
             author: { "@id": `${site.url}/#person` },
             mainEntityOfPage: canonicalUrl.href,
+            ...(originalUrl ? { isBasedOn: originalUrl } : {}),
           },
         ]
       : []),

@@ -1,7 +1,6 @@
 # Personal Atlas
 
-Source of [barbutsa.com](https://barbutsa.com) - my personal site: writing, selected work, a few small tools I keep
-online. It is a static Astro 7 site served as Cloudflare Workers static assets. There is no client framework; the
+Source of [barbutsa.com](https://barbutsa.com) - my personal site: writing, selected work, and a few small tools I created, use myself, and keep online for anyone who finds them handy. It is a static Astro 7 site served as Cloudflare Workers static assets. There is no client framework; the
 interactive parts (the SVG atlas in the hero, the theme switch, the command line, the status bar) are small
 hand-written TypeScript modules with the same rules applied to each of them.
 
@@ -32,9 +31,7 @@ The site is small on purpose, so most of the interesting decisions sit in a hand
 
 ## What is on the site
 
-Home (hero atlas, doctrine line, selected work, recent writing), articles (a Markdown content collection with
-typed frontmatter and pagination), work and case studies, a lab page listing the tools that are live, a
-styleguide, about, contact, RSS and sitemap.
+Home (hero atlas, doctrine line, selected work, recent writing), articles, work and case studies, a lab page listing the tools that are live, a styleguide, about, contact, RSS and sitemap. Articles are a Markdown content collection with typed frontmatter and pagination. Every article on the site was first published on a tech platform - Medium, dev.to or freeCodeCamp - and each page says so and links back to the original.
 
 Two things you will notice on the home page:
 
@@ -54,8 +51,7 @@ through the Cloudflare adapter - that trigger is written in `astro.config.mjs`.
 
 - `src/layouts/Layout.astro` is the only head owner: title pattern, meta, canonical, Open Graph, JSON-LD, the
   pre-paint theme bootstrap and the speculation rules all come from here.
-- `src/data/*.ts` and `*.json` hold typed site content (identity, projects, timeline). Components render it;
-  they do not define it.
+- `src/data/*.ts` and `*.json` hold typed site content (identity, projects, timeline). Components are just Views that render it.
 - `src/content.config.ts` is the article schema. A malformed date, a missing summary or a broken cover image
   fails the build.
 - `src/lib/content/article-policy.ts` is the one place that decides which articles are published and in what
@@ -70,7 +66,7 @@ unit-testable in Node without a DOM. Each Astro component's `<script>` block is 
 the real browser capabilities in.
 
 **Animation has house rules.** They are the same for the atlas, the typewriter, the canvas engine behind the
-game, and the theme transition: reduced motion means a static state and zero timers; nothing runs while
+game (Yes, there is a mini-game somewhere on the website - an Easter egg. Can you find it?), and the theme transition: reduced motion means a static state and zero timers; nothing runs while
 off-screen or in a hidden tab; everything registers with the pause registry so a theme-switch snapshot never
 captures a mid-frame; motion never owns the state change (the theme is committed exactly once whether the
 animation runs, is rejected or fails, and a failed animation downgrades the strategy for the rest of the
@@ -120,7 +116,7 @@ model-checking lane; the decision surfaces here are small enough to enumerate by
 Honest limits of the evidence: the browser tests run on Chromium only (desktop and mobile emulation); there is
 no branded-browser, real-device or screen-reader run.
 
-Lighthouse is not part of the gate - a performance score is a measurement, and the gate holds structural
+Lighthouse's performance score is a measurement, and the gate holds structural
 things instead (static output, hashed immutable assets, self-hosted preloaded fonts, no client framework, images
 sized at build time). For the record, the home page scores 100 / 100 / 100 / 100 (performance, accessibility,
 best practices, SEO) in Chrome DevTools on desktop, 2026-08-16:
@@ -137,13 +133,11 @@ Do not take the screenshot's word for it - run it yourself on
   dependencies for a weaker version of what the build already enforces. If remote editing ever becomes a
   recurring need, the plan is a git-backed panel (Sveltia CMS as a static `/admin` page committing through the
   GitHub API). It ships as plain static assets, so it cannot affect public routes. Not built until needed.
-- **OS colour scheme is ignored.** Dark is the brand default; light is a choice, not a mirror of the system.
+- **OS colour scheme is ignored.** Dark is the brand default becasue my original idea was about the terminal vibes.
   It is written down in `tokens.css` and `src/theme/state.ts` and tested, so it is a policy, not an accident.
 - **Hard size budgets.** Files stay under 250 lines and functions under 120 (`scripts/budgets.mjs`, applied by
   ESLint for TypeScript and by the architecture script for `.astro` and `.css`). This is a backstop for a
-  one-person codebase, not a design tool: when it fires the answer is a better boundary, not a smaller file.
-- **The canvas engine stayed.** The atlas moved from Canvas to SVG (the old files are banned by name in the
-  architecture check so they cannot come back); the generic Canvas engine remains because the game uses it.
+  one-person codebase, just in case: when it fires the answer is a better boundary without a mechanical file size reducing.
 - **`/styleguide` is a production route.** It renders through the same layout and imports as every other page,
   so it doubles as a living check that the tokens and components still compose.
 

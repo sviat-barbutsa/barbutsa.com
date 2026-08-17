@@ -5,9 +5,9 @@ category: "AI Engineering"
 readTime: "10 min"
 summary: "Semantic search misses exact IDs; keyword search misses concepts. Merging ChromaDB and SQLite FTS5 with weighted scoring across an 18,000-email mailbox."
 draft: false
+originalPlatform: "dev.to"
+originalUrl: "https://dev.to/sviat_barbutsa/how-search-and-ask-work-local-hybrid-rag-with-chromadb-sqlite-fts5-226c"
 ---
-
-<!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/how-search-and-ask-work-local-hybrid-rag-with-chromadb-sqlite-fts5-226c -->
 
 _This is the second article in a five-part series about creating Llamail, a private local AI email agent._
 

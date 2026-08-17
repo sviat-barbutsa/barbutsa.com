@@ -5,9 +5,9 @@ category: "AI Integration"
 readTime: "9 min"
 summary: "The Gmail API details that quietly shaped a local email agent: history-based sync, label semantics, threading, and the failure modes each one hides."
 draft: false
+originalPlatform: "dev.to"
+originalUrl: "https://dev.to/sviat_barbutsa/behind-the-build-hidden-headaches-of-a-local-gmail-ai-agent-2h5g"
 ---
-
-<!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/behind-the-build-hidden-headaches-of-a-local-gmail-ai-agent-2h5g -->
 
 In the first article, I showed the whole Llamail system: Gmail, Telegram, n8n, FastAPI, llama.cpp, SQLite, ChromaDB, and a local synthetic assistant named Sable.
 

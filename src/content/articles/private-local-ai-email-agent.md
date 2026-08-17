@@ -5,9 +5,9 @@ category: "AI Integration"
 readTime: "12 min"
 summary: "18,000 emails, a Llama model on a consumer laptop GPU, and a Telegram bot. Search, summaries, and drafts without sending anything to a cloud provider."
 draft: false
+originalPlatform: "dev.to"
+originalUrl: "https://dev.to/sviat_barbutsa/from-inbox-to-character-building-a-private-local-ai-email-agent-c3k"
 ---
-
-<!-- Originally published on dev.to: https://dev.to/sviat_barbutsa/from-inbox-to-character-building-a-private-local-ai-email-agent-c3k -->
 
 There are 18k+ emails in my personal inbox, and it's only one of the accounts I have. I wanted to search through them semantically, get AI summaries, draft replies, and run email campaigns - all from my phone. I didn't want OpenAI reading my emails or Google's AI. Or anyone's. For me, local AI is the only real answer for private data processing because no one can read your data or train their models on your data while you're paying for the service.
 

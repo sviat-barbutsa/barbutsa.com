@@ -28,6 +28,7 @@ const fmt = article.data.date.toLocaleDateString("en-US", {
   publishedTime={article.data.date}
   section={article.data.category}
   cover={article.data.cover}
+  originalUrl={article.data.originalUrl}
 >
   <article class="article-report wrap region stack" style="--flow: var(--space-l);">
     <header class="article-header stack" style="--flow: var(--space-m);">
@@ -39,6 +40,16 @@ const fmt = article.data.date.toLocaleDateString("en-US", {
       <p class="article-summary text-dim">
         {article.data.summary}
       </p>
+      {
+        article.data.originalUrl && article.data.originalPlatform && (
+          <p class="label article-origin">
+            First published on{" "}
+            <a href={article.data.originalUrl} target="_blank" rel="noopener noreferrer">
+              {article.data.originalPlatform} ↗
+            </a>
+          </p>
+        )
+      }
     </header>
 
     <div class="prose">
