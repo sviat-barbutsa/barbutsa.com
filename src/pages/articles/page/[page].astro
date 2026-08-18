@@ -35,7 +35,7 @@ const nextUrl = page.currentPage < page.lastPage ? `/articles/page/${page.curren
     <h1 class="page-title" data-measure="narrow">Notes from production.</h1>
   </div>
 
-  <section class="wrap region stack" aria-label="Articles">
+  <section class="wrap region stack articles-index-region" aria-label="Articles">
     <ArticleList articles={page.data} />
     <Pager current={page.currentPage} last={page.lastPage} prevUrl={prevUrl} nextUrl={nextUrl} />
   </section>

@@ -6,7 +6,7 @@ test("Piggy.eu is a historical frontend card with confident present-day attribut
   await page.goto("/");
 
   const card = page.locator('[data-flagship-card="piggy-original-loyalty-frontend"]');
-  await expect(card).toHaveAttribute("data-tier", "supporting");
+  await expect(card).toHaveAttribute("data-tier", "featured");
   await expect(card).toContainText("ARCHIVE · LOYALTY PLATFORM · 2018–19");
   await expect(card).toContainText("PIGGY.EU TODAY");
   await expect(card.locator(".flagship-tech")).toHaveText("React · TypeScript · MobX");

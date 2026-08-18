@@ -38,7 +38,13 @@ const screenshotOptions = {
   animations: "disabled" as const,
   caret: "hide" as const,
   fullPage: true,
-  style: "[data-pulse] { visibility: hidden !important; }",
+  style: `
+    [data-pulse],
+    astro-dev-toolbar,
+    [data-astro-dev-toolbar] {
+      visibility: hidden !important;
+    }
+  `,
 };
 
 test.describe("visual regression", () => {

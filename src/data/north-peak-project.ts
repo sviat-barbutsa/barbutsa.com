@@ -15,6 +15,7 @@ export const northPeakProject = {
   publicationGate: null,
   card: {
     tier: "supporting",
+    order: 70,
     meta: "CLIENT SITE · WORDPRESS · 2026",
     status: "LIVE CLIENT WEBSITE",
     summary: "Booking site with appliance guides and ZIP coverage.",

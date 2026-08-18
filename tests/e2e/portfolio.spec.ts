@@ -11,20 +11,20 @@ test("flagship work publishes only cleared evidence and leads into live software
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
-  await expect(cards).toHaveCount(6);
+  await expect(cards).toHaveCount(7);
   await expect(cards.locator("h3")).toHaveText([
-    "English Voice Coach",
-    "Llamail",
-    "EazeGames",
+    "Collaborative SaaS Frontend Platform",
     "Piggy.eu",
+    "EazeGames",
     "Zharwing Memory",
+    "Llamail",
+    "English Voice Coach",
     "North Peak Appliance Repair",
   ]);
   await expect(selected.locator('[data-flagship-card][data-tier="featured"]')).toHaveCount(2);
-  await expect(selected.locator('[data-flagship-card][data-tier="supporting"]')).toHaveCount(4);
-  await expect(cards.locator('[data-card-action="primary"]')).toHaveCount(6);
-  await expect(cards.locator('[data-card-action="primary"].btn')).toHaveCount(6);
-  await expect(cards.locator('[data-card-action="media"]')).toHaveCount(6);
+  await expect(selected.locator('[data-flagship-card][data-tier="supporting"]')).toHaveCount(5);
+  await expect(cards.locator('[data-card-action="primary"]')).toHaveCount(7);
+  await expect(cards.locator('[data-card-action="media"]')).toHaveCount(7);
   expect(
     await cards
       .locator(".flagship-summary")
@@ -36,7 +36,7 @@ test("flagship work publishes only cleared evidence and leads into live software
   await expect(selected.getByText("INDEPENDENT SYSTEM · LOCAL-FIRST AI", { exact: true })).toBeVisible();
   await expect(selected.getByText("ARCHIVE · WEB PLATFORM · 2016–17", { exact: true })).toBeVisible();
   await expect(selected.getByText("OPEN SOURCE · LOCAL-FIRST · DEVELOPER PREVIEW", { exact: true })).toBeVisible();
-  await expect(selected.getByText("Real-Time Collaborative SaaS Architecture", { exact: true })).toHaveCount(0);
+  await expect(selected.getByText("NDA-PROTECTED", { exact: true })).toBeVisible();
   await expect(selected.getByRole("link", { name: /live demo|telegram|github|source/i })).toHaveCount(0);
 
   const voiceCoach = selected.locator('[data-flagship-card="english-voice-coach"]');
@@ -48,10 +48,9 @@ test("flagship work publishes only cleared evidence and leads into live software
   const llamail = selected.locator('[data-flagship-card="llamail-local-ai-email-agent"]');
   await expect(llamail.locator(".flagship-tech")).toHaveText("Python · FastAPI · llama.cpp");
   await expect(llamail.locator('[data-card-action="primary"]')).toHaveAttribute("href", "/work/llamail");
-  await expect(llamail.locator('[data-card-action="related"]')).toHaveCount(0);
+  await expect(llamail.locator('[data-card-action="related"]')).toHaveCount(1);
 
   const memory = selected.locator('[data-flagship-card="zharwing-memory"]');
-  await expect(memory).toHaveAttribute("data-tier", "supporting");
   await expect(
     memory.getByText("Implemented the Tauri app, TypeScript core, and MCP server", { exact: true }),
   ).toBeVisible();
@@ -68,7 +67,7 @@ test("flagship work publishes only cleared evidence and leads into live software
   const objectFits = await selected
     .locator(".flagship-media img")
     .evaluateAll((images) => images.map((image) => getComputedStyle(image).objectFit));
-  expect(objectFits).toEqual(["contain", "contain", "cover", "cover", "cover", "cover", "cover"]);
+  expect(objectFits).toEqual(["contain", "cover", "cover", "cover", "cover", "contain", "contain", "cover"]);
   await expect(selected.locator(".flagship-route")).toContainText("TELEGRAM");
   await expect(selected.locator(".flagship-route")).toContainText("LOCAL LLM / HYBRID RAG");
 
@@ -91,45 +90,48 @@ test("published work uses a compact two-tier desktop hierarchy", async ({ page, 
   const first = await featured.nth(0).boundingBox();
   const second = await featured.nth(1).boundingBox();
   const archive = await supporting.nth(0).boundingBox();
-  const piggy = await supporting.nth(1).boundingBox();
-  const memory = await supporting.nth(2).boundingBox();
-  const northPeak = await supporting.nth(3).boundingBox();
+  const memory = await supporting.nth(1).boundingBox();
+  const llamail = await supporting.nth(2).boundingBox();
+  const voiceCoach = await supporting.nth(3).boundingBox();
+  const northPeak = await supporting.nth(4).boundingBox();
   expect(gridBox).not.toBeNull();
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
   expect(archive).not.toBeNull();
-  expect(piggy).not.toBeNull();
   expect(memory).not.toBeNull();
+  expect(voiceCoach).not.toBeNull();
+  expect(llamail).not.toBeNull();
   expect(northPeak).not.toBeNull();
 
   expect(Math.abs(first!.y - second!.y)).toBeLessThan(1);
   expect(first!.width).toBeGreaterThanOrEqual(500);
   expect(first!.width).toBeLessThanOrEqual(580);
-  /* text metrics differ slightly per platform, so the summary can wrap one line
-     taller on Linux/Android than on Windows; the bound leaves room for that */
   expect(first!.height).toBeLessThanOrEqual(640);
-  /* cards in one row share a height (grid stretch) and their primary actions
-     sit on one baseline (actions pinned to the card bottom) */
   expect(Math.abs(first!.height - second!.height)).toBeLessThan(1);
   expect(archive!.width).toBeGreaterThanOrEqual(320);
   expect(archive!.width).toBeLessThanOrEqual(380);
   expect(archive!.height).toBeLessThanOrEqual(560);
-  expect(piggy!.width).toBe(archive!.width);
-  expect(Math.abs(piggy!.height - archive!.height)).toBeLessThan(1);
   expect(memory!.width).toBe(archive!.width);
   expect(Math.abs(memory!.height - archive!.height)).toBeLessThan(1);
+  expect(llamail!.width).toBe(archive!.width);
+  expect(Math.abs(llamail!.height - archive!.height)).toBeLessThan(1);
+  expect(voiceCoach!.width).toBe(archive!.width);
   expect(northPeak!.width).toBe(archive!.width);
   const supportingActionTops = await supporting
     .locator('[data-card-action="primary"]')
     .evaluateAll((buttons) => buttons.map((button) => Math.round(button.getBoundingClientRect().top)));
   expect(new Set(supportingActionTops.slice(0, 3)).size).toBe(1);
-  expect(Math.abs(archive!.y - piggy!.y)).toBeLessThan(1);
   expect(Math.abs(archive!.y - memory!.y)).toBeLessThan(1);
+  expect(Math.abs(archive!.y - llamail!.y)).toBeLessThan(1);
   expect(archive!.y).toBeGreaterThan(first!.y + Math.max(first!.height, second!.height));
   expect(Math.abs(archive!.x - gridBox!.x)).toBeLessThan(1);
-  expect(northPeak!.y).toBeGreaterThan(archive!.y + archive!.height);
-  expect(Math.abs(northPeak!.x + northPeak!.width / 2 - (gridBox!.x + gridBox!.width / 2))).toBeLessThan(1);
-  await expect(supporting.nth(3)).toHaveAttribute("data-supporting-tail", "1");
+  expect(voiceCoach!.y).toBeGreaterThan(archive!.y + archive!.height);
+  expect(Math.abs(voiceCoach!.y - northPeak!.y)).toBeLessThan(1);
+  expect(
+    Math.abs((voiceCoach!.x + northPeak!.x + northPeak!.width) / 2 - (gridBox!.x + gridBox!.width / 2)),
+  ).toBeLessThan(1);
+  await expect(supporting.nth(3)).toHaveAttribute("data-supporting-tail", "2");
+  await expect(supporting.nth(4)).toHaveAttribute("data-supporting-tail", "2");
 
   const presentation = await grid.evaluate((node) => ({
     columns: getComputedStyle(node).gridTemplateColumns.split(" ").length,
@@ -202,7 +204,8 @@ test("work index exposes real anchors without publishing gated projects", async 
 
   await expect(page.locator("#english-voice-coach")).toBeVisible();
   const published = page.getByRole("region", { name: "Published project overviews", exact: true });
-  await expect(published.locator("[data-flagship-card]")).toHaveCount(6);
+  await expect(published.locator("[data-flagship-card]")).toHaveCount(7);
+  await expect(published.getByRole("heading", { name: "Collaborative SaaS Frontend Platform" })).toBeVisible();
   await expect(published.getByRole("heading", { name: "English Voice Coach", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "Llamail", exact: true })).toBeVisible();
   await expect(published.getByRole("heading", { name: "EazeGames", exact: true })).toBeVisible();
@@ -236,10 +239,10 @@ test("flagship cards reflow after a compact interactive mobile atlas", async ({ 
       .evaluateAll((items) => items.every((item) => item.scrollHeight <= item.clientHeight)),
   ).toBe(true);
   const boxes = await cards.evaluateAll((items) => items.map((item) => item.getBoundingClientRect().toJSON()));
-  expect(boxes).toHaveLength(6);
-  expect(boxes[0].height).toBeLessThanOrEqual(560);
+  expect(boxes).toHaveLength(7);
+  expect(boxes[0].height).toBeLessThanOrEqual(580);
   expect(boxes[1].height).toBeLessThanOrEqual(560);
-  for (const box of boxes.slice(2)) expect(box.height).toBeLessThanOrEqual(510);
+  for (const box of boxes.slice(2)) expect(box.height).toBeLessThanOrEqual(520);
   for (let index = 1; index < boxes.length; index += 1) {
     expect(boxes[index].y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
   }

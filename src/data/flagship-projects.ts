@@ -1,9 +1,11 @@
 import { flagshipProjectCardCopy, type FlagshipProjectCard } from "./flagship-project-card-copy";
+import { collaborativeSaasProject } from "./collaborative-saas-project";
 import { northPeakProject } from "./north-peak-project";
 import { piggyProject } from "./piggy-project";
 import { zharwingMemoryProject } from "./zharwing-memory-project";
 
 export type ProjectStatus =
+  | "nda-protected"
   | "historical-production"
   | "release-candidate"
   | "private-self-hosted"
@@ -19,6 +21,9 @@ interface ProjectAction {
 
 interface ProjectImage {
   src: string;
+  mobileSrc?: string;
+  mobileWidth?: number;
+  mobileHeight?: number;
   alt: string;
   width: number;
   height: number;
@@ -69,6 +74,13 @@ export interface PublishedFlagshipProject extends FlagshipProjectBase {
         route?: never;
       }
     | {
+        kind: "scope";
+        label: string;
+        caption: string;
+        images: readonly [ProjectImage];
+        route?: never;
+      }
+    | {
         kind: "route";
         label: string;
         caption: string;
@@ -91,6 +103,7 @@ export interface GatedFlagshipProject extends FlagshipProjectBase {
 export type FlagshipProject = PublishedFlagshipProject | GatedFlagshipProject;
 
 export const flagshipProjects: readonly FlagshipProject[] = [
+  collaborativeSaasProject,
   {
     slug: "eazegames-original-web-platform",
     title: "EazeGames",
@@ -206,29 +219,11 @@ export const flagshipProjects: readonly FlagshipProject[] = [
   },
   zharwingMemoryProject,
   northPeakProject,
-  {
-    slug: "real-time-collaboration-architecture",
-    title: "Real-Time Collaborative SaaS Architecture",
-    eyebrow: "PRODUCTION EXPERIENCE · PUBLICATION REVIEW",
-    status: "publication-gated",
-    statusLabel: "PUBLICATION GATED",
-    summary:
-      "A reserved architecture slot for generalized real-time collaboration, shared frontend foundations, and edge delivery patterns.",
-    ownership: "Lead frontend and platform architecture",
-    technologies: ["React", "TypeScript", "Cloudflare Workers", "Durable Objects", "WebSockets"],
-    availability: "Not part of the published portfolio surface yet.",
-    publicationState: "gated",
-    card: null,
-    publicationGate:
-      "Requires employer/confidentiality approval plus newly drawn, generalized evidence with no internal material or unsupported scale claims.",
-    media: null,
-    primaryAction: null,
-  },
 ];
 
 export const publishedFlagshipProjects = flagshipProjects
   .filter((project): project is PublishedFlagshipProject => project.publicationState === "published")
-  .sort((left, right) => Number(right.card.tier === "featured") - Number(left.card.tier === "featured"));
+  .sort((left, right) => left.card.order - right.card.order);
 
 export const gatedFlagshipProjects = flagshipProjects.filter(
   (project): project is GatedFlagshipProject => project.publicationState === "gated",

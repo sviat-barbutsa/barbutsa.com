@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 900" width="750" height="900">
+  <title>Generalized engineering scope for a collaborative SaaS frontend platform</title>
+  <rect width="750" height="900" fill="#11130f" />
+  <rect x="28" y="28" width="694" height="844" rx="14" fill="#171914" stroke="#34382d" stroke-width="3" />
+  <text x="62" y="88" fill="#d7ff3f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="32" font-weight="700" letter-spacing="2">
+    GENERALIZED ARCHITECTURE
+  </text>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace">
+    <g transform="translate(62 126)">
+      <rect width="626" height="150" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="3" />
+      <text x="30" y="55" fill="#d7ff3f" font-size="27" font-weight="700">PRODUCT APPLICATIONS</text>
+      <text x="30" y="108" fill="#f2f0e8" font-size="35">React / Next.js</text>
+    </g>
+    <g transform="translate(62 300)">
+      <rect width="626" height="150" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="3" />
+      <text x="30" y="55" fill="#d7ff3f" font-size="27" font-weight="700">FRONTEND PLATFORM</text>
+      <text x="30" y="108" fill="#f2f0e8" font-size="35">Shared UI / Storybook</text>
+    </g>
+    <g transform="translate(62 474)">
+      <rect width="626" height="150" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="3" />
+      <text x="30" y="55" fill="#d7ff3f" font-size="27" font-weight="700">REAL-TIME SYSTEMS</text>
+      <text x="30" y="108" fill="#f2f0e8" font-size="35">GraphQL / WebSockets</text>
+    </g>
+    <g transform="translate(62 648)">
+      <rect width="626" height="150" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="3" />
+      <text x="30" y="55" fill="#d7ff3f" font-size="27" font-weight="700">PLATFORM &amp; APPLIED AI</text>
+      <text x="30" y="108" fill="#f2f0e8" font-size="35">Cloudflare / Node / Python</text>
+    </g>
+  </g>
+</svg>

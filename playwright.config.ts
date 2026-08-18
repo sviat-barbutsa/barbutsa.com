@@ -31,7 +31,12 @@ export default defineConfig({
     : {
         command: "pnpm preview --host 127.0.0.1 --port 4321",
         url: baseURL,
-        reuseExistingServer: !process.env.CI,
+        // Astro auto-daemonizes in agent environments; Playwright needs to
+        // keep the preview attached so it can manage the full test lifecycle.
+        env: { ASTRO_PREVIEW_BACKGROUND: "0" },
+        // Release checks must exercise the freshly built production preview,
+        // never an Astro dev server that happens to be using the same port.
+        reuseExistingServer: process.env.E2E_REUSE_SERVER === "1",
         timeout: 30_000,
       },
   projects: [

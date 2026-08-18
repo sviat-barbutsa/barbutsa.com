@@ -130,10 +130,6 @@
 }
 
 /* site footer */
-.site-foot {
-  margin-top: var(--space-2xl);
-}
-
 .site-foot-nda {
   display: grid;
   grid-template-columns: minmax(8rem, 0.3fr) minmax(0, 1fr);

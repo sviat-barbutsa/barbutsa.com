@@ -7,13 +7,14 @@ test("EazeGames is a compact archive card with an active-product link", async ({
 
   const selected = page.getByRole("region", { name: "Selected Product Work", exact: true });
   const cards = selected.locator("[data-flagship-card]");
-  await expect(cards).toHaveCount(6);
+  await expect(cards).toHaveCount(7);
   await expect(cards.locator("h3")).toHaveText([
-    "English Voice Coach",
-    "Llamail",
-    "EazeGames",
+    "Collaborative SaaS Frontend Platform",
     "Piggy.eu",
+    "EazeGames",
     "Zharwing Memory",
+    "Llamail",
+    "English Voice Coach",
     "North Peak Appliance Repair",
   ]);
 
@@ -45,7 +46,9 @@ test("EazeGames is a compact archive card with an active-product link", async ({
     "data-flagship-card",
     "eazegames-original-web-platform",
   );
-  await expect(published.getByRole("link", { name: "View project →" }).nth(2)).toHaveAttribute("href", route);
+  await expect(
+    published.locator('[data-flagship-card="eazegames-original-web-platform"] [data-card-action="primary"]'),
+  ).toHaveAttribute("href", route);
 });
 
 test("historical case study exposes exact metadata, attribution, evidence, and architecture boundaries", async ({

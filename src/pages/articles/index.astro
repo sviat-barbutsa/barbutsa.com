@@ -23,7 +23,7 @@ const last = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
     </p>
   </div>
 
-  <section class="wrap region stack" aria-label="Articles">
+  <section class="wrap region stack articles-index-region" aria-label="Articles">
     <ArticleList articles={pageArticles} />
     <Pager current={1} last={last} prevUrl={undefined} nextUrl={last > 1 ? "/articles/page/2" : undefined} />
   </section>

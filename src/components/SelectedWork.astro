@@ -1,4 +1,5 @@
 ---
+import ResponsiveProjectImage from "@/components/ResponsiveProjectImage.astro";
 import { publishedFlagshipProjects } from "@/data/flagship-projects";
 
 interface Props {
@@ -65,33 +66,12 @@ const cardProjects = publishedFlagshipProjects.map((project) => {
               aria-label={`View ${project.title} project`}
             >
               <div class="flagship-media-stage">
-                {project.media.images.map((image) =>
-                  image.sources ? (
-                    <picture>
-                      <source type="image/avif" srcset={image.sources.avif} sizes={image.sources.sizes} />
-                      <source type="image/webp" srcset={image.sources.webp} sizes={image.sources.sizes} />
-                      <img
-                        src={image.src}
-                        srcset={image.sources.webp}
-                        sizes={image.sources.sizes}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        loading={project.media.kind === "historical" ? "eager" : "lazy"}
-                        decoding="async"
-                      />
-                    </picture>
-                  ) : (
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      loading={project.media.kind === "historical" ? "eager" : "lazy"}
-                      decoding="async"
-                    />
-                  ),
-                )}
+                {project.media.images.map((image) => (
+                  <ResponsiveProjectImage
+                    image={image}
+                    loading={project.media.kind === "historical" ? "eager" : "lazy"}
+                  />
+                ))}
               </div>
               {project.media.kind === "route" && (
                 <div class="flagship-route" aria-label={`System route: ${project.media.route.join(" to ")}`}>
@@ -127,6 +107,17 @@ const cardProjects = publishedFlagshipProjects.map((project) => {
               >
                 {project.primaryAction.label}
               </a>
+              {project.card.tier === "featured" && project.secondaryAction && (
+                <a
+                  class="flagship-related-link"
+                  data-card-action="related"
+                  href={project.secondaryAction.href}
+                  target={project.secondaryAction.external ? "_blank" : undefined}
+                  rel={project.secondaryAction.external ? "noopener noreferrer" : undefined}
+                >
+                  {project.secondaryAction.label}
+                </a>
+              )}
             </div>
             {
               /* supporting cards reserve this row even without a link so the

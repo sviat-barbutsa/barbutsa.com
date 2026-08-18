@@ -1,0 +1,68 @@
+---
+import CaseStudyPage from "@/components/CaseStudyPage.astro";
+import "@/styles/components/case-study.css";
+
+const description =
+  "A generalized case study of Sviatoslav Barbutsa's frontend architecture, major implementation work, and technical leadership during a commercial role from 2020 to 2026.";
+---
+
+<CaseStudyPage
+  slug="collaborative-saas-frontend-platform"
+  title="Collaborative SaaS Frontend Platform"
+  description={description}
+  eyebrow="Commercial role · 2020–2026"
+  status="NDA-PROTECTED"
+  lead="I established and owned the frontend architecture, designed the core system boundaries, and personally implemented the foundation and major product areas."
+  ownership="As the team expanded, I mentored frontend engineers, reviewed their work, and remained accountable for architectural consistency, delivery, and production quality."
+  primaryAction={{ label: "Discuss this work →", href: "/contact", external: false }}
+  kickerLabel="COMMERCIAL"
+  overviewTitle="Architecture ownership and hands-on delivery."
+  boundaryTitle="What this overview covers"
+  facts={[
+    { label: "Scope", value: "Frontend architecture and product delivery" },
+    { label: "Product evolution", value: "React Native Web to React / Next.js" },
+    { label: "Commercial tenure", value: "2020–2026" },
+    { label: "Leadership", value: "Architecture, review, mentoring, and delivery" },
+  ]}
+  overview={[
+    "During my 2020–2026 tenure, I worked on several client projects before taking long-term ownership of a collaborative SaaS product. I led its frontend architecture across multiple generations, from an earlier React Native and React Native Web implementation to the later React and Next.js monorepo.",
+    "I created the shared frontend foundation used across the later monorepo's React and Next.js applications. The architecture used TypeScript, shared UI documented in Storybook, MobX stores, repositories, API adapters, and explicit dependency injection to keep product areas understandable as the system grew.",
+    "My hands-on work also covered GraphQL and WebSocket integrations, responsive and internationalized product interfaces, testing, and performance. Where product delivery crossed the frontend boundary, I implemented Cloudflare, Node.js, and Python services and contributed applied-AI integrations at a high level I can discuss publicly.",
+  ]}
+  highlights={[
+    {
+      title: "Frontend foundation",
+      description:
+        "I created the shared UI foundation, Storybook workflow, and module boundaries used across the product applications.",
+    },
+    {
+      title: "State and service boundaries",
+      description:
+        "MobX stores, typed repositories, API adapters, dependency injection, GraphQL, and WebSockets kept product state and external services separated.",
+    },
+    {
+      title: "Measured performance",
+      description:
+        "I traced startup dependencies and resource loading, then improved a key measured page path from 1.5 seconds to 0.4 seconds.",
+    },
+  ]}
+  evidence={[
+    {
+      src: "/work/collaborative-saas-scope.svg",
+      mobileSrc: "/work/collaborative-saas-scope-case-mobile.svg",
+      mobileWidth: 750,
+      mobileHeight: 900,
+      alt: "Generalized engineering scope for an NDA-protected collaborative SaaS frontend platform",
+      width: 1600,
+      height: 900,
+      caption: "Generalized engineering scope; the product interface and internal architecture remain confidential.",
+    },
+  ]}
+  boundaries={[
+    "The product identity, interface, source code, customer information, internal topology, and other private metrics remain confidential.",
+  ]}
+  socialImage={{
+    src: "/work/collaborative-saas-og-1200x630.png",
+    alt: "Collaborative SaaS frontend architecture and technical leadership",
+  }}
+/>

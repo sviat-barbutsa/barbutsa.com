@@ -135,6 +135,30 @@
 }
 
 @media (max-width: 40rem) {
+  .index-row[data-layout="dated"] {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "date meta"
+      "content content";
+    gap: var(--space-xs) var(--space-s);
+    align-items: start;
+
+    & > .no {
+      grid-area: date;
+    }
+
+    & > :not(.no, .label) {
+      grid-area: content;
+      min-width: 0;
+    }
+
+    & > .label {
+      grid-area: meta;
+      max-width: 14rem;
+      text-align: end;
+    }
+  }
+
   .index-row[data-layout="timeline"] {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-xs);

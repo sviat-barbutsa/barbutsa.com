@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <title>Generalized engineering scope for an NDA-protected collaborative SaaS frontend platform</title>
+  <rect width="1600" height="900" fill="#11130f" />
+  <rect x="48" y="48" width="1504" height="804" rx="12" fill="#171914" stroke="#34382d" stroke-width="2" />
+
+  <text x="96" y="118" fill="#d7ff3f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="30" font-weight="700" letter-spacing="3">
+    GENERALIZED ARCHITECTURE
+  </text>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace">
+    <g transform="translate(96 184)">
+      <rect width="680" height="238" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="2" />
+      <text x="38" y="64" fill="#d7ff3f" font-size="24" font-weight="700" letter-spacing="2">PRODUCT APPLICATIONS</text>
+      <text x="38" y="118" fill="#f2f0e8" font-size="34">React / Next.js</text>
+      <text x="38" y="168" fill="#aaa696" font-size="25">Complex product workflows</text>
+      <text x="38" y="204" fill="#aaa696" font-size="25">Responsive interfaces · i18n</text>
+    </g>
+
+    <g transform="translate(824 184)">
+      <rect width="680" height="238" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="2" />
+      <text x="38" y="64" fill="#d7ff3f" font-size="24" font-weight="700" letter-spacing="2">FRONTEND PLATFORM</text>
+      <text x="38" y="118" fill="#f2f0e8" font-size="34">Shared UI / Storybook</text>
+      <text x="38" y="168" fill="#aaa696" font-size="25">State · repositories · adapters</text>
+      <text x="38" y="204" fill="#aaa696" font-size="25">Explicit dependency boundaries</text>
+    </g>
+
+    <g transform="translate(96 466)">
+      <rect width="680" height="238" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="2" />
+      <text x="38" y="64" fill="#d7ff3f" font-size="24" font-weight="700" letter-spacing="2">REAL-TIME SYSTEMS</text>
+      <text x="38" y="118" fill="#f2f0e8" font-size="34">GraphQL / WebSockets</text>
+      <text x="38" y="168" fill="#aaa696" font-size="25">Live state · interruption recovery</text>
+      <text x="38" y="204" fill="#aaa696" font-size="25">Predictable product behavior</text>
+    </g>
+
+    <g transform="translate(824 466)">
+      <rect width="680" height="238" rx="10" fill="#1d2019" stroke="#34382d" stroke-width="2" />
+      <text x="38" y="64" fill="#d7ff3f" font-size="24" font-weight="700" letter-spacing="2">PLATFORM &amp; APPLIED AI</text>
+      <text x="38" y="118" fill="#f2f0e8" font-size="34">Cloudflare / Node / Python</text>
+      <text x="38" y="168" fill="#aaa696" font-size="25">Product integrations · model routing</text>
+      <text x="38" y="204" fill="#aaa696" font-size="25">RAG · agentic workflows</text>
+    </g>
+  </g>
+
+  <line x1="96" y1="762" x2="1504" y2="762" stroke="#34382d" stroke-width="2" />
+  <text x="96" y="813" fill="#aaa696" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="24" letter-spacing="2">
+    ARCHITECTURE · MAJOR IMPLEMENTATION · MENTORING &amp; REVIEW
+  </text>
+</svg>

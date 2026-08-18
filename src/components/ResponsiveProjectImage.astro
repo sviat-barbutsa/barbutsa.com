@@ -1,0 +1,52 @@
+---
+interface ImageSourceSets {
+  avif: string;
+  webp: string;
+  sizes: string;
+}
+
+interface ProjectImage {
+  src: string;
+  mobileSrc?: string;
+  mobileWidth?: number;
+  mobileHeight?: number;
+  alt: string;
+  width: number;
+  height: number;
+  sources?: ImageSourceSets;
+}
+
+interface Props {
+  image: ProjectImage;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
+}
+
+const { image, loading, fetchpriority } = Astro.props;
+---
+
+<picture>
+  {
+    image.mobileSrc && (
+      <source
+        media="(max-width: 40em)"
+        srcset={image.mobileSrc}
+        width={image.mobileWidth}
+        height={image.mobileHeight}
+      />
+    )
+  }
+  {image.sources && <source type="image/avif" srcset={image.sources.avif} sizes={image.sources.sizes} />}
+  {image.sources && <source type="image/webp" srcset={image.sources.webp} sizes={image.sources.sizes} />}
+  <img
+    src={image.src}
+    srcset={image.sources?.webp}
+    sizes={image.sources?.sizes}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding="async"
+  />
+</picture>

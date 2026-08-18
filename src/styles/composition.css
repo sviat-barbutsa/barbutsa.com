@@ -78,3 +78,11 @@
 .region {
   padding-block: var(--region-space, var(--space-2xl));
 }
+
+@media (max-width: 42em) {
+  /* Adjacent sections share one mobile gap. The previous section's bottom
+     padding already provides the full separation. */
+  main .region + .region {
+    padding-block-start: 0;
+  }
+}

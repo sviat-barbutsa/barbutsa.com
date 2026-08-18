@@ -19,6 +19,11 @@
   height: auto;
 }
 
+.case-study-hero-media picture,
+.case-study-gallery picture {
+  display: block;
+}
+
 .case-study-hero-media figcaption,
 .case-study-gallery figcaption {
   padding: var(--space-xs) var(--space-s);
