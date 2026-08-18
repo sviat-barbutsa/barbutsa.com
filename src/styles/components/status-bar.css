@@ -28,6 +28,20 @@
     min-width: 0;
   }
 
+  & .sb-left {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  & .sb-right {
+    flex: none;
+  }
+
+  & .sb-sep,
+  & [data-sb-scroll] {
+    flex: none;
+  }
+
   & .sb-sep {
     color: var(--color-border);
   }
@@ -41,6 +55,7 @@
   }
 
   & [data-sb-section] {
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

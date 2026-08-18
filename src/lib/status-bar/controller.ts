@@ -6,7 +6,13 @@ export interface StatusBarHandle {
 
 function sectionText(target: Element): string {
   const kick = target.querySelector(".kick");
-  return (kick?.textContent ?? document.title).replace(/\s+/g, " ").trim().toLowerCase();
+  const text = kick
+    ? Array.from(kick.childNodes)
+        .map((node) => node.textContent?.replace(/\s+/g, " ").trim())
+        .filter((part): part is string => Boolean(part))
+        .join(" · ")
+    : document.title;
+  return text.trim().toLowerCase();
 }
 
 function observeSection(sectionEl: HTMLElement): () => void {
@@ -16,7 +22,7 @@ function observeSection(sectionEl: HTMLElement): () => void {
     (entries) => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        sectionEl.textContent = `§ ${sectionText(entry.target).slice(0, 36)}`;
+        sectionEl.textContent = `§ ${sectionText(entry.target)}`;
       }
     },
     { rootMargin: "-40% 0px -55% 0px" },
