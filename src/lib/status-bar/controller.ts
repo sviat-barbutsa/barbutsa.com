@@ -5,6 +5,9 @@ export interface StatusBarHandle {
 }
 
 function sectionText(target: Element): string {
+  const statusLabel = target.getAttribute("data-status-label");
+  if (statusLabel) return statusLabel.trim().toLowerCase();
+
   const kick = target.querySelector(".kick");
   const text = kick
     ? Array.from(kick.childNodes)

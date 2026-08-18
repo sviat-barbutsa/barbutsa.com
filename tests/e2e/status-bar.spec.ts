@@ -1,19 +1,19 @@
 import { expect, test } from "@playwright/test";
 
-test("status bar separates the section label and truncates only through CSS", async ({ page }) => {
+test("status bar shows concise section context and preserves its fixed controls", async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 844 });
   await page.goto("/");
 
   const bar = page.locator(".status-bar");
   const section = bar.locator("[data-sb-section]");
   const scroll = bar.locator("[data-sb-scroll]");
+  const heroLabel = page.locator('[data-home-section="hero"] .kick');
 
   await expect(bar).toBeVisible();
-  await expect(section).toContainText("§ sviatoslav barbutsa · senior frontend engineer", {
-    ignoreCase: true,
-  });
-  await expect(section).not.toContainText("barbutsasenior", { ignoreCase: true });
+  await expect(section).toHaveText("§ home · intro", { ignoreCase: true });
   await expect(scroll).toHaveText("0%");
+  await expect(heroLabel).toContainText("Sviatoslav Barbutsa", { ignoreCase: true });
+  await expect(heroLabel).toContainText("Senior Frontend Engineer", { ignoreCase: true });
 
   const geometry = await bar.evaluate((element) => {
     const sectionElement = element.querySelector<HTMLElement>("[data-sb-section]");
